@@ -1,83 +1,105 @@
-const products = []
-contador = 0
-
+let productos = []
 class ProductManager {
-  constructor(title, description, price, thumbnail, code, stock, id) {
-    this.title = title
-    this.description = description
-    this.price = price
-    this.thumbnail = thumbnail
-    this.code = code
-    this.stock = stock
-    this.id = contador
+  constructor() {
+    this.products = productos
   }
-}
 
-// Debe contar con un método “addProduct” el cual agregará un producto al arreglo de productos inicial. - Validar que no se repita el campo “code” y que todos los campos sean obligatorios -  Al agregarlo, debe crearse con un id autoincrementable
-const addProduct = (title, description, price, thumbnail, code, stock) => {
-  if (title != "" && description != "" && price != "" && thumbnail != "" && stock != "" && code != "") {
-    const codigos = products.map(({ code }) => code)
+  // static contador = 0
 
-    if (code != codigos) {
-      contador = contador + 1
-      const title2 = new ProductManager(title, description, price, thumbnail, code, stock)
-      products.push({ ...title2 })
-    } else {
-      console.log("Es necesario modificar el campo code")
+  // Debe contar con un método “addProduct” el cual agregará un producto al arreglo de productos inicial. - Validar que no se repita el campo “code” y que todos los campos sean obligatorios -  Al agregarlo, debe crearse con un id autoincrementable
+  addProduct = (newProduct) => {
+    if (!newProduct.title || !newProduct.description || !newProduct.price || !newProduct.thumbnail || !newProduct.code || !newProduct.stock) {
+      return "Es necesario rellenar todos los campos"
     }
-  } else {
-    console.log("Es necesario rellenar todos los campos")
-  }
-}
 
-//devolver el arreglo con todos los productos creados hasta ese momento
-const getProducts = () => {
-  console.log(products)
-}
+    let product = this.products.find((prod) => prod.code == newProduct.code)
+    if (product) return "Es necesario modificar el campo code"
 
-//el cual debe buscar en el arreglo el producto que coincida con el id.
-//En caso de no coincidir ningún id, mostrar en consola un error “Not found”
-const getProductById = (idBuscado) => {
-  const idBox = products.map(({ id }) => id)
-  if (idBox.some((el) => el === idBuscado)) {
-    console.log(products[idBuscado - 1])
-    console.log("asdaskl")
-  } else {
-    console.error("ID no encontrado")
-  }
-}
-
-const getProductByCode = (codeBuscado) => {
-  const codeBox = products.map(({ code }) => code)
-  if (codeBox.some((el) => el === codeBuscado)) {
-    function listoPrint(products) {
-      return products.code === codeBuscado
+    if (this.products.length == 0) {
+      return this.products.push({ id: 1, ...newProduct })
     }
-    console.log(products.find(listoPrint))
 
-    // const object = products.filter((code) => code === codeBuscado)
-  } else {
-    console.error("CODE no encontrado")
+    return this.products.push({ id: this.products[this.products.length - 1].id + 1, ...newProduct })
+  }
+
+  //devolver el arreglo con todos los productos creados hasta ese momento
+  getProducts = () => {
+    return this.products
+  }
+
+  //el cual debe buscar en el arreglo el producto que coincida con el id.
+  //En caso de no coincidir ningún id, mostrar en consola un error “Not found”
+  getProductById = (id) => {
+    let product = this.products.find((prod) => prod.id == id)
+    if (!product) return "No encontrado por ID"
+    return product
+  }
+
+  getProductByCode = (code) => {
+    let product = this.products.find((prod) => prod.code == code)
+    if (!product) return "No encontrado por CODE"
+    return product
   }
 }
 
-//! Ejecución
-getProducts()
+const product = new ProductManager()
 
-console.log("--------")
+// !EJECICIÓN NUEVA
+//Ingreso primer producto
+product.addProduct({
+  title: "producto prueba",
+  description: "Este es un producto prueba",
+  price: 200,
+  thumbnail: "Sin imagen",
+  code: "abc123",
+  stock: "25",
+})
 
-addProduct("producto prueba", "Este es un producto prueba", 200, "Sin imagen", "abc123", "25")
-addProduct("producto prueba1", "Este es un producto prueba1", 201, "Sin imagen1", "abc123", "75")
-addProduct("producto prueba1", "Este es un producto prueba1", 201, "Sin imagen1", "abc1223", "75")
-addProduct("producto prueba1", "Este es un producto prueba1", 201, "Sin imagen1", "abc122s3", "75")
-addProduct("producto prueba1", "Este es un producto prueba1", 201, "Sin imagen1", "abc12AS2s3", "75")
-addProduct("producto prueba1", "Este es un producto prueba1", 201, "Sin imagen1", "abc1sAS223", "75")
-addProduct("producto prueba2", "", 202, "Sin imagen", "abc123", "49")
-getProducts()
+product.addProduct({
+  title: "producto prueba22",
+  description: "Este es un producto prueba222",
+  price: 20022,
+  thumbnail: "Sin imagen22",
+  code: "abc12223",
+  stock: "25222",
+})
 
-console.log("--------")
+console.log(product.getProducts())
 
-getProductById(4)
-getProductById(10)
-getProductByCode("abc1sAS223")
-getProductByCode(22)
+//Ingreso segundo producto
+console.log(
+  product.addProduct({
+    title: "producto prueba2 aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    description: "Este es un producto prueba2",
+    price: 201,
+    thumbnail: "Sin imagen 2",
+    code: "abc12322",
+    stock: "252",
+  })
+)
+
+// ? Error por codigo repetido
+console.log(
+  product.addProduct({
+    title: "producto ESTA FALLANDOOOO :(",
+    description: "Este es un producto prueba2",
+    price: 201,
+    thumbnail: "Sin imagen 2",
+    code: "abc12322",
+    stock: "252",
+  })
+)
+
+//* Error por falta de campos
+console.log(
+  product.addProduct({
+    title: "producto prueba2",
+    description: "Este es un producto prueba2",
+  })
+)
+
+console.log(product.getProducts())
+
+// Busqueda de Productos
+console.log(product.getProductById(3))
+console.log(product.getProductByCode("abc123"))
