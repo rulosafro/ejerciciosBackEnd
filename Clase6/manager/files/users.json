@@ -1,0 +1,12 @@
+[
+  {
+    "nombre": "Rapme",
+    "apellido": "Ram",
+    "edad": 26,
+    "curso": "Backend",
+    "pass": "123",
+    "id": 1,
+    "salt": "75Llb7Trel2OKV/1eb+i1vXz+e/xoAxE82NotgKwJXyz32W+yivu82yHwVcxpPRBNCzNVCVbSY0mN62ZtwkWvjNBahoZakdnUQilhgkp6FBZpzFCRm0hFxz0m5AJT/fDnsXDJb6Qr9iQQdK59cfkK/9HZXnq0FLv7AlSK1gzo7Y=",
+    "password": "051238f8413686268d083ea03756a7a33dca1ae9fec465653e9799b1387a345d"
+  }
+]
