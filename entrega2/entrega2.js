@@ -59,12 +59,25 @@ class ProductManager {
     }
   }
 
-  deleteProduct = () => {
-    //das
+  deleteProduct = (id) => {
+    // let respuestaParseada = this.products.find((prod) => prod.id == id)
+    let respuestaParseada2 = this.products.findIndex((prod) => prod.id == id)
+
+    if (respuestaParseada2 > -1) {
+      this.products.splice(respuestaParseada2, 1)
+      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2))
+    } else {
+      return "No encontrado por ID"
+    }
   }
 
   limpiarArray = () => {
-    fs.unlinkSync(this.path)
+    if (fs.existsSync(this.path)) {
+      fs.unlinkSync(this.path)
+      console.log("Se elimino el archivo para reiniciar el proceso")
+    } else {
+      console.log("El archivo no existe")
+    }
   }
 }
 
@@ -74,6 +87,7 @@ const product = new ProductManager()
 product.limpiarArray()
 
 console.log(product.getProducts())
+console.log("------------------")
 product.addProduct({
   title: "producto prueba",
   description: "Este es un producto prueba",
@@ -82,7 +96,6 @@ product.addProduct({
   code: "abc123",
   stock: "25",
 })
-console.log(product.getProducts())
 product.addProduct({
   title: "producto prueba2",
   description: "Este es un producto prueba2",
@@ -91,16 +104,27 @@ product.addProduct({
   code: "abc1232",
   stock: "252",
 })
+product.addProduct({
+  title: "producto prueba3",
+  description: "Este es un producto prueba3",
+  price: 2003,
+  thumbnail: "Sin imagen3",
+  code: "abc333",
+  stock: "333",
+})
 console.log(product.getProducts())
-console.log(product.getProductById(1))
-console.log(product.getProductById(5))
+console.log("------------------")
+console.log(product.getProductById(3))
+console.log(product.getProductById(50))
+console.log("------------------")
 console.log(product.getProductByCode("abc1232"))
 console.log(product.getProductByCode("papaya"))
+console.log("------------------")
 product.updateProduct(2, "price", 100)
 product.updateProduct(1, "title", "Messi")
+console.log(product.getProducts())
 
 console.log("------------------")
-console.log("Nuevas pruebas")
 
-// product.deleteProduct()
+product.deleteProduct(2)
 console.log(product.getProducts())
