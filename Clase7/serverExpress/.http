@@ -1,0 +1,22 @@
+GET http://localhost:8080/usuarios
+
+###
+POST http://localhost:8080/usuarios
+Content-Type: application/json
+
+{
+  "nombre": "Pablo",
+  "apellido": "Messi"
+}
+
+###
+PUT http://localhost:8080/usuarios/3
+Content-Type: application/json
+
+{
+  "nombre": "Pablo",
+  "apellido": "Messi"
+}
+
+###
+DELETE http://localhost:8080/usuarios/1
