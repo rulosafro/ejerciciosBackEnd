@@ -25,14 +25,18 @@ class ProductManager {
   }
 
   // devolver el arreglo con todos los productos creados hasta ese momento
-  getProducts = () => {
-    if (fs.existsSync(this.path)) {
-      const contenidoArchivo = fs.readFileSync(this.path, "utf-8")
-    } else {
-      fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2))
-      console.log("El arreglo de productos no se ha creado todavia")
+  getProducts = async () => {
+    try {
+      if (fs.existsSync(this.path)) {
+        const contenidoArchivo = fs.readFileSync(this.path, "utf-8")
+      } else {
+        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2))
+        console.log("El arreglo de productos no se ha creado todavia")
+      }
+      return this.products
+    } catch (error) {
+      console.log(error)
     }
-    return this.products
   }
 
   //el cual debe buscar en el arreglo el producto que coincida con el id. En caso de no coincidir ningún id, mostrar en consola un error “Not found”
@@ -81,50 +85,51 @@ class ProductManager {
   }
 }
 
-//! Ejercicio 2
 const product = new ProductManager()
 
-product.limpiarArray()
+// Ejercicio 2
 
-console.log(product.getProducts())
-console.log("------------------")
-product.addProduct({
-  title: "producto prueba",
-  description: "Este es un producto prueba",
-  price: 200,
-  thumbnail: "Sin imagen",
-  code: "abc123",
-  stock: "25",
-})
-product.addProduct({
-  title: "producto prueba2",
-  description: "Este es un producto prueba2",
-  price: 2002,
-  thumbnail: "Sin imagen2",
-  code: "abc1232",
-  stock: "252",
-})
-product.addProduct({
-  title: "producto prueba3",
-  description: "Este es un producto prueba3",
-  price: 2003,
-  thumbnail: "Sin imagen3",
-  code: "abc333",
-  stock: "333",
-})
-console.log(product.getProducts())
-console.log("------------------")
-console.log(product.getProductById(3))
-console.log(product.getProductById(50))
-console.log("------------------")
-console.log(product.getProductByCode("abc1232"))
-console.log(product.getProductByCode("papaya"))
-console.log("------------------")
-product.updateProduct(2, "price", 100)
-product.updateProduct(1, "title", "Messi")
-console.log(product.getProducts())
+// product.limpiarArray()
 
-console.log("------------------")
+// console.log(product.getProducts())
+// console.log("------------------")
+// product.addProduct({
+//   title: "producto prueba",
+//   description: "Este es un producto prueba",
+//   price: 200,
+//   thumbnail: "Sin imagen",
+//   code: "abc123",
+//   stock: "25",
+// })
+// product.addProduct({
+//   title: "producto prueba2",
+//   description: "Este es un producto prueba2",
+//   price: 2002,
+//   thumbnail: "Sin imagen2",
+//   code: "abc1232",
+//   stock: "252",
+// })
+// product.addProduct({
+//   title: "producto prueba3",
+//   description: "Este es un producto prueba3",
+//   price: 2003,
+//   thumbnail: "Sin imagen3",
+//   code: "abc333",
+//   stock: "333",
+// })
+// console.log(product.getProducts())
+// console.log("------------------")
+// console.log(product.getProductById(3))
+// console.log(product.getProductById(50))
+// console.log("------------------")
+// console.log(product.getProductByCode("abc1232"))
+// console.log(product.getProductByCode("papaya"))
+// console.log("------------------")
+// product.updateProduct(2, "price", 100)
+// product.updateProduct(1, "title", "Messi")
+// console.log(product.getProducts())
 
-product.deleteProduct(2)
-console.log(product.getProducts())
+// console.log("------------------")
+
+// product.deleteProduct(2)
+// console.log(product.getProducts())

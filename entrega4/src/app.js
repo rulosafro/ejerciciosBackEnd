@@ -1,5 +1,5 @@
 const express = require("express")
-const ProductManager = require("./ProductManager3")
+const ProductManager = require("./managerDaos/ProductManager3")
 
 const PORT = 8080
 const app = express()
@@ -22,12 +22,11 @@ app.get("/products", async (req, res) => {
         status: "success",
         data: products,
       })
-    } else {
-      return res.send({
-        status: "success",
-        data: products.slice(0, limit),
-      })
     }
+    return res.send({
+      status: "success",
+      data: products.slice(0, limit),
+    })
     // const products = await product.getProducts(limit)
   } catch (error) {}
   console.log(error)
@@ -40,15 +39,10 @@ app.get("/products/:pid", async (req, res) => {
     const productPID = await product.getProductById(pid)
     if (!productPID) {
       return res.status(404).send("Producto no encontrado")
-    } else {
-      res.send({
-        status: "success",
-        data: productPID,
-      })
     }
-  } catch (error) {
-    res.status(500).send("error")
-  }
+    res.send({ productPID })
+  } catch (error) {}
+  res.send("error")
 })
 
 //----------------------------------------------------------------
