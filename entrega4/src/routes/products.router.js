@@ -6,7 +6,7 @@ const productManager = new ProductManager()
 
 router.get("/", async (req, res) => {
   const products = await productManager.getProducts()
-  res.send({})
+  res.send({ products })
 })
 
 module.exports = router

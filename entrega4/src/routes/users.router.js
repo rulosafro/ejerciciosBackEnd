@@ -2,11 +2,18 @@ const { Router } = require("express")
 
 const router = Router()
 
-router.get("/", (req, res) => {})
+let usuarios = [
+  { id: "1", nombre: "Jav 1", apellido: "Ram1", genero: "M" },
+  { id: "2", nombre: "Jav 2", apellido: "Ram2", genero: "F" },
+  { id: "3", nombre: "Jav 3", apellido: "Ram3", genero: "F" },
+  { id: "4", nombre: "Jav 4", apellido: "Ram4", genero: "M" },
+  { id: "5", nombre: "Jav 5", apellido: "Ram5", genero: "F" },
+  { id: "6", nombre: "Jav 6", apellido: "Ram6", genero: "F" },
+]
 
-module.exports = router
+// router.get("/", (req, res) => {})
 
-router.get("/usuarios", (req, res) => {
+router.get("/", (req, res) => {
   console.log(req.query)
   const { genero } = req.query
 
@@ -17,6 +24,13 @@ router.get("/usuarios", (req, res) => {
   let userFilter = usuarios.filter((usuario) => usuario.genero == genero)
 
   res.send({ userFilter })
+})
+
+router.get("/:idUsuario", (req, res) => {
+  const { idUsuario } = req.params
+  const usuario = usuarios.find((user) => user.id === req.params.idUsuario)
+  if (!usuario) return res.send({ error: "No se encuentra el usuario" })
+  res.send({ usuario })
 })
 
 router.post("/", (req, res) => {
@@ -61,3 +75,15 @@ router.delete("/:pid", (req, res) => {
 
   res.send({ usuarios })
 })
+
+router.get("/usuario/:nombre", (req, res) => {
+  console.log(req.params)
+  res.send({ nombre: req.params.nombre, apellido: "eminem", correo: "a@a.com" })
+})
+
+router.get("/usuario/:nombre/:apellido", (req, res) => {
+  console.log(req.params)
+  res.send({ nombre: req.params.nombre, apellido: req.params.apellido, correo: "a@a.com" })
+})
+
+module.exports = router
