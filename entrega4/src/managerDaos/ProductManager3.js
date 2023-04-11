@@ -42,9 +42,7 @@ class ProductManager {
       if (product) return "Es necesario modificar el campo code"
 
       if (parseData.length == 0) {
-        console.log(parseData)
         parseData.push({ id: 1, newProduct })
-        console.log("-----------")
         fs.writeFileSync(this.path, JSON.stringify(parseData, null, 2))
       } else {
         parseData.push({ id: parseData[parseData.length - 1].id + 1, newProduct })

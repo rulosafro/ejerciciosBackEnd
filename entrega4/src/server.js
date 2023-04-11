@@ -4,6 +4,7 @@ const handlebars = require("express-handlebars")
 const multer = require("./utils/multer")
 
 const ProductManager = require("./managerDaos/ProductManager3")
+const CartManager = require("./managerDaos/CartManager")
 const productRouter = require("./routes/products.router")
 const userRouter = require("./routes/users.router")
 const cartRouter = require("./routes/cart.router")
