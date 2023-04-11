@@ -3,7 +3,7 @@ const fs = require("fs")
 class ProductManager {
   constructor() {
     this.products = []
-    this.path = "./data/catalogo2.json"
+    this.path = "./src/data/products.json"
   }
 
   // devolver el arreglo con todos los productos creados hasta ese momento
@@ -11,18 +11,18 @@ class ProductManager {
     try {
       const existe = fs.existsSync(this.path)
       // console.log(existe)
+      let contenido = await fs.promises.readFile(this.path, "utf-8")
+      const parseData = JSON.parse(contenido)
 
       if (existe) {
-        let contenido = await fs.promises.readFile(this.path, "utf-8")
-        const parseData = JSON.parse(contenido)
+        // let contenido = await fs.promises.readFile(this.path, "utf-8")
+        // const parseData = JSON.parse(contenido)
         return parseData
       } else {
         fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2))
 
         console.log("El arreglo de productos no se ha creado todavia, asi que escribimos uno nuevo")
       }
-
-      return this.products
     } catch (error) {
       return console.log(error)
     }
@@ -31,19 +31,24 @@ class ProductManager {
   // Debe contar con un método “addProduct” el cual agregará un producto al arreglo de productos inicial. - Validar que no se repita el campo “code” y que todos los campos sean obligatorios -  Al agregarlo, debe crearse con un id autoincrementable
   addProduct = async (newProduct) => {
     try {
-      if (!newProduct.title || !newProduct.description || !newProduct.price || !newProduct.thumbnail || !newProduct.code || !newProduct.stock) {
+      if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.status || !newProduct.stock || !newProduct.category) {
         return "Es necesario rellenar todos los campos"
       }
 
-      let product = this.products.find((prod) => prod.code == newProduct.code)
+      let contenido = await fs.promises.readFile(this.path, "utf-8")
+      const parseData = JSON.parse(contenido)
+
+      let product = parseData.find((prod) => prod.code == newProduct.code)
       if (product) return "Es necesario modificar el campo code"
 
-      if (this.products.length == 0) {
-        this.products.push({ id: 1, ...newProduct })
-        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2))
+      if (parseData.length == 0) {
+        console.log(parseData)
+        parseData.push({ id: 1, newProduct })
+        console.log("-----------")
+        fs.writeFileSync(this.path, JSON.stringify(parseData, null, 2))
       } else {
-        this.products.push({ id: this.products[this.products.length - 1].id + 1, ...newProduct })
-        fs.writeFileSync(this.path, JSON.stringify(this.products, null, 2))
+        parseData.push({ id: parseData[parseData.length - 1].id + 1, newProduct })
+        fs.writeFileSync(this.path, JSON.stringify(parseData, null, 2))
       }
     } catch (error) {
       console.log(error)
@@ -59,9 +64,11 @@ class ProductManager {
     return product2
   }
 
-  getProductByCode = (code) => {
+  getProductByCode = async (code) => {
     try {
-      let product = this.products.find((prod) => prod.code == code)
+      let contenido = await fs.promises.readFile(this.path, "utf-8")
+      const parseData = JSON.parse(contenido)
+      let product = parseData.find((prod) => prod.code == code)
       if (product) {
         console.log(product)
       } else {
@@ -72,26 +79,32 @@ class ProductManager {
     }
   }
 
-  updateProduct = async (id, key, value) => {
+  updateProduct = async (pid, productMod) => {
     try {
-      let respuestaParseada = await this.products.find((prod) => prod.id == id)
-      if (!respuestaParseada) {
-        ;("No encontrado por ID")
+      //! Validar si todos los campos son necesarios
+      let contenido = await this.getProducts()
+      let respuestaParseada = await contenido.find((prod) => prod.id == pid)
+      const index = contenido.findIndex((prod) => prod.id == pid)
+
+      if (!respuestaParseada || index == -1) {
+        console.log("El producto no existe")
       } else {
-        respuestaParseada[key] = value
-        await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
+        Object.assign(contenido[pid - 1], productMod)
+        await fs.promises.writeFile(this.path, JSON.stringify(contenido, null, 2))
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  deleteProduct = async (id) => {
+  deleteProduct = async (pid) => {
     // let respuestaParseada = this.products.find((prod) => prod.id == id)
-    let respuestaParseada2 = this.products.findIndex((prod) => prod.id == id)
+    let contenido = await this.getProducts()
+    let respuestaParseada2 = contenido.findIndex((prod) => prod.id == pid)
+    console.log(respuestaParseada2)
     try {
-      if (respuestaParseada2 > -1) this.products.splice(respuestaParseada2, 1)
-      await fs.promises.writeFile(this.path, JSON.stringify(this.products, null, 2))
+      if (respuestaParseada2 > -1) contenido.splice(respuestaParseada2, 1)
+      await fs.promises.writeFile(this.path, JSON.stringify(contenido, null, 2))
     } catch (error) {
       console.log(error)
     }
@@ -99,9 +112,15 @@ class ProductManager {
 
   limpiarArray = async () => {
     try {
-      // console.log(this.products)
       await fs.promises.unlink(this.path)
       console.log("Se elimino el archivo para reiniciar el proceso")
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  writeFile = async (data) => {
+    try {
+      await fs.promises.writeFile(this.path, JSON.stringify(data, null, 2))
     } catch (error) {
       console.log(error)
     }

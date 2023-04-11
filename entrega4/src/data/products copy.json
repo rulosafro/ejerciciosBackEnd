@@ -1,0 +1,98 @@
+[
+  {
+    "title": "A1",
+    "price": "",
+    "code": "",
+    "stock": "",
+    "category": "",
+    "description": "",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 1
+  },
+  {
+    "title": "A2",
+    "price": "",
+    "code": "",
+    "stock": "",
+    "category": "",
+    "description": "",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 2
+  },
+  {
+    "title": "A3",
+    "price": "",
+    "code": "",
+    "stock": "",
+    "category": "",
+    "description": "",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 3
+  },
+  {
+    "title": "A4",
+    "price": "",
+    "code": "",
+    "stock": "",
+    "category": "",
+    "description": "",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 4
+  }
+]

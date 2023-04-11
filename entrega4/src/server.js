@@ -24,7 +24,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookieParser())
 
 app.get("/", (req, res) => {
-  res.send('<h1 style="color: blue;"> HolaCoders </h1>')
+  res.send('<h1 style=""> HolaCoders </h1>')
 })
 
 // Estan creando una carpeta virtual que contiene la ruta
