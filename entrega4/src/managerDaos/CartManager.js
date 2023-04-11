@@ -46,21 +46,33 @@ class CartManager {
     }
   }
 
-  //----------------------------------------------------------------
+  addToCart = async (cid, pid, productNew) => {
+    try {
+      let contenido = await fs.promises.readFile(this.path, "utf-8")
+      const parseData = JSON.parse(contenido)
+      const carrito = parseData.find((prod) => prod.id === cid)
+      const producto = carrito.products.find((prod) => prod.id === pid)
 
-  writeCart = async () => {
-    try {
-    } catch (error) {
-      return console.log(error)
-    }
-  }
-  addToCart = async () => {
-    try {
+      if (!carrito) {
+        return "carrito no encontrado"
+      } else {
+        if (producto) {
+          producto.quantity++
+          await fs.promises.writeFile(this.path, JSON.stringify(parseData, null, 2))
+          return { producto }
+        } else {
+          let prodNew = { id: pid, quantity: 1 }
+          carrito.products.push(prodNew)
+          await fs.promises.writeFile(this.path, JSON.stringify(parseData, null, 2))
+          return { prodNew }
+        }
+      }
     } catch (error) {
       return console.log(error)
     }
   }
 }
+//----------------------------------------------------------------
 
 const cartManager = new CartManager()
 

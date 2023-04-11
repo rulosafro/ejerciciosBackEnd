@@ -28,6 +28,16 @@ router.get("/:cid", async (req, res) => {
 })
 
 //! Add || El carrito solo debe contener el id del producto y cantidad. Además si ya existe tiene que aumentar la cantidad
-router.post("/:cid/product:pid", async (req, res) => {})
+router.post("/:cid/product:pid", async (req, res) => {
+  try {
+    const { cid } = req.params
+    const { pid } = req.params
+    // const productNew = req.body
+    const agregado = await cartManager.addToCart(parseInt(cid), parseInt(pid))
+    res.status(200).send({ agregado })
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 module.exports = router
