@@ -34,13 +34,13 @@ app.use("/static", express.static(__dirname + "/public"))
 app.use("/api/usuarios", userRouter)
 
 //http://localhost:{PORT}/api/productos
-app.use("/api/productos", productRouter)
+app.use("/api/products", productRouter)
 
 //http://localhost:{PORT}/api/cart
-app.use("/api/cart", cartRouter)
+app.use("/api/carts", cartRouter)
 
 //http://localhost:{PORT}/api/usuarios
-app.use("/", viewsRouter)
+app.use("/vista", viewsRouter)
 
 //----------------------------------------------------------------
 

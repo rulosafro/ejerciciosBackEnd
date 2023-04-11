@@ -3,7 +3,7 @@ const fs = require("fs")
 class ProductManager {
   constructor() {
     this.products = []
-    this.path = "./catalogo2.json"
+    this.path = "./data/catalogo2.json"
   }
 
   // devolver el arreglo con todos los productos creados hasta ese momento

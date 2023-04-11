@@ -63,7 +63,7 @@ const users = [
   },
 ]
 
-router.get("/vista", (req, res) => {
+router.get("/", (req, res) => {
   let user = users[Math.floor(Math.random() * users.length)]
 
   let testUser = {
