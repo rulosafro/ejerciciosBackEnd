@@ -35,6 +35,20 @@ class ProductManager {
         return "Es necesario rellenar todos los campos"
       }
 
+      if (
+        typeof newProduct.title !== "string" ||
+        typeof newProduct.description !== "string" ||
+        typeof newProduct.code !== "string" ||
+        typeof newProduct.status !== "boolean" ||
+        typeof newProduct.price !== "number" ||
+        typeof newProduct.stock !== "number" ||
+        typeof newProduct.category !== "string"
+      ) {
+        // console.log(typeof newProduct.title)
+        console.log("rararar")
+        return "Es necesario rellenar los campos con los tipos de datos correctos"
+      }
+
       let contenido = await fs.promises.readFile(this.path, "utf-8")
       const parseData = JSON.parse(contenido)
 

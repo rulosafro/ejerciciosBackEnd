@@ -1,7 +1,7 @@
 [
   {
     "title": "A2",
-    "price": "",
+    "price": "5555",
     "code": "",
     "stock": "",
     "category": "",
@@ -25,7 +25,7 @@
   },
   {
     "title": "D2aaaaa",
-    "price": "",
+    "price": "44",
     "code": "",
     "stock": "",
     "category": "",
@@ -49,7 +49,7 @@
   },
   {
     "title": "A4",
-    "price": "",
+    "price": "44",
     "code": "",
     "stock": "",
     "category": "",
@@ -75,7 +75,7 @@
     "id": 5,
     "newProduct": {
       "title": "D2",
-      "price": "D2",
+      "price": 333,
       "code": "D2",
       "stock": "D2",
       "category": "D2",
@@ -101,7 +101,7 @@
     "id": 6,
     "newProduct": {
       "title": "D2",
-      "price": "D2",
+      "price": 22,
       "code": "D2",
       "stock": "D2",
       "category": "D2",
@@ -127,9 +127,61 @@
     "id": 7,
     "newProduct": {
       "title": "D2aaaaa",
-      "price": "D2",
+      "price": 11,
       "code": "D2",
       "stock": "D2",
+      "category": "D2",
+      "description": "D2",
+      "status": true,
+      "thumbnail": [
+        {
+          "name": "foto1",
+          "url": "./"
+        },
+        {
+          "name": "foto2",
+          "url": "./2"
+        },
+        {
+          "name": "foto3",
+          "url": "./3"
+        }
+      ]
+    }
+  },
+  {
+    "id": 8,
+    "newProduct": {
+      "title": "asdasd",
+      "price": "222",
+      "code": "D2",
+      "stock": "D2",
+      "category": "D2",
+      "description": "D2",
+      "status": true,
+      "thumbnail": [
+        {
+          "name": "foto1",
+          "url": "./"
+        },
+        {
+          "name": "foto2",
+          "url": "./2"
+        },
+        {
+          "name": "foto3",
+          "url": "./3"
+        }
+      ]
+    }
+  },
+  {
+    "id": 9,
+    "newProduct": {
+      "title": "asdasd2222",
+      "price": 222,
+      "code": "D2",
+      "stock": 44,
       "category": "D2",
       "description": "D2",
       "status": true,
