@@ -200,5 +200,57 @@
         }
       ]
     }
+  },
+  {
+    "id": 10,
+    "newProduct": {
+      "title": "asdasd2222",
+      "price": 222,
+      "code": "D2",
+      "stock": 44,
+      "category": "D2",
+      "description": "D2",
+      "status": true,
+      "thumbnail": [
+        {
+          "name": "foto1",
+          "url": "./"
+        },
+        {
+          "name": "foto2",
+          "url": "./2"
+        },
+        {
+          "name": "foto3",
+          "url": "./3"
+        }
+      ]
+    }
+  },
+  {
+    "id": 11,
+    "newProduct": {
+      "title": "asdasd2222",
+      "price": 222,
+      "code": "D2",
+      "stock": 44,
+      "category": "D2",
+      "description": "D2",
+      "status": true,
+      "thumbnail": [
+        {
+          "name": "foto1",
+          "url": "./"
+        },
+        {
+          "name": "foto2",
+          "url": "./2"
+        },
+        {
+          "name": "foto3",
+          "url": "./3"
+        }
+      ]
+    }
   }
 ]

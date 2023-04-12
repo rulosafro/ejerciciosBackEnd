@@ -31,7 +31,7 @@ class ProductManager {
   // Debe contar con un método “addProduct” el cual agregará un producto al arreglo de productos inicial. - Validar que no se repita el campo “code” y que todos los campos sean obligatorios -  Al agregarlo, debe crearse con un id autoincrementable
   addProduct = async (newProduct) => {
     try {
-      if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.status || !newProduct.stock || !newProduct.category) {
+      if (!newProduct.title || !newProduct.description || !newProduct.code || !newProduct.price || !newProduct.status || !newProduct.stock || !newProduct.category || newProduct.id) {
         return "Es necesario rellenar todos los campos"
       }
 
@@ -44,8 +44,6 @@ class ProductManager {
         typeof newProduct.stock !== "number" ||
         typeof newProduct.category !== "string"
       ) {
-        // console.log(typeof newProduct.title)
-        console.log("rararar")
         return "Es necesario rellenar los campos con los tipos de datos correctos"
       }
 

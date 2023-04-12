@@ -53,6 +53,8 @@ class CartManager {
       const carrito = parseData.find((prod) => prod.id === cid)
       const producto = carrito.products.find((prod) => prod.id === pid)
 
+
+
       if (!carrito) {
         return "carrito no encontrado"
       } else {
