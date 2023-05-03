@@ -63,18 +63,22 @@ const users = [
   },
 ]
 
-router.get("/", (req, res) => {
-  let user = users[Math.floor(Math.random() * users.length)]
+// router.get("/", (req, res) => {
+//   let user = users[Math.floor(Math.random() * users.length)]
 
-  let testUser = {
-    title: "ecommerce",
-    user,
-    isAdmin: user.role === "admin",
-    food,
-    style: "index.css",
-  }
+//   let testUser = {
+//     title: "ecommerce",
+//     user,
+//     isAdmin: user.role === "admin",
+//     food,
+//     style: "index.css",
+//   }
 
-  res.render("index", testUser)
+//   res.render("index", testUser)
+// })
+
+router.get("/chat", (req, res) => {
+  res.render("chat", {})
 })
 
 router.get("/register", (req, res) => {

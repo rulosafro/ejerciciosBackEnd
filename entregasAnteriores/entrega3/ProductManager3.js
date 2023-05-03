@@ -114,16 +114,6 @@ class ProductManager {
     }
   }
 
-  // getProductByCode = async (code) => {
-  //   try {
-  //     let product = await this.products.find((prod) => prod.code == code)
-  //     if (!product) return "No encontrado por CODE"
-  //     return product
-  //   } catch (error) {
-  //     console.log(error)
-  //   }
-  // }
-
   updateProduct = async (id, key, value) => {
     try {
       let respuestaParseada = await this.products.find((prod) => prod.id == id)

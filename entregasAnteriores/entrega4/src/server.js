@@ -2,6 +2,7 @@ const express = require("express")
 const cookieParser = require("cookie-parser")
 const handlebars = require("express-handlebars")
 const multer = require("./utils/multer")
+const { Server } = require("socket.io")
 
 const ProductManager = require("./managerDaos/ProductManager3")
 const CartManager = require("./managerDaos/CartManager")
@@ -41,7 +42,7 @@ app.use("/api/products", productRouter)
 app.use("/api/carts", cartRouter)
 
 //http://localhost:{PORT}/api/usuarios
-app.use("/vista", viewsRouter)
+app.use("/", viewsRouter)
 
 //----------------------------------------------------------------
 
@@ -54,6 +55,49 @@ app.post("/single", multer.single("myfile"), (req, res) => {
 
 //----------------------------------------------------------------
 
-app.listen(PORT, () => {
+const httpServer = app.listen(PORT, () => {
   console.log(`Escuchando el puerto ${PORT}`)
 })
+
+const io = new Server(httpServer)
+
+let messages = []
+
+io.on("connection", (socket) => {
+  console.log("nuevo cliente conectado")
+  socket.on("message", (data) => {
+    console.log(data)
+    messages.push(data)
+    io.emit("messageLogs", messages)
+  })
+
+  // let logs = []
+  // socket.on("message1", (data) => {
+  //   io.emit("log", data)
+  // })
+
+  // socket.on("message2", (data) => {
+  //   logs.push({ socketid: socket.id, message: data })
+  //   io.emit("log", { logs })
+  // })
+})
+
+app.use((err, req, res, next) => {
+  console.log(err)
+  res.status(500).send("hay un o + errores")
+})
+
+//----------------------------------------------------------------
+
+// escuchar mensaje
+// socket.on("message", (message) => {
+//   console.log(message)
+// })
+
+//emitir mensaje
+// socket.emit("evento-de-ida", "prueba de envio")
+
+// socket.broadcast.emit("evt-para-todos", "evento para todos los socket menos el que emitio")
+
+//eventos para todos incluido el emisor
+// io.emit("evento-general", "eventos para todos incluido el emisor")

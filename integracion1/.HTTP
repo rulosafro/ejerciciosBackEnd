@@ -1,0 +1,30 @@
+//Productos
+
+### GET
+GET http://localhost:8080/productos
+
+### GET
+GET http://localhost:8080/productos/6451af218bf0c494d4f5744d
+
+### POST
+POST http://localhost:8080/productos
+Content-Type: application/json
+
+{
+  "title": "Producto 4",
+  "description":"Producto 4" ,
+  "thumbnail":"" ,
+  "price":320,
+  "stock":322 ,
+  "code":"004"
+}
+
+### PUT
+PUT http://localhost:8080/productos/id
+Content-Type: application/json
+{
+  
+}
+
+### DELETE
+DELETE  http://localhost:8080/productos

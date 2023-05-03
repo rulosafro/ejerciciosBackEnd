@@ -1,0 +1,122 @@
+[
+  {
+    "title": "A2",
+    "price": "5555",
+    "code": "code",
+    "stock": 44,
+    "category": "category1",
+    "description": "description1",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 2
+  },
+  {
+    "title": "D2aaaaa",
+    "price": "44",
+    "code": "code",
+    "stock": 44,
+    "category": "category1",
+    "description": "description1",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 3
+  },
+  {
+    "title": "A4",
+    "price": "4234",
+    "code": "code",
+    "stock": 44,
+    "category": "category4",
+    "description": "description4",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 4
+  },
+  {
+    "title": "A5",
+    "price": "100",
+    "code": "code4",
+    "stock": 44,
+    "category": "category5",
+    "description": "description5",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 5
+  },
+  {
+    "title": "A5",
+    "price": "100",
+    "code": "code4",
+    "stock": 44,
+    "category": "category5",
+    "description": "description5",
+    "status": null,
+    "thumbnail": [
+      {
+        "name": "foto1",
+        "url": "./"
+      },
+      {
+        "name": "foto2",
+        "url": "./2"
+      },
+      {
+        "name": "foto3",
+        "url": "./3"
+      }
+    ],
+    "id": 6
+  }
+]
