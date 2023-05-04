@@ -21,14 +21,25 @@ class CartsManagerMongo {
     try {
       return await cartsModel.create(newCarts)
     } catch (error) {
-      return console.error(error + "El error esta acá")
-      // console.log("Prueba 11")
+      return console.error(error)
     }
   }
 
-  async upadteCart(cid) {}
+  async updateCart(cid, cambio) {
+    try {
+      return await cartsModel.updateOne({ _id: cid }, cambio)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  async deleteCart(cid) {}
+  async deleteCart(cid) {
+    try {
+      return cartsModel.deleteOne({ _id: cid })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new CartsManagerMongo()

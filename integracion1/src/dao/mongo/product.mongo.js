@@ -26,7 +26,6 @@ class ProductManagerMongo {
       return await productModel.create(newProduct)
     } catch (error) {
       return console.error(error + "El error esta acá")
-      // console.log("Prueba 11")
     }
   }
 

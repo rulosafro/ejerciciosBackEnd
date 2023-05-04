@@ -21,14 +21,25 @@ class MessagesManagerMongo {
     try {
       return await messagesModel.create(newMessage)
     } catch (error) {
-      return console.error(error + "El error esta acá")
-      // console.log("Prueba 11")
+      return console.error(error)
     }
   }
 
-  async upadteMessages(mid) {}
+  async updateMessages(mid, cambio) {
+    try {
+      return await messagesModel.updateOne({ _id: mid }, cambio)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
-  async deleteMessages(mid) {}
+  async deleteMessages(mid) {
+    try {
+      return messagesModel.deleteOne({ _id: mid })
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = new MessagesManagerMongo()

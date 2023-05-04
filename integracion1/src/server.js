@@ -24,4 +24,3 @@ app.listen(PORT, (err) => {
 //! Por Hacer
 // handlebars
 // socket chat
-// Managers
