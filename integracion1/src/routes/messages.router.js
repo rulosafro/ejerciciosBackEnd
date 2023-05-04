@@ -1,27 +1,27 @@
 const { Router } = require("express")
-const userManager = require("../dao/mongo/user.mongo")
+const messagesManager = require("../dao/mongo/messages.mongo")
 
 const router = Router()
 
 router.get("/", async (req, res) => {
   try {
-    let users = await userManager.getUsers()
+    const messages = await messagesManager.getMessages()
     res.status(200).send({
       status: "success",
-      payload: users,
+      payload: messages,
     })
   } catch (error) {
     console.log(error)
   }
 })
 
-router.get("/:uid", async (req, res) => {
+router.get("/:mid", async (req, res) => {
   try {
-    const { uid } = req.params
-    let product = await userManager.getUsersByID(uid)
+    const { mid } = req.params
+    let message = await messagesManager.getMessageByID(mid)
     res.status(200).send({
       status: "success",
-      payload: product,
+      payload: message,
     })
   } catch (error) {
     console.log(error)
@@ -30,22 +30,22 @@ router.get("/:uid", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newUser = req.body
-    let usuarioNuevo = await userManager.addUser(newUser)
+    const newMessage = req.body
+    let result = await messagesManager.addMessages(newMessage)
     res.status(200).send({
       status: "success",
-      payload: usuarioNuevo,
+      payload: result,
     })
   } catch (error) {
     console.log(error)
   }
 })
 
-router.put("/:uid", async (req, res) => {
+router.put("/:mid", async (req, res) => {
   try {
-    const { uid } = req.params
+    const { mid } = req.params
     const cambio = req.body
-    const modificado = await userManager.upadteUser(uid, cambio)
+    const modificado = await messagesManager.upadteMessages(mid, cambio)
     res.status(200).send({
       status: "success",
       payload: modificado,
@@ -55,10 +55,10 @@ router.put("/:uid", async (req, res) => {
   }
 })
 
-router.delete("/:uid", async (req, res) => {
+router.delete("/:mid", async (req, res) => {
   try {
-    const { uid } = req.params
-    const quitar = await userManager.deleteUser(uid)
+    const { mid } = req.params
+    const quitar = await messagesManager.deleteMessages(mid)
     res.status(200).send({
       status: "success",
       payload: quitar,

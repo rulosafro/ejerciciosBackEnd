@@ -42,12 +42,31 @@ router.post("/", async (req, res) => {
   }
 })
 
-router.put("/:pid", (req, res) => {
-  res.status(200).send("Actualizar productos")
+router.put("/:pid", async (req, res) => {
+  try {
+    const { pid } = req.params
+    const cambio = req.body
+    const modificado = await productManager.updateProduct(pid, cambio)
+    res.status(200).send({
+      status: "success",
+      payload: modificado,
+    })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
-router.delete("/:pid", (req, res) => {
-  res.status(200).send("Borrar a productos")
+router.delete("/:pid", async (req, res) => {
+  try {
+    const { pid } = req.params
+    const quitar = await productManager.deleteProduct(pid)
+    res.status(200).send({
+      status: "success",
+      payload: quitar,
+    })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 module.exports = router

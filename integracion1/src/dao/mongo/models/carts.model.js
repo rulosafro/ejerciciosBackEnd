@@ -2,23 +2,18 @@ const { Schema, model } = require("mongoose")
 
 const collection = "carts"
 
-const productSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  Email: {
-    type: String,
-    required: true,
-  },
-  nickname: String,
+const cartSchema = new Schema({
+  products: [
+    {
+      product: {
+        type: Schema.Types.ObjectId,
+        ref: "productos",
+      },
+    },
+  ],
 })
 
-const cartsModel = model(collection, productSchema)
+const cartsModel = model(collection, cartSchema)
 
 module.exports = {
   cartsModel,

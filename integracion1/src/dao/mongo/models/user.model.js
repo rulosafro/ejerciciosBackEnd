@@ -6,16 +6,18 @@ const productSchema = new Schema({
   name: {
     type: String,
     required: true,
+    index: true,
   },
   lastName: {
     type: String,
     required: true,
   },
-  Email: {
+  email: {
     type: String,
     required: true,
   },
   nickname: String,
+  gender: String,
 })
 
 const userModel = model(collection, productSchema)

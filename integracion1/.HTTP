@@ -1,13 +1,70 @@
-//Productos
-
+// Productos--------------------------------------------------------------------------------------------------
 ### GET
 GET http://localhost:8080/productos
 
 ### GET
-GET http://localhost:8080/productos/6451af218bf0c494d4f5744d
+GET http://localhost:8080/productos/6453434d94da42a6f0a74c74
 
 ### POST
 POST http://localhost:8080/productos
+Content-Type: application/json
+
+{
+  "title": "Producto 8",
+  "description":"Producto 8" ,
+  "thumbnail":"" ,
+  "price":3208,
+  "stock":3228 ,
+  "code":"008"
+}
+
+### PUT
+PUT http://localhost:8080/productos/6453434d94da42a6f0a74c74
+Content-Type: application/json
+
+{
+  "price":7666,
+  "stock":6666
+}
+
+### DELETE
+DELETE  http://localhost:8080/productos/6453434d94da42a6f0a74c74
+
+// Usuarios--------------------------------------------------------------------------------------------------
+### GET
+GET http://localhost:8080/usuarios
+
+### GET
+GET http://localhost:8080/usuarios/id
+
+### POST
+POST http://localhost:8080/usuarios
+Content-Type: application/json
+
+{
+  "title": "Producto 5",
+
+}
+
+### PUT
+PUT http://localhost:8080/usuarios/id
+Content-Type: application/json
+{
+  
+}
+
+### DELETE
+DELETE  http://localhost:8080/usuarios
+
+// Carritos--------------------------------------------------------------------------------------------------
+### GET
+GET http://localhost:8080/carritos
+
+### GET
+GET http://localhost:8080/carritos/6451af218bf0c494d4f5744d
+
+### POST
+POST http://localhost:8080/carritos
 Content-Type: application/json
 
 {
@@ -20,11 +77,41 @@ Content-Type: application/json
 }
 
 ### PUT
-PUT http://localhost:8080/productos/id
+PUT http://localhost:8080/carritos/id
 Content-Type: application/json
 {
   
 }
 
 ### DELETE
-DELETE  http://localhost:8080/productos
+DELETE  http://localhost:8080/carritos
+
+// Mensajes--------------------------------------------------------------------------------------------------
+### GET
+GET http://localhost:8080/messages
+
+### GET
+GET http://localhost:8080/messages/6451af218bf0c494d4f5744d
+
+### POST
+POST http://localhost:8080/messages
+Content-Type: application/json
+
+{
+  "title": "Producto 5",
+  "description":"Producto 5" ,
+  "thumbnail":"" ,
+  "price":3205,
+  "stock":3225 ,
+  "code":"005"
+}
+
+### PUT
+PUT http://localhost:8080/messages/id
+Content-Type: application/json
+{
+  
+}
+
+### DELETE
+DELETE  http://localhost:8080/messages

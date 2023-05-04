@@ -9,7 +9,7 @@ class CartsManagerMongo {
     }
   }
 
-  async getCartssByID(cid) {
+  async getCartsByID(cid) {
     try {
       return await cartsModel.findOne({ _id: cid })
     } catch (error) {
@@ -17,7 +17,7 @@ class CartsManagerMongo {
     }
   }
 
-  async addCarts(newCarts) {
+  async addCart(newCarts) {
     try {
       return await cartsModel.create(newCarts)
     } catch (error) {
@@ -26,9 +26,9 @@ class CartsManagerMongo {
     }
   }
 
-  async upadteCarts(cid) {}
+  async upadteCart(cid) {}
 
-  async deleteCarts(cid) {}
+  async deleteCart(cid) {}
 }
 
 module.exports = new CartsManagerMongo()

@@ -1,27 +1,27 @@
 const { Router } = require("express")
-const userManager = require("../dao/mongo/user.mongo")
+const cartManager = require("../dao/mongo/carts.mongo")
 
 const router = Router()
 
 router.get("/", async (req, res) => {
   try {
-    let users = await userManager.getUsers()
+    const carts = await cartManager.getCarts()
     res.status(200).send({
       status: "success",
-      payload: users,
+      payload: carts,
     })
   } catch (error) {
     console.log(error)
   }
 })
 
-router.get("/:uid", async (req, res) => {
+router.get("/:cid", async (req, res) => {
   try {
-    const { uid } = req.params
-    let product = await userManager.getUsersByID(uid)
+    const { cid } = req.params
+    let cart = await cartManager.getCartsByID(cid)
     res.status(200).send({
       status: "success",
-      payload: product,
+      payload: cart,
     })
   } catch (error) {
     console.log(error)
@@ -30,22 +30,22 @@ router.get("/:uid", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    const newUser = req.body
-    let usuarioNuevo = await userManager.addUser(newUser)
+    const newCart = req.body
+    let result = await cartManager.addCart(newCart)
     res.status(200).send({
       status: "success",
-      payload: usuarioNuevo,
+      payload: result,
     })
   } catch (error) {
     console.log(error)
   }
 })
 
-router.put("/:uid", async (req, res) => {
+router.put("/:cid", async (req, res) => {
   try {
-    const { uid } = req.params
+    const { cid } = req.params
     const cambio = req.body
-    const modificado = await userManager.upadteUser(uid, cambio)
+    const modificado = await cartManager.upadteCart(cid, cambio)
     res.status(200).send({
       status: "success",
       payload: modificado,
@@ -55,10 +55,10 @@ router.put("/:uid", async (req, res) => {
   }
 })
 
-router.delete("/:uid", async (req, res) => {
+router.delete("/:cid", async (req, res) => {
   try {
-    const { uid } = req.params
-    const quitar = await userManager.deleteUser(uid)
+    const { cid } = req.params
+    const quitar = await cartManager.deleteCart(cid)
     res.status(200).send({
       status: "success",
       payload: quitar,
