@@ -2,6 +2,8 @@ const express = require("express")
 const routerServer = require("./routes/index.js")
 const { connectDB } = require("./config/configServer")
 const logger = require("morgan")
+const handlebars = require("handlebars")
+const { Server } = require("socket.io")
 
 const app = express()
 const PORT = 8080
@@ -18,3 +20,8 @@ app.listen(PORT, (err) => {
   if (err) console.log("error en el servidor", err)
   console.log(`Escuchanding port: ${PORT}`)
 })
+
+//! Por Hacer
+// handlebars
+// socket chat
+// Managers

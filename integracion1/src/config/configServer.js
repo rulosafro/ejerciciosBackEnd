@@ -1,9 +1,9 @@
 const { connect } = require("mongoose")
-const url = "mongodb://127.0.0.1:27017/ecommerce"
+const url = "mongodb+srv://rama:rama123@ecommerce.omzog5n.mongodb.net/ecommerce?retryWrites=true&w=majority"
 
 module.exports = {
   connectDB: () => {
-    connect("mongodb://127.0.0.1:27017/ecommerce")
+    connect(url)
     console.log("BBDD Connected via MongoDB")
   },
 }

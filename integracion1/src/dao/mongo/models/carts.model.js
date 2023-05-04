@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose")
 
-const collection = "users"
+const collection = "carts"
 
 const productSchema = new Schema({
   name: {
@@ -18,8 +18,8 @@ const productSchema = new Schema({
   nickname: String,
 })
 
-const userModel = model(collection, productSchema)
+const cartsModel = model(collection, productSchema)
 
 module.exports = {
-  userModel,
+  cartsModel,
 }

@@ -11,12 +11,12 @@ POST http://localhost:8080/productos
 Content-Type: application/json
 
 {
-  "title": "Producto 4",
-  "description":"Producto 4" ,
+  "title": "Producto 5",
+  "description":"Producto 5" ,
   "thumbnail":"" ,
-  "price":320,
-  "stock":322 ,
-  "code":"004"
+  "price":3205,
+  "stock":3225 ,
+  "code":"005"
 }
 
 ### PUT
