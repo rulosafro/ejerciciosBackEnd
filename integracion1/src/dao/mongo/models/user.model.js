@@ -15,6 +15,7 @@ const productSchema = new Schema({
   email: {
     type: String,
     required: true,
+    index: true,
   },
   nickname: String,
   gender: String,

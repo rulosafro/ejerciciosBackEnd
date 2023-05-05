@@ -3,23 +3,23 @@
 GET http://localhost:8080/productos
 
 ### GET
-GET http://localhost:8080/productos/6453434d94da42a6f0a74c74
+GET http://localhost:8080/productos/64534597ff60520f41a5c168
 
 ### POST
 POST http://localhost:8080/productos
 Content-Type: application/json
 
 {
-  "title": "Producto 8",
-  "description":"Producto 8" ,
+  "title": "Producto 9",
+  "description":"Producto 9" ,
   "thumbnail":"" ,
-  "price":3208,
-  "stock":3228 ,
-  "code":"008"
+  "price":3209,
+  "stock":3229 ,
+  "code":"009"
 }
 
 ### PUT
-PUT http://localhost:8080/productos/6453434d94da42a6f0a74c74
+PUT http://localhost:8080/productos/64550ed8c44b8fd522d231a8
 Content-Type: application/json
 
 {
@@ -37,41 +37,43 @@ DELETE  http://localhost:8080/productos/6453434d94da42a6f0a74c74
 GET http://localhost:8080/usuarios
 
 ### GET
-GET http://localhost:8080/usuarios/64531d86b1637dbb399164fa
+GET http://localhost:8080/usuarios/64531d86b1637dbb399164fb
 
 ### POST
 POST http://localhost:8080/usuarios
 Content-Type: application/json
 
 {
-  "first_name": "Orly2",
-  "last_name": "Restall2",
-  "email": "orestall0@multiply.com2",
-  "gender": "Female2"
+  "first_name": "Orly3",
+  "last_name": "Restall3",
+  "email": "orestall0@multiply.com3",
+  "gender": "Femal32"
 }
 
 ### PUT
-PUT http://localhost:8080/usuarios/64531d86b1637dbb399164fa
+PUT http://localhost:8080/usuarios/64531d86b1637dbb399164fb
 Content-Type: application/json
 
 {
-  
+    "first_name": "Ingeborg22",
+    "last_name": "Lowings22",
+    "email": "ilowings1@unesco22.org"
 }
 
 ### DELETE
-DELETE  http://localhost:8080/usuarios/64531d86b1637dbb399164fa
+DELETE  http://localhost:8080/usuarios/64531d86b1637dbb399164fb
 
 
 
-// Carritos--------------------------------------------------------------------------------------------------
+// carts--------------------------------------------------------------------------------------------------
 ### GET
-GET http://localhost:8080/carritos
+GET http://localhost:8080/carts
 
 ### GET
-GET http://localhost:8080/carritos/6451af218bf0c494d4f5744d
+GET http://localhost:8080/carts/645514c2216aa4d189e65ecb
 
 ### POST
-POST http://localhost:8080/carritos
+POST http://localhost:8080/carts
 Content-Type: application/json
 
 {
@@ -79,15 +81,15 @@ Content-Type: application/json
 }
 
 ### PUT
-PUT http://localhost:8080/carritos/id
+PUT http://localhost:8080/carts/id
 Content-Type: application/json
 
 {
-  
+  "product": "ejId22"
 }
 
 ### DELETE
-DELETE  http://localhost:8080/carritos
+DELETE  http://localhost:8080/carts/645514c2216aa4d189e65ecb
 
 
 

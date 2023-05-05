@@ -2,6 +2,7 @@ const express = require("express")
 const { Router } = require("express")
 const messagesManager = require("../dao/mongo/messages.mongo")
 const { Server } = require("socket.io")
+const productManager = require("../dao/mongo/product.mongo.js")
 
 const router = Router()
 
@@ -73,11 +74,10 @@ router.delete("/:mid", async (req, res) => {
 
 // -----------------------------------------------------
 
+// const io = new Server(httpServer)
 // let messages = []
-// // let products = []
 
 // io.on("connection", async (socket) => {
-//   console.log("nuevo cliente conectado")
 //   let products = await productManager.getProducts()
 //   socket.on("message", (data) => {
 //     console.log(data)
@@ -88,15 +88,6 @@ router.delete("/:mid", async (req, res) => {
 //   socket.on("authenticated", (data) => {
 //     socket.broadcast.emit("newUserConnected", data)
 //   })
-//   // let logs = []
-//   // socket.on("message1", (data) => {
-//   //   io.emit("log", data)
-//   // })
-
-//   // socket.on("message2", (data) => {
-//   //   logs.push({ socketid: socket.id, message: data })
-//   //   io.emit("log", { logs })
-//   // })
 
 //   socket.emit("productos", products)
 

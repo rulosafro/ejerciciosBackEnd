@@ -28,6 +28,19 @@ router.get("/:uid", async (req, res) => {
   }
 })
 
+router.get("/namelook/:nombre", async (req, res) => {
+  try {
+    const { name } = req.params
+    // let product = await userManager.getUsersByID(name)
+    // res.status(200).send({
+    //   status: "success",
+    //   payload: product,
+    // })
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 router.post("/", async (req, res) => {
   try {
     const newUser = req.body
@@ -45,7 +58,7 @@ router.put("/:uid", async (req, res) => {
   try {
     const { uid } = req.params
     const cambio = req.body
-    const modificado = await userManager.upadteUser(uid, cambio)
+    const modificado = await userManager.updateUser(uid, cambio)
     res.status(200).send({
       status: "success",
       payload: modificado,

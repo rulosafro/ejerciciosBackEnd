@@ -5,6 +5,7 @@ const handlebars = require("express-handlebars")
 const productManager = require("./dao/mongo/product.mongo.js")
 const { connectDB } = require("./config/configServer")
 const { Server } = require("socket.io")
+// const webChat = require("./routes/messages.router.js")
 
 const app = express()
 const PORT = 8080
@@ -26,11 +27,13 @@ const httpServer = app.listen(PORT, (err) => {
   console.log(`Escuchanding port: ${PORT}`)
 })
 
+// app.use(webChat)
+
+// chat web----------------------------------------------------------------
 const io = new Server(httpServer)
 let messages = []
 
 io.on("connection", async (socket) => {
-  console.log("nuevo cliente conectado")
   let products = await productManager.getProducts()
   socket.on("message", (data) => {
     console.log(data)

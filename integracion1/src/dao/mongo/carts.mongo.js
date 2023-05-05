@@ -17,9 +17,9 @@ class CartsManagerMongo {
     }
   }
 
-  async addCart(newCarts) {
+  async addCart() {
     try {
-      return await cartsModel.create(newCarts)
+      return await cartsModel.create({ products: [] })
     } catch (error) {
       return console.error(error)
     }

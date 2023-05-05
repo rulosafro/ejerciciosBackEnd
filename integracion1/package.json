@@ -22,5 +22,8 @@
     "socket.io": "^4.6.1",
     "websocket": "^1.0.34"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "sass": "^1.62.1"
+  }
 }

@@ -20,9 +20,9 @@ router.use("/productos", productsRouter)
 router.use("/usuarios", usuariosRouter)
 router.use("/carts", cartsRouter)
 router.use("/realtimeproducts", realtimeRouter)
-router.use("/chat", messagesRouter)
 router.use("/register", registerRouter)
 router.use("/static", express.static(__dirname + "./../public"))
+router.use("/chat", messagesRouter)
 
 // Método POST /static
 router.post("/upload", uploader.single("myFile"), (req, res) => {
