@@ -13,15 +13,18 @@ const router = Router()
 
 // Links ----------------------------------------------------------------
 router.get("/", (req, res) => {
-  res.render("home", {})
+  data = {
+    titulo1: "Bienvenido33",
+    info: "Estas entrando a la mejor tienda de relojeria de este mundo ",
+  }
+  res.render("home", data)
 })
 
-router.use("/productos", productsRouter)
-router.use("/usuarios", usuariosRouter)
-router.use("/carts", cartsRouter)
-router.use("/realtimeproducts", realtimeRouter)
-router.use("/register", registerRouter)
 router.use("/static", express.static(__dirname + "./../public"))
+router.use("/api/products", productsRouter)
+router.use("/api/users", usuariosRouter)
+router.use("/carts", cartsRouter)
+router.use("/register", registerRouter)
 router.use("/chat", messagesRouter)
 
 // Método POST /static

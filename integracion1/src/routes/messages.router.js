@@ -1,8 +1,8 @@
 const express = require("express")
 const { Router } = require("express")
 const messagesManager = require("../dao/mongo/messages.mongo")
-const { Server } = require("socket.io")
-const productManager = require("../dao/mongo/product.mongo.js")
+// const { Server } = require("socket.io")
+// const productManager = require("../dao/mongo/product.mongo.js")
 
 const router = Router()
 
@@ -13,7 +13,7 @@ router.get("/", async (req, res) => {
     //   status: "success",
     //   payload: messages,
     // })
-    res.render("chat", {})
+    res.render("chat", { titutlo1: "hola" })
   } catch (error) {
     console.log(error)
   }

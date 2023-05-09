@@ -9,8 +9,13 @@ const cartSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "productos",
       },
+      quantity: Number,
     },
   ],
+})
+
+cartSchema.pre("findOne", function () {
+  this.populate("products.product")
 })
 
 const cartsModel = model(collection, cartSchema)

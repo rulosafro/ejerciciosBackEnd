@@ -5,15 +5,15 @@ const collection = "messages"
 const productSchema = new Schema({
   name: {
     type: String,
-    required: true,
+    // required: true,
   },
   lastName: {
     type: String,
-    required: true,
+    // required: true,
   },
   Email: {
     type: String,
-    required: true,
+    // required: true,
   },
   nickname: String,
 })

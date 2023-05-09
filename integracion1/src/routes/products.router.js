@@ -6,10 +6,7 @@ const router = Router()
 router.get("/", async (req, res) => {
   try {
     const products = await productManager.getProducts()
-    res.status(200).send({
-      status: "success",
-      payload: products,
-    })
+    res.status(200).render("realTimeProducts", { products })
   } catch (error) {
     console.log(error)
   }

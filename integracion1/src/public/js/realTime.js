@@ -1,4 +1,6 @@
+// const { io } = require("socket.io")
 const socket = io()
+const productManager = require("../../dao/mongo/product.mongo")
 let form = document.getElementById("formProduct")
 
 form.addEventListener("submit", (evt) => {
@@ -13,11 +15,12 @@ form.addEventListener("submit", (evt) => {
   form.reset()
 })
 
-socket.on("productos", (data) => {
+socket.on("productos", async (data) => {
   console.log(data)
 
+  const products = await productManager.getProducts()
   let div = document.getElementById("listProducts")
-  let productos = ""
+  let productos = products
   data.forEach((product) => {
     productos += `    <div class="card" style="width: 18rem;">
     <h1>${product.title} </h1>
