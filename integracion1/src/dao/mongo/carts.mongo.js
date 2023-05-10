@@ -31,26 +31,16 @@ class CartsManagerMongo {
     try {
       const cart = await cartsModel.findById({ _id: cid })
       const prod = await productManager.getProductsByID(pid)
-      console.log(cart.products)
-      // console.log(prod)
-      const validacion = cart.products.find((res) => {
-        res._ === pid
-      })
-
-      const validacion2 = await cartsModel.filter({ _id: pid })
-      console.log(validacion2 + " aca")
+      const prodIndex = cart.products.findIndex((prod) => prod.id === pid)
 
       if (!cart || !prod) {
         return "Operación fallida"
       } else {
-        if (true) {
-          console.log("a")
-          // cart.products.push({ _id: pid, quantity: 1 })
-          // return await cartsModel.findOneAndUpdate({ _id: cid }, cart)
+        if (prodIndex === -1) {
+          cart.products.push({ _id: pid, quantity: 1 })
+          return await cartsModel.findOneAndUpdate({ _id: cid }, cart)
         } else {
-          console.log("b")
-          // cart.products.push({ prod, quantity: 1 })
-          // return await cartsModel.findOneAndUpdate({ _id: cid }, cart)
+          return await cartsModel.updateOne({ _id: cid, "products._id": pid }, { $inc: { "products.$.quantity": 1 } })
         }
       }
     } catch (error) {

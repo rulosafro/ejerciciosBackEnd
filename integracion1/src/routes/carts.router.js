@@ -43,9 +43,10 @@ router.post("/:cid/product/:pid", async (req, res) => {
     const { cid } = req.params
     const { pid } = req.params
     const agregado = await cartsManager.addToCart(cid, pid)
+    const resultado = await cartsManager.getCartsByID(cid)
     res.status(200).send({
       status: "success",
-      payload: agregado,
+      payload: resultado,
     })
   } catch (error) {
     console.log(error)
