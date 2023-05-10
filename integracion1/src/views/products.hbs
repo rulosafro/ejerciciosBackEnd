@@ -1,0 +1,24 @@
+<div class="text-white">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="">Productos</h2>
+    <a href="/api/realtime" class="btn btn-outline-light text-white">Nuevo Producto</a>
+  </div>
+  <hr />
+
+  <div class="d-flex row">
+    {{#each productos}}
+      <div class="card m-2" style="width: 18rem;">
+        {{! <img src="..." class="card-img-top" alt="..." /> }}
+        <div class="card-body">
+          <h5 class="card-title"><b>{{this.title}}</b></h5>
+          <p class="card-text">{{this.description}}</p>
+          <p class="card-text">${{this.price}}</p>
+          <a href="#" class="btn btn-primary disable">Ver más</a>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+<script src="socket.io/socket.io.js"></script>
+<script src="/static/js/product.js"></script>

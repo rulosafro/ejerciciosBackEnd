@@ -1,5 +1,18 @@
 const socket = io()
 const productManager = require("../../dao/mongo/product.mongo")
+let form = document.getElementById("formProduct")
+
+form.addEventListener("submit", (evt) => {
+  evt.preventDefault()
+  let title = form.elements.title.value
+  console.log(title)
+  if (title !== "") {
+    socket.emit("addProduct", {
+      title,
+    })
+  }
+  form.reset()
+})
 
 socket.on("productos", async (data) => {
   console.log(data)

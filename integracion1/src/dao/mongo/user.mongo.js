@@ -3,7 +3,7 @@ const { userModel } = require("./models/user.model")
 class UserManagerMongo {
   async getUsers() {
     try {
-      return await userModel.find({})
+      return await userModel.find({}).lean()
     } catch (error) {
       return new Error(error)
     }

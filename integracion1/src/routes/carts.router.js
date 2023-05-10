@@ -6,10 +6,7 @@ const router = Router()
 router.get("/", async (req, res) => {
   try {
     const carts = await cartsManager.getCarts()
-    res.status(200).send({
-      status: "success",
-      payload: carts,
-    })
+    res.status(200).render("carts", { carts })
   } catch (error) {
     console.log(error)
   }
@@ -31,7 +28,7 @@ router.get("/:cid", async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     const newCart = req.body
-    let result = await cartsManager.addCart(newCart)
+    let result = await cartsManager.createCart()
     res.status(200).send({
       status: "success",
       payload: result,
@@ -43,11 +40,12 @@ router.post("/", async (req, res) => {
 
 router.post("/:cid/product/:pid", async (req, res) => {
   try {
-    const newCart = req.body
-    let result = await cartsManager.addCart(newCart)
+    const { cid } = req.params
+    const { pid } = req.params
+    const agregado = await cartsManager.addToCart(cid, pid)
     res.status(200).send({
       status: "success",
-      payload: result,
+      payload: agregado,
     })
   } catch (error) {
     console.log(error)

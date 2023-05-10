@@ -1,0 +1,29 @@
+<div class="text-white">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="">Tu Carrito</h2>
+    {{! <a href="/api/users" class="btn btn-outline-light text-white">Nuevo Usuario</a> }}
+  </div>
+  <hr />
+
+  <div class="d-flex row">
+    {{#each carts}}
+      <div class="card m-2" style="width: 25rem;">
+        <div class="card-body">
+          <h5 class="card-title"><b>Carrito:</b> {{this._id}}</h5>
+          <p><b>Productos:</b></p>
+          {{#if products.length}}
+            <ul>
+              {{#each products}}
+                <li class="card-text">{{this._id}}</li>
+              {{/each}}
+            </ul>
+          {{else}}
+            <p>"Carrito vacío :|"</p>
+          {{/if}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>
+
+{{! <script src="./static/js/index.js"></script> }}

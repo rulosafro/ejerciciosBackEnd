@@ -12,9 +12,9 @@ const PORT = 8080
 connectDB()
 
 // HBS----------------------------------------------------------------
-app.engine("handlebars", handlebars.engine())
+app.engine("hbs", handlebars.engine())
 app.set("views", __dirname + "/views")
-app.set("view engine", "handlebars")
+app.set("view engine", "hbs")
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
@@ -31,10 +31,13 @@ const httpServer = app.listen(PORT, (err) => {
 
 // chat web----------------------------------------------------------------
 const io = new Server(httpServer)
+
 let messages = []
 
 io.on("connection", async (socket) => {
-  let products = await productManager.getProducts()
+  // console.log("Nuevo cliente")
+
+  // Chat
   socket.on("message", (data) => {
     console.log(data)
     messages.push(data)
@@ -45,6 +48,8 @@ io.on("connection", async (socket) => {
     socket.broadcast.emit("newUserConnected", data)
   })
 
+  //Product
+  let products = await productManager.getProducts()
   socket.emit("productos", products)
 
   socket.on("addProduct", (data) => {

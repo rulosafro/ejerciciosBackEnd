@@ -1,12 +1,13 @@
 const { Router } = require("express")
 const productManager = require("../dao/mongo/product.mongo.js")
+const { Handlebars } = require("express-handlebars")
 
 const router = Router()
 
 router.get("/", async (req, res) => {
   try {
-    const products = await productManager.getProducts()
-    res.status(200).render("realTimeProducts", { products })
+    const productos = await productManager.getProducts()
+    res.status(200).render("products", { productos })
   } catch (error) {
     console.log(error)
   }

@@ -1,6 +1,6 @@
-console.log("funcionando el chat.js")
-
+console.log("funcionando chat.js")
 const socket = io()
+
 let user
 let chatbox = document.getElementById("chatbox")
 

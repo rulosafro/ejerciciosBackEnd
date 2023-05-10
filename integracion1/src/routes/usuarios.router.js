@@ -6,10 +6,10 @@ const router = Router()
 router.get("/", async (req, res) => {
   try {
     let users = await userManager.getUsers()
-    res.status(200).send({
-      status: "success",
-      payload: users,
-    })
+    let prueba1 = users.slice(0, 20)
+    console.log(prueba1)
+
+    res.status(200).render("users", { prueba1 })
   } catch (error) {
     console.log(error)
   }

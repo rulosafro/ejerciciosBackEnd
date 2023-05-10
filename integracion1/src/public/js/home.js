@@ -1,10 +1,12 @@
 const socket = io()
+const productManager = require("../../dao/mongo/product.mongo")
 
-socket.on("productos", (data) => {
+socket.on("productos", async (data) => {
   console.log(data)
 
   let div = document.getElementById("listProducts")
-  let productos = ""
+  let productos = await productManager.getProducts()
+  console.log(productos)
   data.forEach((product) => {
     productos += `
 

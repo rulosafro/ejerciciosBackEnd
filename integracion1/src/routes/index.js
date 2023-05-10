@@ -15,19 +15,19 @@ const router = Router()
 router.get("/", (req, res) => {
   data = {
     titulo1: "Bienvenido33",
-    info: "Estas entrando a la mejor tienda de relojeria de este mundo ",
+    info: "Estas entrando a la mejor tienda de relojeria",
   }
   res.render("home", data)
 })
 
 router.use("/static", express.static(__dirname + "./../public"))
 router.use("/api/products", productsRouter)
+router.use("/api/realtime", realtimeRouter)
 router.use("/api/users", usuariosRouter)
 router.use("/carts", cartsRouter)
 router.use("/register", registerRouter)
 router.use("/chat", messagesRouter)
 
-// Método POST /static
 router.post("/upload", uploader.single("myFile"), (req, res) => {
   res.send({
     status: "success",

@@ -1,0 +1,30 @@
+<div class="text-white">
+  <div class="d-flex justify-content-between align-items-center">
+
+    <h2 class="">
+      Ingresar un Producto
+
+    </h2>
+    <a href="/api/products" class="btn btn-outline-light text-white">Volver</a>
+  </div>
+  <hr />
+
+  <form action="" id="formProduct" class="form-group d-flex flex-column px-3 gap-2">
+    <input type="text" name="title" id="title" placeholder="Nombre" class="form-control" />
+    <input type="text" name="price" id="price" placeholder="Precio" class="form-control" />
+    <input type="text" name="description" id="description" placeholder="Descripción" class="form-control" />
+    <input type="text" name="code" id="code" placeholder="Código" class="form-control" />
+    <input type="text" name="stock" id="stock" placeholder="Stock" class="form-control" />
+    <input type="text" name="category" id="category" placeholder="Categoria" class="form-control" />
+    <input type="text" name="status" id="status" placeholder="Status" class="form-control" />
+    <button type="submit" class="btn btn-primary pt-2" value="enviar">Submit</button>
+  </form>
+
+  <div id="listProducts" class="d-flex flex-wrap gap-4 p-3">
+    {{!-- {{products}} --}}
+  </div>
+
+</div>
+
+<script src="socket.io/socket.io.js"></script>
+<script src="/static/js/realTime.js"></script>
