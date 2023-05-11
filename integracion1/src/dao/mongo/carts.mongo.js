@@ -13,7 +13,7 @@ class CartsManagerMongo {
 
   async getCartsByID(cid) {
     try {
-      return await cartsModel.findOne({ _id: cid })
+      return await cartsModel.findById({ _id: cid }).populate("products.product")
     } catch (error) {
       console.error(error)
     }
@@ -31,16 +31,18 @@ class CartsManagerMongo {
     try {
       const cart = await cartsModel.findById({ _id: cid })
       const prod = await productManager.getProductsByID(pid)
-      const prodIndex = cart.products.findIndex((prod) => prod.id === pid)
+      console.log(cart.products)
+      const prodIndex = cart.products.findIndex((product) => product._id === pid)
 
       if (!cart || !prod) {
         return "Operación fallida"
       } else {
         if (prodIndex === -1) {
-          cart.products.push({ _id: pid, quantity: 1 })
+          cart.products.push({ product: pid, quantity: 1 })
           return await cartsModel.findOneAndUpdate({ _id: cid }, cart)
         } else {
-          return await cartsModel.updateOne({ _id: cid, "products._id": pid }, { $inc: { "products.$.quantity": 1 } })
+          //revisar
+          return await cartsModel.updateOne({ product: pid, "products._id": pid }, { $inc: { "products.$.quantity": 1 } })
         }
       }
     } catch (error) {
