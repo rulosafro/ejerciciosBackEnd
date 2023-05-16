@@ -1,0 +1,20 @@
+<div class="text-white">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class="">Tu Carrito {{cid}}</h2>
+    {{! <a href="/api/users" class="btn btn-outline-light text-white">Nuevo Usuario</a> }}
+  </div>
+  <hr />
+
+  <div class="d-flex row">
+    {{#each shop}}
+      <div class="card m-2" style="width: 25rem;">
+        <div class="card-body">
+          <h3 class="card-title"> {{this.product.title}}</h3>
+          <h5 class="card-title"> Cantidad: {{this.quantity}}</h5>
+          <h5 class="card-title"> Precio: {{this.product.price}}</h5>
+          <h5 class="card-title"> Code: {{this.product.code}}</h5>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</div>

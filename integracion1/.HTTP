@@ -70,7 +70,7 @@ DELETE  http://localhost:8080/usuarios/64531d86b1637dbb399164fb
 GET http://localhost:8080/api/carts
 
 ### GET
-GET http://localhost:8080/api/carts/645514c7216aa4d189e65ecd
+GET http://localhost:8080/api/carts/64627a88402b20090a33cc6b
 
 ### GET
 GET http://localhost:8080/api/carts/64627a88402b20090a33cc6b
@@ -84,7 +84,7 @@ Content-Type: application/json
 }
 
 ### POST con producto
-POST http://localhost:8080/api/carts/64627a88402b20090a33cc6b/product/645343eabb68782cec44ceb1
+POST http://localhost:8080/api/carts/64627a88402b20090a33cc6b/product/64534597ff60520f41a5c168
 Content-Type: application/json
 
 {

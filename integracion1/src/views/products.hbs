@@ -22,8 +22,8 @@
 </div>
 
 <div>
-  {{#if hasPrevPage}} <button class="btn btn-primary text-white"> <a href="/products?page={{prevPage}}" class="text-white text-decoration-none">Anterior</a> </button> {{/if}}
-  {{#if hasNextPage}} <button class="btn btn-primary text-white"> <a href="/products?page={{nextPage}}" class="text-white text-decoration-none">Siguiente</a> </button> {{/if}}
+  {{#if hasPrevPage}} <button class="btn btn-primary text-white"> <a href="/views/products?pages={{prevPage}}" class="text-white text-decoration-none">Anterior</a> </button> {{/if}}
+  {{#if hasNextPage}} <button class="btn btn-primary text-white"> <a href="/views/products?pages={{nextPage}}" class="text-white text-decoration-none">Siguiente</a> </button> {{/if}}
 </div>
 
 {{! <script src="socket.io/socket.io.js"></script> }}

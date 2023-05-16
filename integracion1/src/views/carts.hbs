@@ -14,7 +14,7 @@
           {{#if products.length}}
             <ul>
               {{#each products}}
-                <li class="card-text">{{this._id}}</li>
+                <li class="card-text">{{this.product}} - {{this.quantity}}</li>
               {{/each}}
             </ul>
           {{else}}

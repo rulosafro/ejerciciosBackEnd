@@ -13,7 +13,7 @@ class CartsManagerMongo {
 
   async getCartsByID(cid) {
     try {
-      return await cartsModel.findById({ _id: cid }).lean().populate("products.product")
+      return await cartsModel.findById({ _id: cid }).populate("products.product").lean()
     } catch (error) {
       console.error(error)
     }
