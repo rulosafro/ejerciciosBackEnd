@@ -1,6 +1,6 @@
 // Productos--------------------------------------------------------------------------------------------------
 ### GET
-GET http://localhost:8080/productos
+GET http://localhost:8080/api/products
 
 ### GET
 GET http://localhost:8080/productos/64534597ff60520f41a5c168
@@ -67,30 +67,43 @@ DELETE  http://localhost:8080/usuarios/64531d86b1637dbb399164fb
 
 // carts--------------------------------------------------------------------------------------------------
 ### GET
-GET http://localhost:8080/carts
+GET http://localhost:8080/api/carts
 
 ### GET
-GET http://localhost:8080/carts/645514c2216aa4d189e65ecb
+GET http://localhost:8080/api/carts/645514c7216aa4d189e65ecd
+
+### GET
+GET http://localhost:8080/api/carts/64627a88402b20090a33cc6b
 
 ### POST
-POST http://localhost:8080/carts
+POST http://localhost:8080/api/carts
 Content-Type: application/json
 
 {
 
 }
 
+### POST con producto
+POST http://localhost:8080/api/carts/64627a88402b20090a33cc6b/product/645343eabb68782cec44ceb1
+Content-Type: application/json
+
+{
+  "quantity": 2
+}
+
+### DELETE
+DELETE  http://localhost:8080/api/carts/64627a88402b20090a33cc6b
+
+### DELETE product
+DELETE  http://localhost:8080/api/carts/64627a88402b20090a33cc6b/product/645343eabb68782cec44ceb1
+
 ### PUT
-PUT http://localhost:8080/carts/id
+PUT http://localhost:8080/api/carts/id
 Content-Type: application/json
 
 {
   "product": "ejId22"
 }
-
-### DELETE
-DELETE  http://localhost:8080/carts/645514c2216aa4d189e65ecb
-
 
 
 // Mensajes--------------------------------------------------------------------------------------------------
@@ -118,3 +131,14 @@ Content-Type: application/json
 
 ### DELETE
 DELETE  http://localhost:8080/messages
+
+# ----------------------------------------------------
+
+### Prueba
+POST  http://localhost:8080/pruebas/session 
+Content-Type: application/json 
+
+{
+  "username": "javi",
+  "password": "javi123"
+}

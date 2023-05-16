@@ -13,7 +13,7 @@ class CartsManagerMongo {
 
   async getCartsByID(cid) {
     try {
-      return await cartsModel.findById({ _id: cid }).populate("products.product")
+      return await cartsModel.findById({ _id: cid }).lean().populate("products.product")
     } catch (error) {
       console.error(error)
     }
@@ -21,46 +21,49 @@ class CartsManagerMongo {
 
   async createCart() {
     try {
-      return await cartsModel.create({ products: [] })
+      return await cartsModel.create({ products: [], userId: null, email: null })
     } catch (error) {
       return console.error(error)
     }
   }
 
-  async addToCart(cid, pid) {
+  async addToCart(cid, pid, quantity) {
     try {
-      const cart = await cartsModel.findById({ _id: cid })
-      const prod = await productManager.getProductsByID(pid)
-      console.log(cart.products)
-      const prodIndex = cart.products.findIndex((product) => product._id === pid)
-
-      if (!cart || !prod) {
-        return "Operación fallida"
-      } else {
-        if (prodIndex === -1) {
-          cart.products.push({ product: pid, quantity: 1 })
-          return await cartsModel.findOneAndUpdate({ _id: cid }, cart)
+      // const validacion1 = await cartsModel.findOne({ _id: cid})
+      if (await cartsModel.findOne({ _id: cid })) {
+        // const validacion2 = await cartsModel.findOne({ _id: cid, "products.product": pid })
+        if (await cartsModel.findOne({ _id: cid, "products.product": pid })) {
+          const cart = await cartsModel.findOneAndUpdate({ _id: cid, "products.product": pid }, { $inc: { "products.$.quantity": quantity } }, { new: true })
         } else {
-          //revisar
-          return await cartsModel.updateOne({ product: pid, "products._id": pid }, { $inc: { "products.$.quantity": 1 } })
+          const cartNew = await cartsModel.findOneAndUpdate({ _id: cid }, { $push: { products: { product: pid, quantity } } }, { new: true, upsert: true })
         }
+      } else {
+        return "Operación fallida"
       }
     } catch (error) {
       return console.error(error)
     }
   }
 
-  async updateCart(cid, cambio) {
+  async deleteCart(cid) {
     try {
-      return await cartsModel.updateOne({ _id: cid }, cambio)
+      return cartsModel.findOneAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
     } catch (error) {
       console.log(error)
     }
   }
 
-  async deleteCart(cid) {
+  async deleteCartProduct(cid, pid) {
     try {
-      return cartsModel.deleteOne({ _id: cid })
+      return cartsModel.findOneAndUpdate({ _id: cid }, { $pull: { products: { product: { _id: pid } } } }, { new: true })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async updateCart(cid, cambio) {
+    try {
+      return await cartsModel.updateOne({ _id: cid }, cambio)
     } catch (error) {
       console.log(error)
     }

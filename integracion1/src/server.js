@@ -1,10 +1,16 @@
 const express = require("express")
+const session = require("express-session")
+const handlebars = require("express-handlebars")
+const cookieParser = require("cookie-parser")
+const { Server } = require("socket.io")
+const FileStore = require("session-file-store")
+const fileStore = FileStore(session)
 const logger = require("morgan")
 const routerServer = require("./routes/index.js")
-const handlebars = require("express-handlebars")
 const productManager = require("./dao/mongo/product.mongo.js")
 const { connectDB } = require("./config/configServer")
-const { Server } = require("socket.io")
+const { create } = require("connect-mongo")
+
 // const webChat = require("./routes/messages.router.js")
 
 const app = express()
@@ -18,7 +24,32 @@ app.set("view engine", "hbs")
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
+
 app.use(logger("dev"))
+app.use(cookieParser("claveDev"))
+// app.use(
+//   session({
+//     secret: "claveDev",
+//     resave: true,
+//     saveUninitialized: true,
+//   })
+// )
+app.use(
+  session({
+    store: create({
+      ttl: 1000 * 60 * 10,
+      // mongoUrl: "mongodb://localhost:27017/ecommerce",
+      mongoUrl: "mongodb+srv://rama:rama123@ecommerce.omzog5n.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoOptions: {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      },
+    }),
+    secret: "claveDev",
+    resave: true,
+    saveUninitialized: true,
+  })
+)
 
 app.use(routerServer)
 
@@ -27,16 +58,11 @@ const httpServer = app.listen(PORT, (err) => {
   console.log(`Escuchanding port: ${PORT}`)
 })
 
-// app.use(webChat)
-
 // chat web----------------------------------------------------------------
 const io = new Server(httpServer)
-
 let messages = []
 
 io.on("connection", async (socket) => {
-  // console.log("Nuevo cliente")
-
   // Chat
   socket.on("message", (data) => {
     console.log(data)

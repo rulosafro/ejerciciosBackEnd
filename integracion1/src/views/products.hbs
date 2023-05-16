@@ -6,7 +6,7 @@
   <hr />
 
   <div class="d-flex row">
-    {{#each productos}}
+    {{#each payload}}
       <div class="card m-2" style="width: 18rem;">
         {{! <img src="..." class="card-img-top" alt="..." /> }}
         <div class="card-body">
@@ -14,11 +14,17 @@
           <p class="card-text">{{this.description}}</p>
           <p class="card-text">${{this.price}}</p>
           <a href="#" class="btn btn-primary disable">Ver más</a>
+          <a href="#" class="btn btn-primary disable mt-2">Agregar al carrito</a>
         </div>
       </div>
     {{/each}}
   </div>
 </div>
 
-<script src="socket.io/socket.io.js"></script>
-<script src="/static/js/product.js"></script>
+<div>
+  {{#if hasPrevPage}} <button class="btn btn-primary text-white"> <a href="/products?page={{prevPage}}" class="text-white text-decoration-none">Anterior</a> </button> {{/if}}
+  {{#if hasNextPage}} <button class="btn btn-primary text-white"> <a href="/products?page={{nextPage}}" class="text-white text-decoration-none">Siguiente</a> </button> {{/if}}
+</div>
+
+{{! <script src="socket.io/socket.io.js"></script> }}
+{{! <script src="/static/js/product.js"></script> }}

@@ -1,5 +1,6 @@
 const { Router } = require("express")
 const userManager = require("../dao/mongo/user.mongo")
+const { userModel } = require("../dao/mongo/models/user.model")
 
 const router = Router()
 
@@ -7,9 +8,15 @@ router.get("/", async (req, res) => {
   try {
     let users = await userManager.getUsers()
     let prueba1 = users.slice(0, 20)
-    console.log(prueba1)
 
-    res.status(200).render("users", { prueba1 })
+    const { page = 1 } = req.query
+    let users2 = await userModel.paginate({}, { limit: 10, page: page, lean: true })
+    const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = users2
+
+    res.status(200).send({
+      status: "success",
+      payload: users,
+    })
   } catch (error) {
     console.log(error)
   }

@@ -1,8 +1,9 @@
 const { Schema, model } = require("mongoose")
+const moongoosePaginate = require("mongoose-paginate-v2")
 
 const collection = "users"
 
-const productSchema = new Schema({
+const userSchema = new Schema({
   name: {
     type: String,
     required: true,
@@ -21,7 +22,8 @@ const productSchema = new Schema({
   gender: String,
 })
 
-const userModel = model(collection, productSchema)
+userSchema.plugin(moongoosePaginate)
+const userModel = model(collection, userSchema)
 
 module.exports = {
   userModel,

@@ -7,7 +7,10 @@ const router = Router()
 router.get("/", async (req, res) => {
   try {
     const productos = await productManager.getProducts()
-    res.status(200).render("products", { productos })
+    res.status(200).send({
+      status: "success",
+      payload: productos,
+    })
   } catch (error) {
     console.log(error)
   }

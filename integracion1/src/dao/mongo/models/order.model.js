@@ -6,7 +6,7 @@ const orderSchema = new Schema({
   name: String,
   size: {
     type: String,
-    enum: ["smaill", "medium", "large"],
+    enum: ["small", "medium", "large"],
     default: "medium",
   },
   price: Number,
