@@ -3,6 +3,7 @@ const { uploader } = require("../utils/multer")
 const { productModel } = require("../dao/mongo/models/product.model.js")
 const { userModel } = require("../dao/mongo/models/user.model")
 const cartsManager = require("../dao/mongo/carts.mongo")
+const { auth } = require("../middlewares/autentication.middleware")
 
 const router = Router()
 
@@ -84,6 +85,10 @@ router.get("/carts/:cid", async (req, res) => {
 
 router.get("/register", (req, res) => {
   res.status(200).render("registerForm", {})
+})
+
+router.get("/login", (req, res) => {
+  res.status(200).render("login", {})
 })
 
 router.post("/upload", uploader.single("myFile"), (req, res) => {

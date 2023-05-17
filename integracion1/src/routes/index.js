@@ -5,6 +5,7 @@ const apiProductsRouter = require("./api.products.router")
 const apiCartsRouter = require("./api.carts.router")
 const messagesRouter = require("./messages.router")
 const viewsRouter = require("./views.router")
+const sessionRouter = require("./session.router")
 const cookieRouter = require("./cookie.router")
 
 const router = Router()
@@ -23,6 +24,8 @@ router.use("/api/products", apiProductsRouter)
 router.use("/api/carts", apiCartsRouter)
 router.use("/views", viewsRouter)
 router.use("/chat", messagesRouter)
+router.use("/session", sessionRouter)
+
 router.use("/pruebas", cookieRouter)
 
 module.exports = router

@@ -1,20 +1,26 @@
 <div class="text-white">
-  <h1>Register with cookies</h1>
+  <h1>Register</h1>
   <hr />
-  <form id="cookieForm" action="/register" method="post" class="" onsubmit="return false">
+  <form action="/session/register" method="POST" class="">
     <div class="my-3">
-      <input type="text" name="username" id="" placeholder="Nombre" />
+      <input type="text" name="username" id="" placeholder="Usuario" />
     </div>
-    {{! <div class="my-3">
-      <input type="text" name="email" id="" placeholder="Email" />
-    </div> }}
     <div class="my-3">
-      <input type="text" name="pass" id="" placeholder="Contraseña" />
+      <input type="text" name="first_name" id="" placeholder="Nombre" />
+    </div>
+    <div class="my-3">
+      <input type="text" name="last_name" id="" placeholder="Apellido" />
+    </div>
+    <div class="my-3">
+      <input type="text" name="email" id="" placeholder="Email" />
+    </div>
+    <div class="my-3">
+      <input type="text" name="password" id="" placeholder="Contraseña" />
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
-  <button onclick="getCookie()"> Ver Cookie</button>
+  {{! <button onclick="getCookie()"> Ver Cookie</button> }}
 </div>
 
-<script src="/static/js/cookieSetter.js"></script>
+{{! <script src="/static/js/cookieSetter.js"></script> }}
