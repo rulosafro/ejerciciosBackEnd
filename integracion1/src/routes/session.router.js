@@ -3,7 +3,6 @@ const { userModel } = require("../dao/mongo/models/user.model")
 const { auth } = require("../middlewares/autentication.middleware")
 const { createHash, validPassword } = require("../utils/bcryptHash")
 const passport = require("passport")
-const { log } = require("handlebars")
 const router = Router()
 
 router.get("/counter", (req, res) => {
@@ -24,66 +23,66 @@ router.get("/privada", auth, (req, res) => {
   res.send({ status: "success", message: "Todo lo de esta ruta es privado" })
 })
 
-// router.post("/login2", async (req, res) => {
-//   try {
-//     const { email, password } = req.body
-//     const userDB = await userModel.findOne({ email })
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body
+    const userDB = await userModel.findOne({ email })
 
-//     if (!userDB)
-//       return res.send({ status: "error", message: "No existe ese usuario" })
+    if (!userDB) return res.send({ status: "error", message: "No existe ese usuario" })
 
-//     if (!validPassword(password, userDB))
-//       return res.status(401).send({
-//         status: "error",
-//         message: "Usuario o Contraseña incorrecta",
-//       })
+    if (!validPassword(password, userDB))
+      return res.status(401).send({
+        status: "error",
+        message: "Usuario o Contraseña incorrecta",
+      })
 
-//     req.session.user = {
-//       first_name: userDB.first_name,
-//       last_name: userDB.last_name,
-//       email: userDB.email,
-//       role: "admin",
-//     }
+    req.session.user = {
+      first_name: userDB.first_name,
+      last_name: userDB.last_name,
+      email: userDB.email,
+      role: userDB.role,
+      id: userDB._id,
+    }
+    // res.send(req.session.user)
+    res.redirect("/views/products" + req.session.user)
+    // .send({
+    //   status: "success",
+    //   message: "login success",
+    //   session: req.session.user,
+    // })
+  } catch (error) {
+    console.log(error)
+  }
+})
 
-//     res.send({
-//       status: "success",
-//       message: "login success",
-//       session: req.session.user,
-//     })
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
+router.post("/register", async (req, res) => {
+  try {
+    const { username, first_name, last_name, email, password } = req.body
+    const existUser = await userModel.findOne({ email })
+    if (existUser)
+      return res.send({
+        status: "error",
+        message: "el email ya está registrado",
+      })
 
-// router.post("/register2", async (req, res) => {
-//   try {
-//     const { username, first_name, last_name, email, password } = req.body
-//     const existUser = await userModel.findOne({ email })
-//     if (existUser)
-//       return res.send({
-//         status: "error",
-//         message: "el email ya está registrado",
-//       })
+    const newUser = {
+      username,
+      first_name,
+      last_name,
+      email,
+      password: createHash(password),
+      role: "user",
+    }
+    let resultUser = await userModel.create(newUser)
 
-//     const newUser = {
-//       username,
-//       first_name,
-//       last_name,
-//       email,
-//       password: createHash(password),
-//     }
-//     let resultUser = await userModel.create(newUser)
-
-//     res
-//       .status(200)
-//       .send({ status: "success", message: "register exitoso", resultUser })
-//   } catch (error) {
-//     console.log(error)
-//   }
-// })
+    res.status(200).send({ status: "success", message: "register exitoso", resultUser })
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 router.post(
-  "/login",
+  "/login2",
   passport.authenticate("login", {
     // successRedirect: "/views/products",
     failureRedirect: "/faillogin",
@@ -91,9 +90,7 @@ router.post(
   }),
   async (req, res) => {
     if (!req.user) {
-      return res
-        .status(401)
-        .send({ status: "error", message: "Credencial invalida" })
+      return res.status(401).send({ status: "error", message: "Credencial invalida" })
     }
 
     req.session.user = {
@@ -103,7 +100,7 @@ router.post(
       role: req.user.role,
     }
 
-    res.send({ status: "success", message: "User Register" })
+    res.send({ status: "success", message: "User Registrado" })
   }
 )
 
@@ -113,7 +110,7 @@ router.get("/faillogin", (req, res) => {
 })
 
 router.post(
-  "/register",
+  "/register2",
   passport.authenticate("register", {
     // successRedirect: "/views/products",
     failureRedirect: "/failregister",

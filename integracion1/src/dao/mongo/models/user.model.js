@@ -20,6 +20,7 @@ const userSchema = new Schema({
     index: true,
   },
   password: String,
+  role: String,
   // gender: String,
 })
 

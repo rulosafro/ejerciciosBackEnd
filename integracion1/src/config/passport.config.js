@@ -24,6 +24,7 @@ const initPassportMid = () => {
             last_name,
             email: username,
             password: await createHash(password),
+            role: "user",
           }
           let result = userModel.create(newUser)
           return done(null, result)
@@ -37,10 +38,12 @@ const initPassportMid = () => {
   passport.serializeUser((user, done) => {
     done(null, user.id)
   })
+
   passport.deserializeUser(async (id, done) => {
     let user = await userModel.findOne({ _id: id })
     done(null, user)
   })
+
   passport.use(
     "login",
     new LocalStrategy(

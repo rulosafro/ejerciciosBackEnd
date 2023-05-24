@@ -4,22 +4,30 @@ const { productModel } = require("../dao/mongo/models/product.model.js")
 const { userModel } = require("../dao/mongo/models/user.model")
 const cartsManager = require("../dao/mongo/carts.mongo")
 const { auth } = require("../middlewares/autentication.middleware")
+const { auth2 } = require("../middlewares/autentication2.middleware")
 
 const router = Router()
 
-router.get("/users", async (req, res) => {
+router.get("/users", auth2, async (req, res) => {
   try {
     const { page = 1 } = req.query
     let users2 = await userModel.paginate({}, { limit: 10, page: page, lean: true })
     const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = users2
 
-    res.status(200).render("users", { status: "success", data: docs, hasPrevPage, hasNextPage, prevPage, nextPage })
+    res.status(200).render("users", {
+      status: "success",
+      data: docs,
+      hasPrevPage,
+      hasNextPage,
+      prevPage,
+      nextPage,
+    })
   } catch (error) {
     console.log(error)
   }
 })
 
-router.get("/products", async (req, res) => {
+router.get("/products", auth, async (req, res) => {
   try {
     let { pages = 1, limit = 10, sort = 1, query } = req.query
 
@@ -42,6 +50,9 @@ router.get("/products", async (req, res) => {
     const prevLink = hasPrevPage ? `http://localhost:8080/views/products?page=${prevPage}&limit=${limit}&query=${query}&sort=${sort}` : null
     const nextLink = hasNextPage ? `http://localhost:8080/views/products?page=${nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null
 
+    // console.log(req.session.user)
+    const dataUser = req.session.user
+
     res.status(200).render("products", {
       status: "success",
       payload: docs,
@@ -53,17 +64,18 @@ router.get("/products", async (req, res) => {
       hasNextPage,
       prevLink,
       nextLink,
+      dataUser,
     })
   } catch (error) {
     console.log({ status: "error", error })
   }
 })
 
-router.get("/realtime", (req, res) => {
+router.get("/realtime", auth, (req, res) => {
   res.render("realTimeProducts", {})
 })
 
-router.get("/carts", async (req, res) => {
+router.get("/carts", auth, async (req, res) => {
   try {
     const carts = await cartsManager.getCarts()
     res.status(200).render("carts", { carts })
@@ -72,12 +84,16 @@ router.get("/carts", async (req, res) => {
   }
 })
 
-router.get("/carts/:cid", async (req, res) => {
+router.get("/carts/:cid", auth, async (req, res) => {
   try {
     const { cid } = req.params
-    const carrito = await cartsManager.getCartsByID(cid)
-    const shop = carrito.products
-    res.status(200).render("cartsById", { shop, cid })
+    let carrito = await cartsManager.getCartsByID(cid)
+    if (!carrito) {
+      res.status(404).send("ID no identificado")
+    }
+    // let shop = carrito.products
+    console.log(carrito)
+    res.status(200).render("cartsById", { carrito, cid })
   } catch (error) {
     console.log(error)
   }
@@ -96,7 +112,10 @@ router.get("/logout", (req, res) => {
     if (err) {
       return res.send({ status: "error", error: err })
     }
-    res.render("login", { message: "Se ha cerrado sesión" })
+    res.render("login", {
+      message: "Se ha cerrado sesión",
+      style: "text-danger",
+    })
   })
 })
 

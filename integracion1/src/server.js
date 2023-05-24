@@ -42,8 +42,8 @@ app.use(
       },
     }),
     secret: "claveDev",
-    resave: true,
-    saveUninitialized: true,
+    resave: false,
+    saveUninitialized: false,
   })
 )
 
