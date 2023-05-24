@@ -1,16 +1,20 @@
 const { Router } = require("express")
 const userManager = require("../dao/mongo/user.mongo")
 const { userModel } = require("../dao/mongo/models/user.model")
+const { auth } = require("../middlewares/autentication.middleware")
 
 const router = Router()
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
   try {
     let users = await userManager.getUsers()
     let prueba1 = users.slice(0, 20)
 
     const { page = 1 } = req.query
-    let users2 = await userModel.paginate({}, { limit: 10, page: page, lean: true })
+    let users2 = await userModel.paginate(
+      {},
+      { limit: 10, page: page, lean: true }
+    )
     const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = users2
 
     res.status(200).send({

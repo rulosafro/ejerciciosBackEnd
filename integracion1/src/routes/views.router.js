@@ -91,6 +91,15 @@ router.get("/login", (req, res) => {
   res.status(200).render("login", {})
 })
 
+router.get("/logout", (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.send({ status: "error", error: err })
+    }
+    res.render("login", { message: "Se ha cerrado sesión" })
+  })
+})
+
 router.post("/upload", uploader.single("myFile"), (req, res) => {
   res.send({
     status: "success",

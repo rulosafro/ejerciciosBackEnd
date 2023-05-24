@@ -1,15 +1,17 @@
 const express = require("express")
-const session = require("express-session")
 const handlebars = require("express-handlebars")
+const session = require("express-session")
 const cookieParser = require("cookie-parser")
 const { Server } = require("socket.io")
 const FileStore = require("session-file-store")
-const fileStore = FileStore(session)
 const logger = require("morgan")
 const routerServer = require("./routes/index.js")
 const productManager = require("./dao/mongo/product.mongo.js")
+const fileStore = FileStore(session)
 const { connectDB } = require("./config/configServer")
 const { create } = require("connect-mongo")
+const { initPassportMid } = require("./config/passport.config.js")
+const passport = require("passport")
 
 // const webChat = require("./routes/messages.router.js")
 
@@ -27,19 +29,13 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(logger("dev"))
 app.use(cookieParser("claveDev"))
-// app.use(
-//   session({
-//     secret: "claveDev",
-//     resave: true,
-//     saveUninitialized: true,
-//   })
-// )
 app.use(
   session({
     store: create({
-      ttl: 1000 * 60 * 10,
+      ttl: 1000,
       // mongoUrl: "mongodb://localhost:27017/ecommerce",
-      mongoUrl: "mongodb+srv://rama:rama123@ecommerce.omzog5n.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoUrl:
+        "mongodb+srv://rama:rama123@ecommerce.omzog5n.mongodb.net/ecommerce?retryWrites=true&w=majority",
       mongoOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -50,6 +46,10 @@ app.use(
     saveUninitialized: true,
   })
 )
+
+initPassportMid()
+passport.use(passport.initialize())
+passport.use(passport.session())
 
 app.use(routerServer)
 

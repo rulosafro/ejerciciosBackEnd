@@ -20,7 +20,7 @@ const userSchema = new Schema({
     index: true,
   },
   password: String,
-  gender: String,
+  // gender: String,
 })
 
 userSchema.plugin(moongoosePaginate)

@@ -65,7 +65,7 @@ DELETE  http://localhost:8080/usuarios/64531d86b1637dbb399164fb
 
 
 
-// carts--------------------------------------------------------------------------------------------------
+// Carritos--------------------------------------------------------------------------------------------------
 ### GET
 GET http://localhost:8080/api/carts
 
@@ -134,11 +134,22 @@ DELETE  http://localhost:8080/messages
 
 # ----------------------------------------------------
 
-### Prueba
-POST  http://localhost:8080/pruebas/session 
+### Register
+POST  http://localhost:8080/session/register
 Content-Type: application/json 
 
 {
-  "username": "javi",
+  "first_name": "javi2",
+  "last_name": "javi2",
+  "email": "javi57@a.com",
+  "password": "javi123"
+}
+
+### Login
+POST  http://localhost:8080/session/login
+Content-Type: application/json 
+
+{
+  "email": "javi@a.com",
   "password": "javi123"
 }
