@@ -44,7 +44,8 @@ router.post("/login", async (req, res) => {
       id: userDB._id,
     }
     // res.send(req.session.user)
-    res.redirect("/views/products" + req.session.user)
+    // res.redirect("/views/products" +req.session.user)
+    res.redirect("/views/products").send(req.session.user)
     // .send({
     //   status: "success",
     //   message: "login success",
