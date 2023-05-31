@@ -2,12 +2,14 @@ const { Router } = require("express")
 const productManager = require("../dao/mongo/product.mongo.js")
 const { Handlebars } = require("express-handlebars")
 const { productModel } = require("../dao/mongo/models/product.model.js")
+const { authToken } = require("../utils/jwt.js")
+const passport = require("passport")
 
 const router = Router()
 
-router.get("/", async (req, res) => {
+router.get("/", passport.authenticate("jwt", { session: false }), async (req, res) => {
   try {
-    // const productos = await productManager.getProducts()
+    const productos = await productManager.getProducts()
 
     let { pages = 1, limit = 10, sort = 1, query } = req.query
 

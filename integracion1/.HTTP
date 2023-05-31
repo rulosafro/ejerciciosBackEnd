@@ -1,6 +1,16 @@
 // Productos--------------------------------------------------------------------------------------------------
 ### GET
 GET http://localhost:8080/api/products
+Content-Type: application/json
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiamF2aSIsImxhc3RfbmFtZSI6ImphdmkiLCJlbWFpbCI6ImphdmlAYS5jb20iLCJpYXQiOjE2ODU1MDQ4MzQsImV4cCI6MTY4NTU5MTIzNH0.WqKzCVR4l9HNip0DY3dar4LYMjI-XPC9bS2CoIKk19M
+
+### GET
+GET http://localhost:8080/api/products
+Content-Type: application/json
+
+### GET
+GET http://localhost:8080/session/current
+Content-Type: application/json
 
 ### GET
 GET http://localhost:8080/productos/64534597ff60520f41a5c168

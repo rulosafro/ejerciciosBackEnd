@@ -1,6 +1,5 @@
 function auth2(req, res, next) {
   console.log("auth", req.session)
-  console.log("auth2222", req.session.user)
   req.session.user ? (user = req.session.user) : (user = false)
   // let user = req.session?.user
   if (user.role !== "admin") {

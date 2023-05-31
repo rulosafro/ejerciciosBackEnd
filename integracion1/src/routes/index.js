@@ -21,7 +21,7 @@ router.get("/", auth, (req, res) => {
   res.render("home", data)
 })
 
-router.use("/static", auth, express.static(__dirname + "./../public"))
+router.use("/static", express.static(__dirname + "./../public"))
 router.use("/api/users", apiUsuariosRouter)
 router.use("/api/products", apiProductsRouter)
 router.use("/api/carts", apiCartsRouter)
