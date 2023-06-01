@@ -11,7 +11,7 @@ const cookieExtractor = (req) => {
   if (req && req.cookies) {
     token = req.cookies["coderCookieToken"]
   }
-  console.log(token)
+  // console.log(token)
   return token
 }
 
@@ -28,7 +28,7 @@ const initPassport = () => {
           //! validacion usuario + donde(null, false, {message: 'Usuario no encontrado'})
           return done(null, jwt_payload)
         } catch (error) {
-          console.log(error)
+          return done(error)
         }
       }
     )

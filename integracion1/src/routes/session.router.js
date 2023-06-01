@@ -6,6 +6,7 @@ const passport = require("passport")
 const { generateToken } = require("../utils/jwt")
 const passportCall = require("../passport-jwt/passportCall")
 const { authorization } = require("../passport-jwt/authorizationJwtRole")
+const { authorization2 } = require("../passport-jwt/authorizationJwtRole2")
 const router = Router()
 
 router.get("/counter", (req, res) => {
@@ -22,7 +23,7 @@ router.get("/counter", (req, res) => {
   }
 })
 
-router.get("/privada", auth, (req, res) => {
+router.get("/privada", passportCall("jwt"), authorization("admin"), (req, res) => {
   res.send({ status: "success", message: "Todo lo de esta ruta es privado" })
 })
 
@@ -35,15 +36,16 @@ router.get("/current", passportCall("jwt"), authorization("admin"), (req, res) =
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body
-    // const userDB = await userModel.findOne({ email })
+    const userDB = await userModel.findOne({ email })
+    console.log(userDB)
 
-    // if (!userDB) return res.send({ status: "error", message: "No existe ese usuario" })
+    if (!userDB) return res.render("login", { status: "error", message: "No existe ese usuario" })
 
-    // if (!validPassword(password, userDB))
-    //   return res.status(401).send({
-    //     status: "error",
-    //     message: "Usuario o Contraseña incorrecta",
-    //   })
+    if (!validPassword(password, userDB))
+      return res.status(401).render("login", {
+        status: "error",
+        message: "Usuario o Contraseña incorrecta",
+      })
 
     // req.session.user = {
     //   first_name: userDB.first_name,
@@ -53,15 +55,31 @@ router.post("/login", async (req, res) => {
     //   id: userDB._id,
     // }
 
-    const accessToken = generateToken({
-      first_name: "javi",
-      last_name: "javi",
-      email: "javi@a.com",
-      role: "user",
-    })
+    // const user = {
+    //   first_name: "javi",
+    //   last_name: "javi",
+    //   email: "javi@a.com",
+    //   role: "user",
+    // }
+
+    req.session.user = {
+      first_name: userDB.first_name,
+      last_name: userDB.last_name,
+      email: userDB.email,
+      role: userDB.role,
+      id: userDB._id,
+      role: userDB.role,
+    }
+
+    const accessToken = generateToken(req.session.user)
 
     // res.redirect("/views/products").send(req.session.user)
-    res.cookie("coderCookieToken", accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true }).send({ status: "success", message: "login exitoso", accessToken })
+    res
+      .cookie("coderCookieToken", accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
+      // .redirect("/views/products")
+      .redirect("/views/products")
+    // .send(user)
+    // .send({ status: "success", message: "login exitoso", accessToken })
   } catch (error) {
     console.log(error)
   }
@@ -70,26 +88,31 @@ router.post("/login", async (req, res) => {
 router.post("/register", async (req, res) => {
   try {
     const { username, first_name, last_name, email, password } = req.body
-    // const existUser = await userModel.findOne({ email })
-    // if (existUser)
-    //   return res.send({
-    //     status: "error",
-    //     message: "el email ya está registrado",
-    //   })
+    const existUser = await userModel.findOne({ email })
+    if (existUser)
+      return res.send({
+        status: "error",
+        message: "el email ya está registrado",
+      })
 
-    // const newUser = {
-    //   username,
-    //   first_name,
-    //   last_name,
-    //   email,
-    //   password: createHash(password),
-    //   role: "user",
-    // }
-    // let resultUser = await userModel.create(newUser)
+    const newUser = {
+      username,
+      first_name,
+      last_name,
+      email,
+      password: createHash(password),
+      role: "user",
+    }
+    let resultUser = await userModel.create(newUser)
 
-    let token = generateToken({ first_name: "javi", last_name: "javi", email: "javi@a.com" })
+    let token = generateToken(newUser)
 
-    res.status(200).send({ status: "success", message: "register exitoso", token })
+    res
+      .status(200)
+
+      .cookie("coderCookieToken", token, { maxAge: 60 * 60 * 1000, httpOnly: true })
+      .redirect("/views/products")
+    // .send({ status: "success", message: "register exitoso", token })
   } catch (error) {
     console.log(error)
   }

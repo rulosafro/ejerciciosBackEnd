@@ -1,8 +1,17 @@
+### Login
+POST  http://localhost:8080/session/login
+Content-Type: application/json 
+
+{
+  "email": "javi@a.com",
+  "password": "javi123"
+}
+
 // Productos--------------------------------------------------------------------------------------------------
 ### GET
 GET http://localhost:8080/api/products
 Content-Type: application/json
-authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiamF2aSIsImxhc3RfbmFtZSI6ImphdmkiLCJlbWFpbCI6ImphdmlAYS5jb20iLCJpYXQiOjE2ODU1MDQ4MzQsImV4cCI6MTY4NTU5MTIzNH0.WqKzCVR4l9HNip0DY3dar4LYMjI-XPC9bS2CoIKk19M
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoiamF2aSIsImxhc3RfbmFtZSI6ImphdmkiLCJlbWFpbCI6ImphdmlAYS5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTY4NTU2MjE4OCwiZXhwIjoxNjg1NjQ4NTg4fQ.A6LUJwzTRAo_wECLCC9eXCJu0BnBOOTRmiNupKE_dL4
 
 ### GET
 GET http://localhost:8080/api/products

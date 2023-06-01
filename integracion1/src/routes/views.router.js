@@ -5,10 +5,12 @@ const { userModel } = require("../dao/mongo/models/user.model")
 const cartsManager = require("../dao/mongo/carts.mongo")
 const { auth } = require("../middlewares/autentication.middleware")
 const { auth2 } = require("../middlewares/autentication2.middleware")
+const { authorization } = require("../passport-jwt/authorizationJwtRole")
+const passportCall = require("../passport-jwt/passportCall")
 
 const router = Router()
 
-router.get("/users", auth2, async (req, res) => {
+router.get("/users", passportCall("jwt"), authorization("admin"), async (req, res) => {
   try {
     const { page = 1 } = req.query
     let users2 = await userModel.paginate({}, { limit: 10, page: page, lean: true })
@@ -27,7 +29,7 @@ router.get("/users", auth2, async (req, res) => {
   }
 })
 
-router.get("/products", auth, async (req, res) => {
+router.get("/products", passportCall("jwt"), authorization("user"), async (req, res) => {
   try {
     let { pages = 1, limit = 10, sort = 1, query } = req.query
 
@@ -71,11 +73,11 @@ router.get("/products", auth, async (req, res) => {
   }
 })
 
-router.get("/realtime", auth, (req, res) => {
+router.get("/realtime", passportCall("jwt"), authorization("user"), (req, res) => {
   res.render("realTimeProducts", {})
 })
 
-router.get("/carts", auth, async (req, res) => {
+router.get("/carts", passportCall("jwt"), authorization("user"), async (req, res) => {
   try {
     const carts = await cartsManager.getCarts()
     res.status(200).render("carts", { carts })
@@ -84,7 +86,7 @@ router.get("/carts", auth, async (req, res) => {
   }
 })
 
-router.get("/carts/:cid", auth, async (req, res) => {
+router.get("/carts/:cid", passportCall("jwt"), authorization("user"), async (req, res) => {
   try {
     const { cid } = req.params
     let carrito = await cartsManager.getCartsByID(cid)
@@ -107,16 +109,27 @@ router.get("/login", (req, res) => {
   res.status(200).render("login", {})
 })
 
-router.get("/logout", (req, res) => {
-  req.session.destroy((err) => {
-    if (err) {
-      return res.send({ status: "error", error: err })
-    }
-    res.render("login", {
+// router.get("/logout", (req, res) => {
+//   req.session.destroy((err) => {
+//     if (err) {
+//       return res.send({ status: "error", error: err })
+//     }
+//     res.render("login", {
+//       message: "Se ha cerrado sesión",
+//       style: "text-danger",
+//     })
+//   })
+// })
+
+router.get("/logout", async (req, res) => {
+  try {
+    res.clearCookie("coderCookieToken").clearCookie("connect.sid").render("login", {
       message: "Se ha cerrado sesión",
       style: "text-danger",
     })
-  })
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 router.post("/upload", uploader.single("myFile"), (req, res) => {
