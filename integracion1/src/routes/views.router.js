@@ -10,6 +10,10 @@ const passportCall = require("../passport-jwt/passportCall")
 
 const router = Router()
 
+// router.get("/*", async (req, res) => {
+//   res.status(404).render("errorPage")
+// })
+
 router.get("/users", passportCall("jwt"), authorization("admin"), async (req, res) => {
   try {
     const { page = 1 } = req.query
