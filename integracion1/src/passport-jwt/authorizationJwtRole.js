@@ -1,7 +1,5 @@
 const authorization = (role) => {
   return async (req, res, next) => {
-    // console.log("role", role)
-    // console.log("user", req.user)
     if (!req.user) {
       return res.status(401).render("login", { status: "error", message: "Debes ingresar para acceder a la web", style: "text-danger" })
     }

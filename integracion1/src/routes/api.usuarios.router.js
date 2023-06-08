@@ -4,7 +4,6 @@ const { userModel } = require("../dao/mongo/models/user.model")
 const { auth } = require("../middlewares/autentication.middleware")
 const passportCall = require("../passport-jwt/passportCall")
 const { authorization } = require("../passport-jwt/authorizationJwtRole")
-const { authorization2 } = require("../passport-jwt/authorizationJwtRole2")
 
 const router = Router()
 

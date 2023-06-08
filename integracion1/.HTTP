@@ -1,3 +1,10 @@
+### Get Pruebas
+GET http://localhost:8080/pruebas/params/javi
+
+### Get newUsers
+GET http://localhost:8080/api/users2/current
+
+
 ### Login
 POST  http://localhost:8080/session/login
 Content-Type: application/json 

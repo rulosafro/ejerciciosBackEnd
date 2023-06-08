@@ -4,9 +4,9 @@
     {{!-- <a href="/views/carts/{{dataUser.id}}" class="btn btn-outline-light text-white">Ver Carrito</a> --}}
     <a href="/api/realtime" class="btn btn-outline-light text-white">Nuevo Producto</a>
   </div>
-  <p>Bienvenido {{dataUser.first_name}} {{dataUser.last_name}} | Role: {{dataUser.role}}</p>
-  {{!-- {{dataUser.id}} --}}
   <hr />
+  <p>Bienvenido {{dataUser.first_name}} {{dataUser.last_name}} | Role: {{dataUser.role}} | Edad: {{dataUser.age}} | Email: {{dataUser.email}}</p>
+  {{!-- {{dataUser.id}} --}}
 
   <div class="d-flex row">
     {{#each payload}}

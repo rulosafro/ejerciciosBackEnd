@@ -1,10 +1,11 @@
 const { connect } = require("mongoose")
-const url = "mongodb+srv://rama:rama123@ecommerce.omzog5n.mongodb.net/ecommerce?retryWrites=true&w=majority"
+const dotenv = require("dotenv")
+dotenv.config()
 
 module.exports = {
   connectDB: async () => {
     try {
-      connect(url)
+      connect(process.env.MONGO_URL)
       console.log("BBDD Connected via MongoDB")
     } catch (error) {
       console.log(error)

@@ -4,7 +4,6 @@ const { productModel } = require("../dao/mongo/models/product.model.js")
 const { userModel } = require("../dao/mongo/models/user.model")
 const cartsManager = require("../dao/mongo/carts.mongo")
 const { auth } = require("../middlewares/autentication.middleware")
-const { auth2 } = require("../middlewares/autentication2.middleware")
 const { authorization } = require("../passport-jwt/authorizationJwtRole")
 const passportCall = require("../passport-jwt/passportCall")
 
@@ -19,7 +18,6 @@ router.get("/users", passportCall("jwt"), authorization("admin"), async (req, re
     const { page = 1 } = req.query
     let users2 = await userModel.paginate({}, { limit: 10, page: page, lean: true })
     const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = users2
-
     res.status(200).render("users", {
       status: "success",
       data: docs,
@@ -113,28 +111,17 @@ router.get("/login", (req, res) => {
   res.status(200).render("login", {})
 })
 
-// router.get("/logout", (req, res) => {
-//   req.session.destroy((err) => {
-//     if (err) {
-//       return res.send({ status: "error", error: err })
-//     }
-//     res.render("login", {
-//       message: "Se ha cerrado sesión",
-//       style: "text-danger",
-//     })
-//   })
-// })
-
 router.get("/logout", async (req, res) => {
   try {
-    res.clearCookie("coderCookieToken").clearCookie("connect.sid").render("login", {
-      message: "Se ha cerrado sesión",
-      style: "text-danger",
-    })
+    res.clearCookie("coderCookieToken").clearCookie("connect.sid").redirect("/views/products")
   } catch (error) {
     console.log(error)
   }
 })
+// {
+//   message: "Se ha cerrado sesión",
+//   style: "text-danger",
+// }
 
 router.post("/upload", uploader.single("myFile"), (req, res) => {
   res.send({

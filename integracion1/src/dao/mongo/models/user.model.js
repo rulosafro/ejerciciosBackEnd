@@ -16,11 +16,13 @@ const userSchema = new Schema({
   },
   email: {
     type: String,
-    // required: true,
+    required: true,
     index: true,
   },
+  age: Number,
   password: String,
   role: String,
+  cart: String,
   // gender: String,
 })
 

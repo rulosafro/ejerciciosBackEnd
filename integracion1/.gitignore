@@ -1,3 +1,5 @@
 node_modules
 .HTTP
-.env
+# .env
+.env.development
+.env.production

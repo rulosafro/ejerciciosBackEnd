@@ -1,13 +1,20 @@
 const { Router } = require("express")
 const { userModel } = require("../dao/mongo/models/user.model")
-const { auth } = require("../middlewares/autentication.middleware")
 const { createHash, validPassword } = require("../utils/bcryptHash")
 const passport = require("passport")
 const { generateToken } = require("../utils/jwt")
 const passportCall = require("../passport-jwt/passportCall")
+const { auth } = require("../middlewares/autentication.middleware")
 const { authorization } = require("../passport-jwt/authorizationJwtRole")
-const { authorization2 } = require("../passport-jwt/authorizationJwtRole2")
+const githubRouter = require("./github.router")
+const passportRouter = require("./passport.router")
+const { cartsModel } = require("../dao/mongo/models/carts.model")
+const cartsMongo = require("../dao/mongo/carts.mongo")
+
 const router = Router()
+
+router.use("/github", githubRouter)
+router.use("/passport", passportRouter)
 
 router.get("/counter", (req, res) => {
   try {
@@ -27,8 +34,6 @@ router.get("/privada", passportCall("jwt"), authorization("admin"), (req, res) =
   res.send({ status: "success", message: "Todo lo de esta ruta es privado" })
 })
 
-// viene corrupto
-// viene o no
 router.get("/current", passportCall("jwt"), authorization("admin"), (req, res) => {
   res.send(req.user)
 })
@@ -69,17 +74,13 @@ router.post("/login", async (req, res) => {
       role: userDB.role,
       id: userDB._id,
       role: userDB.role,
+      age: userDB.age,
+      cart: userDB.cart,
     }
 
     const accessToken = generateToken(req.session.user)
-
-    // res.redirect("/views/products").send(req.session.user)
-    res
-      .cookie("coderCookieToken", accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
-      // .redirect("/views/products")
-      .redirect("/views/products")
-    // .send(user)
-    // .send({ status: "success", message: "login exitoso", accessToken })
+    console.log({ "Puede ser acá": req.session.user })
+    res.cookie("coderCookieToken", accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true }).redirect("/views/products")
   } catch (error) {
     console.log(error)
   }
@@ -87,32 +88,34 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { username, first_name, last_name, email, password } = req.body
+    const { username, first_name, last_name, email, password, age } = req.body
     const existUser = await userModel.findOne({ email })
     if (existUser)
       return res.send({
         status: "error",
         message: "el email ya está registrado",
       })
+    const cartShop = await cartsMongo.createCart()
+    let cartShop_id = cartShop.id
 
     const newUser = {
       username,
       first_name,
       last_name,
       email,
+      age,
       password: createHash(password),
       role: "user",
+      cart: cartShop_id,
     }
-    let resultUser = await userModel.create(newUser)
 
+    let resultUser = await userModel.create(newUser)
     let token = generateToken(newUser)
 
     res
       .status(200)
-
       .cookie("coderCookieToken", token, { maxAge: 60 * 60 * 1000, httpOnly: true })
       .redirect("/views/products")
-    // .send({ status: "success", message: "register exitoso", token })
   } catch (error) {
     console.log(error)
   }
@@ -129,106 +132,6 @@ router.get("/logout", (req, res) => {
   } catch (error) {
     console.log(error)
   }
-})
-
-// //? Passport
-
-// router.post(
-//   "/login2",
-//   passport.authenticate("login", {
-//     // successRedirect: "/views/products",
-//     failureRedirect: "/faillogin",
-//     // failureFlash: true,
-//   }),
-//   async (req, res) => {
-//     if (!req.user) {
-//       return res.status(401).send({ status: "error", message: "Credencial invalida" })
-//     }
-
-//     req.session.user = {
-//       first_name: req.user.first_name,
-//       last_name: req.user.last_name,
-//       email: req.user.email,
-//       role: req.user.role,
-//     }
-
-//     res.send({ status: "success", message: "User Registrado" })
-//   }
-// )
-
-// router.get("/faillogin", (req, res) => {
-//   console.log("Fallo el login")
-//   res.send({ status: "error", message: "Estrategia invalida" })
-// })
-
-// router.post(
-//   "/register2",
-//   passport.authenticate("register", {
-//     // successRedirect: "/views/products",
-//     failureRedirect: "/failregister",
-//     // failureFlash: true,
-//   }),
-//   async (req, res) => {
-//     res.send({ status: "success", message: "User Register" })
-//   }
-// )
-
-// router.get("/failregister", (req, res) => {
-//   console.log("Fallo el login")
-//   res.send({ status: "error", message: "Autentificación invalida" })
-// })
-
-//? Github
-
-router.get("/github", passport.authenticate("github", { scope: ["user:email"] }), () => {})
-router.get("/githubcallback", passport.authenticate("github", { failureRedirect: "/views/login" }), async (req, res) => {
-  req.session.user = req.user
-  res.redirect("/views/products")
-})
-
-router.post(
-  "/login3",
-  passport.authenticate("login", {
-    // successRedirect: "/views/products",
-    failureRedirect: "/faillogin",
-    // failureFlash: true,
-  }),
-  async (req, res) => {
-    if (!req.user) {
-      return res.status(401).send({ status: "error", message: "Credencial invalida" })
-    }
-
-    req.session.user = {
-      first_name: req.user.first_name,
-      last_name: req.user.last_name,
-      email: req.user.email,
-      role: req.user.role,
-    }
-
-    res.send({ status: "success", message: "User Registrado" })
-  }
-)
-
-router.get("/faillogin3", (req, res) => {
-  console.log("Fallo el login")
-  res.send({ status: "error", message: "Estrategia invalida" })
-})
-
-router.post(
-  "/register3",
-  passport.authenticate("register", {
-    // successRedirect: "/views/products",
-    failureRedirect: "/failregister",
-    // failureFlash: true,
-  }),
-  async (req, res) => {
-    res.send({ status: "success", message: "User Register" })
-  }
-)
-
-router.get("/failregister3", (req, res) => {
-  console.log("Fallo el login")
-  res.send({ status: "error", message: "Autentificación invalida" })
 })
 
 module.exports = router

@@ -5,6 +5,7 @@ const FileStore = require("session-file-store")
 const logger = require("morgan")
 const handlebars = require("express-handlebars")
 const passport = require("passport")
+const dotenv = require("dotenv")
 
 const fileStore = FileStore(session)
 const { Server } = require("socket.io")
@@ -14,10 +15,13 @@ const productManager = require("./dao/mongo/product.mongo.js")
 const routerServer = require("./routes/index.js")
 const { connectDB } = require("./config/configServer")
 const { initPassport } = require("./passport-jwt/passport.config.js")
-const { initPassportMid, initPassportGithub } = require("./config/passport.config.js")
+const { initPassportMid } = require("./config/passport.config.js")
+const { initPassportGithub } = require("./passport-jwt/passportGithub.config.js")
 
 const app = express()
 const PORT = 8080
+
+dotenv.config()
 connectDB()
 
 // HBS----------------------------------------------------------------
@@ -30,37 +34,36 @@ app.use(express.urlencoded({ extended: true }))
 
 // CookieParser----------------------------------------------------------------
 app.use(logger("dev"))
-app.use(cookieParser("claveDev"))
+app.use(cookieParser(process.env.SECRET_KEY))
 
 // ConnectMongo----------------------------------------------------------------
 app.use(
   session({
     store: create({
       ttl: 1000,
-      mongoUrl: "mongodb+srv://rama:rama123@ecommerce.omzog5n.mongodb.net/ecommerce?retryWrites=true&w=majority",
+      mongoUrl: process.env.MONGO_URL,
       mongoOptions: {
         useNewUrlParser: true,
         useUnifiedTopology: true,
       },
     }),
-    secret: "claveDev",
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
   })
 )
 
 //LOGIN----------------------------------------------------------------
-// initPassportMid()
-// initPassportGithub()
+initPassportMid()
+initPassportGithub()
 initPassport()
 
-app.use(passport.initialize())
-// passport.use(passport.session())
+passport.use(passport.initialize())
+passport.use(passport.session())
 
-// ROUTER----------------------------------------------------------------
+// ROUTER & LISTENER----------------------------------------------------------------
 app.use(routerServer)
 
-//LISTENER----------------------------------------------------------------
 const httpServer = app.listen(PORT, (err) => {
   if (err) console.log("error en el servidor", err)
   console.log(`Escuchanding port: ${PORT}`)
