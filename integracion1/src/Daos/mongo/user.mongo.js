@@ -5,7 +5,7 @@ class UserManagerMongo {
     try {
       return await userModel.find({}).lean()
     } catch (error) {
-      return new Error(error)
+      console.error(error)
     }
   }
 
@@ -21,7 +21,7 @@ class UserManagerMongo {
     try {
       return await userModel.create(newUser)
     } catch (error) {
-      return console.error(error)
+      console.error(error)
     }
   }
 
@@ -42,4 +42,4 @@ class UserManagerMongo {
   }
 }
 
-module.exports = new UserManagerMongo()
+module.exports = UserManagerMongo

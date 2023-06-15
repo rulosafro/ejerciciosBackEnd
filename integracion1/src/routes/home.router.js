@@ -1,14 +1,8 @@
 const { Router } = require("express")
-const { authorization } = require("../passport-jwt/authorizationJwtRole")
-const passportCall = require("../passport-jwt/passportCall")
+const { getHome } = require("../controllers/home.controller")
+
 const router = Router()
 
-router.get("/", passportCall("jwt"), authorization("user"), (req, res) => {
-  data = {
-    titulo1: "Bienvenido33",
-    info: "Estas entrando a la mejor tienda de relojeria",
-  }
-  res.render("home", data)
-})
+router.get("/", getHome)
 
 module.exports = router

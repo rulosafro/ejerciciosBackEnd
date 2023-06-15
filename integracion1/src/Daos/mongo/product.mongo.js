@@ -1,9 +1,10 @@
 const { productModel } = require("./models/product.model")
 
 class ProductManagerMongo {
-  // constructor(model) {
-  //   this.productModel = model
-  // }
+  constructor() {
+    //  iniciar la base de datos
+    this.productModel = productModel
+  }
 
   async getProducts() {
     try {
@@ -46,4 +47,4 @@ class ProductManagerMongo {
   }
 }
 
-module.exports = new ProductManagerMongo()
+module.exports = ProductManagerMongo

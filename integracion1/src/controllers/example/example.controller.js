@@ -1,7 +1,7 @@
 class SessionController {
-  login = (req, resa) => {}
-  register = (req, resa) => {}
-  view = (req, resa) => {}
+  login = (req, res) => {}
+  register = (req, res) => {}
+  view = (req, res) => {}
 }
 
 module.exports = new SessionController()

@@ -1,6 +1,4 @@
 const { cartsModel } = require("./models/carts.model")
-const { productModel } = require("./models/product.model")
-const productManager = require("./product.mongo")
 
 class CartsManagerMongo {
   async getCarts() {
@@ -33,13 +31,11 @@ class CartsManagerMongo {
 
   async addToCart(cid, pid, quantity) {
     try {
-      // const validacion1 = await cartsModel.findOne({ _id: cid})
       if (await cartsModel.findOne({ _id: cid })) {
-        // const validacion2 = await cartsModel.findOne({ _id: cid, "products.product": pid })
         if (await cartsModel.findOne({ _id: cid, "products.product": pid })) {
-          const cart = await cartsModel.findOneAndUpdate({ _id: cid, "products.product": pid }, { $inc: { "products.$.quantity": quantity } }, { new: true })
+          await cartsModel.findOneAndUpdate({ _id: cid, "products.product": pid }, { $inc: { "products.$.quantity": quantity } }, { new: true })
         } else {
-          const cartNew = await cartsModel.findOneAndUpdate({ _id: cid }, { $push: { products: { product: pid, quantity } } }, { new: true, upsert: true })
+          await cartsModel.findOneAndUpdate({ _id: cid }, { $push: { products: { product: pid, quantity } } }, { new: true, upsert: true })
         }
       } else {
         return "Operación fallida"
@@ -74,4 +70,4 @@ class CartsManagerMongo {
   }
 }
 
-module.exports = new CartsManagerMongo()
+module.exports = CartsManagerMongo

@@ -1,5 +1,5 @@
 const socket = io()
-const productManager = require("../../dao/mongo/product.mongo")
+const productManager = require("../../Daos/mongo/product.mongo")
 
 socket.on("productos", async (data) => {
   console.log(data)

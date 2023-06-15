@@ -1,6 +1,7 @@
-const { connect } = require("mongoose")
 const dotenv = require("dotenv")
 dotenv.config()
+
+const { connect } = require("mongoose")
 
 module.exports = {
   connectDB: async () => {

@@ -5,14 +5,28 @@ GET http://localhost:8080/pruebas/params/javi
 GET http://localhost:8080/api/users2/current
 
 
+
 ### Login
-POST  http://localhost:8080/session/login
+POST  http://localhost:8080/session/passport/login
 Content-Type: application/json 
 
 {
   "email": "javi@a.com",
   "password": "javi123"
 }
+
+### Register
+POST  http://localhost:8080/session/passport/register
+Content-Type: application/json 
+
+{
+  "first_name": "pablo8",
+  "last_name": "pablo8",
+  "email": "pablo8@a.com",
+  "username": "pablo8@a.com",
+  "password": "pablo8123"
+}
+
 
 // Productos--------------------------------------------------------------------------------------------------
 ### GET
@@ -60,7 +74,7 @@ DELETE  http://localhost:8080/productos/6453434d94da42a6f0a74c74
 
 // Usuarios--------------------------------------------------------------------------------------------------
 ### GET
-GET http://localhost:8080/usuarios
+GET http://localhost:8080/api/users
 
 ### GET
 GET http://localhost:8080/usuarios/64531d86b1637dbb399164fb

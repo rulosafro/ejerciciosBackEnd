@@ -1,9 +1,8 @@
 const { Router } = require("express")
-const passportCall = require("../passport-jwt/passportCall")
+const { getSession } = require("../controllers/api.session.controller")
+
 const router = Router()
 
-router.get("/current", passportCall("jwt"), (req, res) => {
-  res.send(req.user)
-})
+router.get("/current", getSession)
 
 module.exports = router

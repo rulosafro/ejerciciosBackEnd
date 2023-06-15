@@ -1,7 +1,7 @@
 const { Router, request } = require("express")
-const { auth } = require("../middlewares/autentication.middleware")
-const passportCall = require("../passport-jwt/passportCall")
-const { authorization } = require("../passport-jwt/authorizationJwtRole")
+const { auth } = require("../middlewares/auth.middleware")
+const passportCall = require("../middlewares/passportCall")
+const { authorization } = require("../middlewares/authorizationJwtRole")
 const router = Router()
 
 router.get("/set", (req, res) => {
