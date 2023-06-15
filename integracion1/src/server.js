@@ -35,7 +35,6 @@ app.use(cookieParser(process.env.SECRET_KEY))
 initPassportJWT()
 initPassportMid()
 initPassportGithub()
-
 passport.use(passport.initialize())
 
 // ROUTER & LISTENER----------------------------------------------------------------
