@@ -5,7 +5,7 @@ const { userService } = require("../service/index.service")
 class UserController {
   getUsers = async (req, res) => {
     try {
-      let users = await userService.getUsers()
+      let users = await userService.get()
       let prueba1 = users.slice(0, 20)
       const { page = 1 } = req.query
 
@@ -18,10 +18,10 @@ class UserController {
     }
   }
 
-  getUsersById = async (req, res) => {
+  getUserById = async (req, res) => {
     try {
       const { uid } = req.params
-      let product = await userService.getUsersByID(uid)
+      let product = await userService.getByID(uid)
       res.status(200).send({
         status: "success",
         payload: product,
@@ -30,10 +30,10 @@ class UserController {
       console.log(error)
     }
   }
-  createUsers = async (req, res) => {
+  createUser = async (req, res) => {
     try {
       const newUser = req.body
-      let usuarioNuevo = await userService.addUser(newUser)
+      let usuarioNuevo = await userService.add(newUser)
       res.status(200).send({
         status: "success",
         payload: usuarioNuevo,
@@ -43,11 +43,11 @@ class UserController {
     }
   }
 
-  updateUsers = async (req, res) => {
+  updateUser = async (req, res) => {
     try {
       const { uid } = req.params
       const cambio = req.body
-      const modificado = await userService.updateUser(uid, cambio)
+      const modificado = await userService.update(uid, cambio)
       res.status(200).send({
         status: "success",
         payload: modificado,
@@ -57,10 +57,10 @@ class UserController {
     }
   }
 
-  deleteUsers = async (req, res) => {
+  deleteUser = async (req, res) => {
     try {
       const { uid } = req.params
-      const quitar = await userService.deleteUser(uid)
+      const quitar = await userService.delete(uid)
       res.status(200).send({
         status: "success",
         payload: quitar,

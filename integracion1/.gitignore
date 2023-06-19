@@ -1,5 +1,6 @@
 node_modules
 .HTTP
 # .env
-.env.development
-.env.production
+env.development
+env.production
+.prettierrc

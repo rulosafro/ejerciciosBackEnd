@@ -1,7 +1,7 @@
 const { messagesModel } = require("./models/messages.model")
 
 class MessagesManagerMongo {
-  async getMessages() {
+  async get() {
     try {
       return await messagesModel.find({})
     } catch (error) {
@@ -9,7 +9,7 @@ class MessagesManagerMongo {
     }
   }
 
-  async getMessageByID(mid) {
+  async getByID(mid) {
     try {
       return await messagesModel.findOne({ _id: mid })
     } catch (error) {
@@ -17,7 +17,7 @@ class MessagesManagerMongo {
     }
   }
 
-  async addMessages(newMessage) {
+  async add(newMessage) {
     try {
       return await messagesModel.create(newMessage)
     } catch (error) {
@@ -25,7 +25,7 @@ class MessagesManagerMongo {
     }
   }
 
-  async updateMessages(mid, cambio) {
+  async update(mid, cambio) {
     try {
       return await messagesModel.updateOne({ _id: mid }, cambio)
     } catch (error) {
@@ -33,7 +33,7 @@ class MessagesManagerMongo {
     }
   }
 
-  async deleteMessages(mid) {
+  async delete(mid) {
     try {
       return messagesModel.deleteOne({ _id: mid })
     } catch (error) {

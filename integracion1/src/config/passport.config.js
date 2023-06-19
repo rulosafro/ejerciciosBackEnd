@@ -89,9 +89,6 @@ const initPassportJWT = () => {
       },
       async (jwt_payload, done) => {
         try {
-          // TODO
-          // console.log(jwt_payload.);
-
           //! validacion usuario + donde(null, false, {message: 'Usuario no encontrado'})
           return done(null, jwt_payload)
         } catch (error) {

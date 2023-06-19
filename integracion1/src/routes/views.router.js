@@ -21,7 +21,7 @@ router.get("/carts/:cid", midUser, viewsMyCart)
 router.get("/register", viewsRegister)
 router.get("/login", viewsLogin)
 router.get("/logout", viewsLogout)
-router.post("/upload", uploader.single("myFile"), viewsUpload)
+router.post("/upload", midUser, uploader.single("myFile"), viewsUpload)
 
 // router.get("/*", async (req, res) => {
 //   res.status(404).render("errorPage")

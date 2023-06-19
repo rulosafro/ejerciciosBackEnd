@@ -1,7 +1,7 @@
 const { userModel } = require("./models/user.model")
 
 class UserManagerMongo {
-  async getUsers() {
+  async get() {
     try {
       return await userModel.find({}).lean()
     } catch (error) {
@@ -9,7 +9,7 @@ class UserManagerMongo {
     }
   }
 
-  async getUsersByID(uid) {
+  async getByID(uid) {
     try {
       return await userModel.findOne({ _id: uid })
     } catch (error) {
@@ -17,7 +17,7 @@ class UserManagerMongo {
     }
   }
 
-  async addUser(newUser) {
+  async add(newUser) {
     try {
       return await userModel.create(newUser)
     } catch (error) {
@@ -25,7 +25,7 @@ class UserManagerMongo {
     }
   }
 
-  async updateUser(uid, cambio) {
+  async update(uid, cambio) {
     try {
       return await userModel.updateOne({ _id: uid }, cambio)
     } catch (error) {
@@ -33,7 +33,7 @@ class UserManagerMongo {
     }
   }
 
-  async deleteUser(uid) {
+  async delete(uid) {
     try {
       return userModel.deleteOne({ _id: uid })
     } catch (error) {

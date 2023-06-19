@@ -6,7 +6,7 @@ class ProductManagerMongo {
     this.productModel = productModel
   }
 
-  async getProducts() {
+  async get() {
     try {
       return await productModel.find({}).lean()
     } catch (error) {
@@ -14,7 +14,7 @@ class ProductManagerMongo {
     }
   }
 
-  async getProductsByID(pid) {
+  async getByID(pid) {
     try {
       return await productModel.findOne({ _id: pid })
     } catch (error) {
@@ -22,7 +22,7 @@ class ProductManagerMongo {
     }
   }
 
-  async addProduct(newProduct) {
+  async add(newProduct) {
     try {
       return await productModel.create(newProduct)
     } catch (error) {
@@ -30,7 +30,7 @@ class ProductManagerMongo {
     }
   }
 
-  async updateProduct(pid, cambio) {
+  async update(pid, cambio) {
     try {
       return await productModel.updateOne({ _id: pid }, cambio)
     } catch (error) {
@@ -38,7 +38,7 @@ class ProductManagerMongo {
     }
   }
 
-  async deleteProduct(pid) {
+  async delete(pid) {
     try {
       return productModel.deleteOne({ _id: pid })
     } catch (error) {

@@ -4,7 +4,7 @@ const { productService } = require("../service/index.service")
 class ProductController {
   getProducts = async (req, res) => {
     try {
-      const productos = await productService.getProducts()
+      const productos = await productService.get()
 
       let { pages = 1, limit = 10, sort = 1, query } = req.query
 
@@ -48,7 +48,7 @@ class ProductController {
   getProductsById = async (req, res) => {
     try {
       const { pid } = req.params
-      let product = await productService.getProductsByID(pid)
+      let product = await productService.getByID(pid)
       res.status(200).send({
         status: "success",
         payload: product,
@@ -62,7 +62,7 @@ class ProductController {
     try {
       const newProduct = req.body
       //! Validaciones
-      let result = await productService.addProduct(newProduct)
+      let result = await productService.add(newProduct)
       res.status(200).send({
         status: "success",
         payload: result,
@@ -76,7 +76,7 @@ class ProductController {
     try {
       const { pid } = req.params
       const cambio = req.body
-      const modificado = await productService.updateProduct(pid, cambio)
+      const modificado = await productService.update(pid, cambio)
       res.status(200).send({
         status: "success",
         payload: modificado,
@@ -89,7 +89,7 @@ class ProductController {
   deleteProducts = async (req, res) => {
     try {
       const { pid } = req.params
-      const quitar = await productService.deleteProduct(pid)
+      const quitar = await productService.delete(pid)
       res.status(200).send({
         status: "success",
         payload: quitar,

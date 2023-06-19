@@ -3,7 +3,7 @@ const { cartService } = require("../service/index.service")
 class CartController {
   getCarts = async (req, res) => {
     try {
-      const carts = await cartService.getCarts()
+      const carts = await cartService.get()
       res.status(200).send({
         status: "success",
         payload: carts,
@@ -19,7 +19,7 @@ class CartController {
       if (!cid) {
         res.status(404).send("ID no identificado")
       }
-      let cart = await cartService.getCartsByID(cid)
+      let cart = await cartService.getByID(cid)
       res.status(200).send({
         status: "success",
         payload: cart,
@@ -31,7 +31,7 @@ class CartController {
 
   createCarts = async (req, res) => {
     try {
-      let result = await cartService.createCart()
+      let result = await cartService.create()
       res.status(200).send({
         status: "success",
         payload: result,
@@ -45,7 +45,7 @@ class CartController {
     try {
       const { cid } = req.params
       const cambio = req.body
-      const modificado = await cartService.updateCart(cid, cambio)
+      const modificado = await cartService.update(cid, cambio)
       res.status(200).send({
         status: "success",
         payload: modificado,
@@ -64,8 +64,8 @@ class CartController {
         quantity: quantity,
       }
 
-      const agregado = await cartService.addToCart(cid, pid, quantity)
-      const resultado = await cartService.getCartsByID(cid)
+      const agregado = await cartService.add(cid, pid, quantity)
+      const resultado = await cartService.getByID(cid)
 
       res.status(200).send({
         status: "success",
@@ -79,7 +79,7 @@ class CartController {
   deleteCart = async (req, res) => {
     try {
       const { cid } = req.params
-      const quitar = await cartService.deleteCart(cid)
+      const quitar = await cartService.delete(cid)
       res.status(200).send({
         status: "success",
         payload: quitar,
@@ -92,7 +92,7 @@ class CartController {
   deleteProductOnCart = async (req, res) => {
     try {
       const { cid, pid } = req.params
-      const quitar = await cartService.deleteCartProduct(cid, pid)
+      const quitar = await cartService.delete(cid, pid)
       res.status(200).send({
         status: "success",
         payload: quitar,
