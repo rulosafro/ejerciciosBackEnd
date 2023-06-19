@@ -2,20 +2,12 @@ const { userModel } = require("../Daos/mongo/models/user.model")
 const { cartService } = require("../service/index.service")
 const { validPassword, createHash } = require("../utils/bcryptHash")
 const { generateToken } = require("../utils/jwt")
+const passportCall = require("../middlewares/passportCall")
 
 class PassportController {
   getLogin = async (req, res) => {
     try {
-      const { email, password } = req.body
-      const userDB = await userModel.findOne({ email })
-
-      if (!userDB) return res.render("login", { status: "error", message: "No existe ese usuario" })
-      if (!validPassword(password, userDB))
-        return res.status(401).render("login", {
-          status: "error",
-          message: "Contraseña incorrecta",
-        })
-
+      const userDB = req.user
       const access_Token = generateToken({
         first_name: userDB.first_name,
         last_name: userDB.last_name,
@@ -32,7 +24,6 @@ class PassportController {
           httpOnly: true,
         })
         .redirect("/views/products")
-      // .send({ status: "success", message: "User Registrado", access_Token })
     } catch (error) {
       console.log(error)
     }
@@ -40,27 +31,7 @@ class PassportController {
 
   getRegister = async (req, res) => {
     try {
-      const { username, first_name, last_name, email, password, age } = req.body
-      const existUser = await userModel.findOne({ email })
-      if (existUser)
-        return res.send({
-          status: "error",
-          message: "el email ya está registrado",
-        })
-      const cartShop = await cartService.create()
-      let cartShop_id = cartShop.id
-
-      const newUser = {
-        username,
-        first_name,
-        last_name,
-        email,
-        age,
-        password: createHash(password),
-        role: "user",
-        cart: cartShop_id,
-      }
-      let resultUser = await userModel.create(newUser)
+      const newUser = req.user
       let token = generateToken(newUser)
 
       res
