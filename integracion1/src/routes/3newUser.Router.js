@@ -1,4 +1,4 @@
-const RouterClass = require("./1RouterClass")
+const RouterClass = require("./2RouterClass")
 
 class UserRouter extends RouterClass {
   init() {

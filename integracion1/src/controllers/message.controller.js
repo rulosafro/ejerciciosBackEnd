@@ -3,7 +3,7 @@ const { messageService } = require("../service/index.service")
 class MessageController {
   getMessage = async (req, res) => {
     try {
-      const messages = await messageService.getMessages()
+      const messages = await messageService.get()
       // res.status(200).send({
       //   status: "success",
       //   payload: messages,
@@ -17,7 +17,7 @@ class MessageController {
   getMessageById = async (req, res) => {
     try {
       const { mid } = req.params
-      let message = await messageService.getMessageByID(mid)
+      let message = await messageService.getByID(mid)
       res.status(200).send({
         status: "success",
         payload: message,
@@ -30,7 +30,7 @@ class MessageController {
   createMessage = async (req, res) => {
     try {
       const newMessage = req.body
-      let result = await messageService.addMessages(newMessage)
+      let result = await messageService.add(newMessage)
       res.status(200).send({
         status: "success",
         payload: result,
@@ -44,7 +44,7 @@ class MessageController {
     try {
       const { mid } = req.params
       const cambio = req.body
-      const modificado = await messageService.updateMessages(mid, cambio)
+      const modificado = await messageService.update(mid, cambio)
       res.status(200).send({
         status: "success",
         payload: modificado,
@@ -57,7 +57,7 @@ class MessageController {
   deleteMessage = async (req, res) => {
     try {
       const { mid } = req.params
-      const quitar = await messageService.deleteMessages(mid)
+      const quitar = await messageService.delete(mid)
       res.status(200).send({
         status: "success",
         payload: quitar,

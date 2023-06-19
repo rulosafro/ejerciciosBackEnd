@@ -64,7 +64,7 @@ class SessionController {
           status: "error",
           message: "el email ya está registrado",
         })
-      const cartShop = await cartService.createCart()
+      const cartShop = await cartService.create()
       let cartShop_id = cartShop.id
 
       const newUser = {

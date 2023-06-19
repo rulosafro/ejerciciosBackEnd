@@ -9,14 +9,15 @@ const dotenv = require("dotenv")
 const routerServer = require("./routes/index.js")
 const { Server } = require("socket.io")
 const { productService } = require("./service/index.service")
-const { connectDB } = require("./config/configServer")
+// const { connectDB } = require("./config/configServer")
+const { connectDB } = require("./config/objectConfig.js")
 const { initPassportGithub, initPassportMid, initPassportJWT } = require("./config/passport.config.js")
-
-const app = express()
-const PORT = 8080
 
 dotenv.config()
 connectDB()
+
+const app = express()
+const PORT = process.env.PORT || 8080
 
 app.use(cors())
 app.use(express.json())
@@ -61,7 +62,7 @@ io.on("connection", async (socket) => {
   })
 
   //Product
-  let products = await productService.getProducts()
+  let products = await productService.get()
   socket.emit("productos", products)
 
   socket.on("addProduct", (data) => {
@@ -69,22 +70,3 @@ io.on("connection", async (socket) => {
     products.push(data)
   })
 })
-
-// ConnectMongo----------------------------------------------------------------
-// TODO Eliminar session
-// app.use(
-//   session({
-//     store: create({
-//       ttl: 1000,
-//       mongoUrl: process.env.MONGO_URL,
-//       mongoOptions: {
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//       },
-//     }),
-//     secret: process.env.SECRET_KEY,
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// )
-// passport.use(passport.session())

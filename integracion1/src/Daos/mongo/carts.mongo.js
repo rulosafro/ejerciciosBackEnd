@@ -1,7 +1,7 @@
 const { cartsModel } = require("./models/carts.model")
 
 class CartsManagerMongo {
-  async getCarts() {
+  async get() {
     try {
       return await cartsModel.find({}).lean()
     } catch (error) {
@@ -9,7 +9,7 @@ class CartsManagerMongo {
     }
   }
 
-  async getCartsByID(cid) {
+  async getByID(cid) {
     try {
       return await cartsModel.findById({ _id: cid }).populate("products.product").lean()
     } catch (error) {
@@ -17,7 +17,7 @@ class CartsManagerMongo {
     }
   }
 
-  async createCart() {
+  async create() {
     try {
       return await cartsModel.create({
         products: [],
@@ -29,7 +29,7 @@ class CartsManagerMongo {
     }
   }
 
-  async addToCart(cid, pid, quantity) {
+  async add(cid, pid, quantity) {
     try {
       if (await cartsModel.findOne({ _id: cid })) {
         if (await cartsModel.findOne({ _id: cid, "products.product": pid })) {
@@ -45,7 +45,15 @@ class CartsManagerMongo {
     }
   }
 
-  async deleteCart(cid) {
+  async update(cid, cambio) {
+    try {
+      return await cartsModel.updateOne({ _id: cid }, cambio)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  async delete(cid) {
     try {
       return cartsModel.findOneAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
     } catch (error) {
@@ -53,17 +61,9 @@ class CartsManagerMongo {
     }
   }
 
-  async deleteCartProduct(cid, pid) {
+  async deleteProduct(cid, pid) {
     try {
       return cartsModel.findOneAndUpdate({ _id: cid }, { $pull: { products: { product: { _id: pid } } } }, { new: true })
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
-  async updateCart(cid, cambio) {
-    try {
-      return await cartsModel.updateOne({ _id: cid }, cambio)
     } catch (error) {
       console.log(error)
     }

@@ -5,11 +5,10 @@ const userController = require("../controllers/users.controller")
 
 const router = Router()
 
-router.get("/", passportCall("jwt"), authorization("admin"))
 router.get("/", userController.getUsers)
-router.get("/:uid", userController.getUsersById)
-router.post("/", userController.createUsers)
-router.put("/:uid", userController.updateUsers)
-router.delete("/:uid", userController.deleteUsers)
+router.get("/:uid", userController.getUserById)
+router.post("/", userController.createUser)
+router.put("/:uid", userController.updateUser)
+router.delete("/:uid", userController.deleteUser)
 
 module.exports = router

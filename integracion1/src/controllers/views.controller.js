@@ -71,7 +71,7 @@ class OrdersController {
 
   viewsCarts = async (req, res) => {
     try {
-      const carts = await cartService.getCarts()
+      const carts = await cartService.get()
       res.status(200).render("carts", { carts })
     } catch (error) {
       console.log(error)
@@ -81,7 +81,7 @@ class OrdersController {
   viewsMyCart = async (req, res) => {
     try {
       const { cid } = req.params
-      let carrito = await cartService.getCartsByID(cid)
+      let carrito = await cartService.getByID(cid)
       if (!carrito) {
         res.status(404).send("ID no identificado")
       }

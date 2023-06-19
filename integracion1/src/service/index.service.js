@@ -1,19 +1,18 @@
-const UserManagerMongo = require("../Daos/mongo/user.mongo")
-const ProductManagerMongo = require("../Daos/mongo/product.mongo")
-const CartManagerMongo = require("../Daos/mongo/carts.mongo")
-const MessageManagerMongo = require("../Daos/mongo/messages.mongo")
+const ContactRepository = require("../repositories/contacts.repository")
+const { UserDao, ProductDao, CartDao, MessagesDao, ContactDao } = require("../Daos/factory")
 
-// traer instancias de los daos
 // Traer los repositories
 
-const userService = new UserManagerMongo()
-const productService = new ProductManagerMongo()
-const cartService = new CartManagerMongo()
-const messageService = new MessageManagerMongo()
+const userService = new UserDao()
+const productService = new ProductDao()
+const cartService = new CartDao()
+const messageService = new MessagesDao()
+const contactService = new ContactRepository(new ContactDao())
 
 module.exports = {
   userService,
   productService,
   cartService,
   messageService,
+  contactService,
 }
