@@ -33,7 +33,7 @@ router.use("/chat", midUser, contactsRouter)
 
 router.use("/contacts", contactsRouter)
 // router.use("/cookie", cookieRouter)
-// router.use("/pruebas", pruebasRouter)
+router.use("/pruebas", pruebasRouter)
 // router.use("/messages", messagesRouter)
 
 const NewUsersRouter = require("./3newUser.Router")
