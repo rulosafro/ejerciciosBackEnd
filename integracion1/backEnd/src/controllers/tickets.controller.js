@@ -1,3 +1,4 @@
+const { cartsModel } = require("../Daos/mongo/models/carts.model")
 const { ticketService, productService, cartService } = require("../service/index.service")
 const { createHash, validPassword } = require("../utils/bcryptHash")
 
@@ -62,41 +63,40 @@ class TicketController {
     if (!cart) return res.send({ error: "error", status: "No se ha encontrado un carro con este ID" })
     
     const productNoComprado = []
+    const productComprado = []
     let total = 0
 
-    cart.products.forEach(prod => { 
+    cart.products.forEach(prod => {
       let newStock = prod.product.stock - prod.quantity
-      if (prod.quantity > prod.product.stock) productNoComprado.push(prod.product)
-      else productService.update(prod.product, { stock: newStock })
-      
+      if (prod.quantity > prod.product.stock) {
+        productNoComprado.push(prod.product)
+      }
+      else {
+        productService.update(prod.product, { stock: newStock })
+        productComprado.push(prod.product)
+      }
     })
-
-    // if (productNoComprado.length > 0) {
-    //           // quitar de mi carrito lo que si se compraron
-    //   update() // in
-    // } else {
-    //   await cartService.deleteProduct(tid, prod.product)
-    // }
     
+    productComprado.forEach(item => cartService.deleteProduct(tid, item._id))
     const filtro = cart.products.filter(prod => !productNoComprado.includes(prod.product))
     filtro.forEach(prod => {total += parseInt(prod.quantity) });
     
     const ticket = {
       code: createHash(tid),
-      amount: total,
+      amount: parseInt(total),
       purchaser: 'b@b.com',
       // purchaser: req.user.mail,
     }
 
     const tickets = await ticketService.get({})
-    const check = tickets.some(tick => tick === ticket._id)
-
+    const check = tickets.some(tick => tick === ticket.code)
     if (!check) {
       let resultado = ticketService.create(ticket)
       res.send({
         status: 'success',
-        payload: resultado,
-      })
+        payload: {ticket, productComprado},
+        noStock: productNoComprado
+      })  
     } else {
       res.send({
         status: 'error',
