@@ -1,5 +1,8 @@
 const { userModel } = require("../Daos/mongo/models/user.model")
 const { userService, cartService } = require("../service/index.service")
+const { CustomError } = require("../utils/CustomError/CustomError")
+const { EError } = require("../utils/CustomError/Erros")
+const { generateUserErrorInfo, generateLoginErrorInfo, generateRegisterErrorInfo } = require("../utils/CustomError/info")
 const { createHash, validPassword } = require("../utils/bcryptHash")
 const { generateToken } = require("../utils/jwt")
 
@@ -23,9 +26,21 @@ class SessionController {
   getPrivada = (req, res) => res.send({ status: "success", message: "Todo lo de esta ruta es privado" })
   getCurrent = (req, res) => res.send(req.user)
 
-  getLogin = async (req, res) => {
+  getLogin = async (req, res, next) => {
     try {
       const { email, password } = req.body
+      
+      if (!email || !password) {
+        CustomError.createError({
+          name: 'User login fail',
+          cause: generateLoginErrorInfo({
+            email,password
+          }),
+          message: 'Error trying to login',
+          code: EError.INVALID_TYPE_ERROR
+        })
+      }
+
       const userDB = await userModel.findOne({ email })
       console.log(userDB)
 
@@ -37,7 +52,7 @@ class SessionController {
           message: "Usuario o Contraseña incorrecta",
         })
 
-      req.session.user = {
+      req.user = {
         first_name: userDB.first_name,
         last_name: userDB.last_name,
         email: userDB.email,
@@ -48,37 +63,55 @@ class SessionController {
         cart: userDB.cart,
       }
 
-      const accessToken = generateToken(req.session.user)
-      res.cookie("coderCookieToken", accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true }).redirect("/views/products")
+
+      const accessToken = generateToken(req.user)
+      res
+        .cookie("coderCookieToken", accessToken, { maxAge: 60 * 60 * 1000, httpOnly: true })
+        // .send({ status:'success', message: 'Ingreso Correcto', token: accessToken })
+        .redirect("/views/products")
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
-  getRegister = async (req, res) => {
+  getRegister = async (req, res, next) => {
     try {
-      const { username, first_name, last_name, email, password, age } = req.body
+      const { nickname, first_name, last_name, email, password, age } = req.body
+
+      // if (!nickname || !first_name || !last_name || !email || !password || !age) {
+      //   CustomError.createError({
+      //     name: 'User login fail',
+      //     cause: generateRegisterErrorInfo({
+      //       nickname, first_name, last_name, email, password, age
+      //     }),
+      //     message: 'Error trying to login',
+      //     code: EError.INVALID_TYPE_ERROR
+      //   })
+      // }
+
+
       const existUser = await userModel.findOne({ email })
       if (existUser)
         return res.send({
           status: "error",
           message: "el email ya está registrado",
         })
-      const cartShop = await cartService.create()
-      let cartShop_id = cartShop.id
+      // const cartShop = await cartService.create()
+      // let cartShop_id = cartShop.id
 
       const newUser = {
-        username,
+        nickname,
         first_name,
         last_name,
         email,
         age,
         password: createHash(password),
         role: "user",
-        cart: cartShop_id,
+        // cart: cartShop_id,
       }
+      // console.log("🚀 ~ file: session.controller.js:112 ~ SessionController ~ getRegister= ~ newUser:", newUser)
 
-      let resultUser = await userService.create(newUser)
+      // let resultUser = await userService.create(newUser)
       let token = generateToken(newUser)
 
       res
@@ -86,7 +119,7 @@ class SessionController {
         .cookie("coderCookieToken", token, { maxAge: 60 * 60 * 1000, httpOnly: true })
         .redirect("/views/products")
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
@@ -94,7 +127,7 @@ class SessionController {
     try {
       req.session.destroy((err) => {
         if (err) {
-          return res.send({ status: "error", error: err })
+          return res.send({ status: "erroreeeeeee", error: err })
         }
         res.send("logout ok")
       })

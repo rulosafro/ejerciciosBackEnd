@@ -1,13 +1,12 @@
 const { productModel } = require("../Daos/mongo/models/product.model")
 const { productService } = require("../service/index.service")
+const { generateProductErrorInfo } = require("../utils/CustomError/info")
 
 class ProductController {
   getProducts = async (req, res) => {
     try {
       const productos = await productService.get()
-
       let { pages = 1, limit = 10, sort = 1, query } = req.query
-
       if (!query) {
         query = {}
       } else {
@@ -17,29 +16,15 @@ class ProductController {
       const products2 = await productModel.paginate(query, {
         limit: limit,
         page: pages,
-        sort: {
-          price: sort,
-        },
+        sort: { price: sort },
         lean: true,
       })
 
       const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages, page } = products2
-
       const prevLink = hasPrevPage ? `http://localhost:8080/views/products?page=${prevPage}&limit=${limit}&query=${query}&sort=${sort}` : null
       const nextLink = hasNextPage ? `http://localhost:8080/views/products?page=${nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null
 
-      res.status(200).send({
-        status: "success",
-        payload: docs,
-        totalPages,
-        page,
-        prevPage,
-        nextPage,
-        hasPrevPage,
-        hasNextPage,
-        prevLink,
-        nextLink,
-      })
+      res.status(200).send({ status: "success", payload: docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage, prevLink, nextLink,})
     } catch (error) {
       console.log(error)
     }
@@ -49,6 +34,20 @@ class ProductController {
     try {
       const { pid } = req.params
       let product = await productService.getByID(pid)
+
+      // if (product) {
+      //   if (!email || !password) {
+      //     CustomError.createError({
+      //       name: 'User login fail',
+      //       cause: generateProductErrorInfo({
+      //         pid
+      //       }),
+      //       message: 'Error trying to login',
+      //       code: EError.INVALID_TYPE_ERROR
+      //     })
+      //   }
+      // }
+
       res.status(200).send({
         status: "success",
         payload: product,

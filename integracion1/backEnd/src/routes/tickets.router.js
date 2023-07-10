@@ -4,7 +4,7 @@ const router = Router()
 
 router.get("/", getTicket)
 router.get("/:tid", getTicketById)
-router.post("/", createTicket)
+router.post("/:cid", createTicket)
 router.put("/:tid", updateTicket)
 router.post('/:tid/purchase', purchaseTicket)
 // router.post("/:tid/product/:pid", )

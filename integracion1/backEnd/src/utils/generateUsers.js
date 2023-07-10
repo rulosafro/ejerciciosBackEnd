@@ -5,23 +5,23 @@ const generateProduct = () => {
     title: faker.commerce.productName(),
     price: faker.commerce.price(),
     department: faker.commerce.department(),
-    stock: faker.random.numeric(),
+    stock: faker.string.numeric(),
     description: faker.commerce.productDescription(),
     id: faker.database.mongodbObjectId(),
-    image: faker.image.image(),
+    image: faker.image.url(),
   }
 }
 
 exports.generateUser = () => {
-  let numOfProducts = parseInt(faker.random.numeric(1, {bannedDigits: ['0']}))
+  let numOfProducts = parseInt(faker.string.numeric(1, {bannedDigits: ['0']}))
   let products = []
   for (let i = 0; i < numOfProducts; i++) {
     products.push(generateProduct())    
   }
   return {
-    name: faker.name.firstName(),
-    last_name: faker.name.lastName(),
-    sex: faker.name.sex(),
+    name: faker.person.firstName(),
+    last_name: faker.person.lastName(),
+    sex: faker.person.sex(),
     birthDate: faker.date.birthdate(),
     phone: faker.phone.number(),
     image: faker.image.avatar(),

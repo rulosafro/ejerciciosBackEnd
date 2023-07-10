@@ -12,12 +12,12 @@ const router = Router()
 
 router.use("/passport", passportRouter)
 router.use("/github", githubRouter)
-
-router.get("/current", midAdmin, getCurrent)
-router.get("/privada", midAdmin, getPrivada)
-router.post("/register", getRegister)
-router.post("/login", getLogin)
 router.get("/logout", getLogout)
-router.get("/counter", getCounter)
+
+router.get("/privada", midAdmin, getPrivada)
+// router.get("/current", midAdmin, getCurrent)
+// router.post("/register", getRegister)
+// router.post("/login", getLogin)
+// router.get("/counter", getCounter)
 
 module.exports = router

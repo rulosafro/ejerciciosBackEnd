@@ -5,7 +5,7 @@ const passportCall = require("../middlewares/passportCall")
 const router = Router()
 
 router.post("/login", passportCall("login", { session: false }), getLogin)
-router.post("/register", passportCall("login", { session: false }), getRegister)
+router.post("/register", passportCall("register", { session: false }), getRegister)
 router.get("/faillogin", failLogin)
 router.get("/failregister", failRegister)
 

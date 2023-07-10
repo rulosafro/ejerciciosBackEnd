@@ -1,19 +1,19 @@
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
-import {Navbar} from './Components/Navbar';
-import {Register} from './Pages/Register';
-import {Login} from './Pages/Login';
-import {Home} from './Pages/Home';
-import {Products} from './Pages/Products';
-import {Users} from './Pages/Users';
-import {Cart} from './Pages/Cart';
-import {Contact} from './Pages/Contact';
-import {FAQ} from './Pages/FAQ';
-import {Upload} from './Pages/Upload';
-import {Error404} from './Pages/Error404';
-import {Chat} from './Pages/Chat';
-import {Footer} from './Components/Footer';
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { Navbar } from './Components/Navbar'
+import { Register } from './Pages/Register'
+import { Login } from './Pages/Login'
+import { Home } from './Pages/Home'
+import { Products } from './Pages/Products'
+import { Users } from './Pages/Users'
+import { Cart } from './Pages/Cart'
+import { Contact } from './Pages/Contact'
+import { FAQ } from './Pages/FAQ'
+import { Upload } from './Pages/Upload'
+import { Error404 } from './Pages/Error404'
+import { Chat } from './Pages/Chat'
+import { Footer } from './Components/Footer'
 
-function App() {
+function App () {
   return (
     <BrowserRouter>
       <Navbar />
@@ -39,4 +39,4 @@ function App() {
   )
 }
 
-export default App;
+export default App

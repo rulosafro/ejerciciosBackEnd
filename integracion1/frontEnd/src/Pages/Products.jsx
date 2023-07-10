@@ -1,5 +1,7 @@
-import React from 'react'
+import { ProductGrid } from '../Components/ProductGrid'
 
 export const Products = () => (
-	<div className='min-h-screen'>Products</div>
+  <div className='min-h-screen'>
+    <ProductGrid/>
+  </div>
 )

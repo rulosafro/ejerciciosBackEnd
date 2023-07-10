@@ -8,6 +8,10 @@ const { generateUser } = require("../../utils/generateUsers")
 
 const nombres = ["javi", "isi"]
 
+router.get('/string muy largo', async (req, res) => {
+  
+})
+
 router.param("nombre", async (req, res, next, nombre) => {
   if (!nombres.includes(nombre)) {
     req.nombre = null

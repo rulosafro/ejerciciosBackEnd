@@ -33,7 +33,10 @@ class TicketController {
 
   createTicket = async (req, res) => {
     try {
-      let result = await ticketService.create()
+      const { cid } = req.params
+      let productos = await cartService.getByID(cid)
+      console.log("🚀 ~ file: tickets.controller.js:38 ~ TicketController ~ createTicket= ~ productos:", productos)
+      let result = await ticketService.create(productos)
       res.status(200).send({
         status: "success",
         payload: result,
@@ -84,8 +87,8 @@ class TicketController {
     const ticket = {
       code: createHash(tid),
       amount: parseInt(total),
-      purchaser: 'b@b.com',
-      // purchaser: req.user.mail,
+      // purchaser: 'b@b.com',
+      purchaser: req.user.mail,
     }
 
     const tickets = await ticketService.get({})

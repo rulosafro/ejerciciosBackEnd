@@ -4,7 +4,7 @@ const moongoosePaginate = require("mongoose-paginate-v2")
 const collection = "users"
 
 const userSchema = new Schema({
-  username: String,
+  nickname: String,
   first_name: {
     type: String,
     // required: true,

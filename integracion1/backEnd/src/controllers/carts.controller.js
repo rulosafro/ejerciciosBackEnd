@@ -4,6 +4,7 @@ class CartController {
   getCarts = async (req, res) => {
     try {
       const carts = await cartService.get()
+      console.log(req.user);
       res.status(200).send({
         status: "success",
         payload: carts,
@@ -57,15 +58,38 @@ class CartController {
 
   putProductOnCarts = async (req, res) => {
     try {
-      const { cid, pid } = req.params
+      const { cid, pid, num } = req.params
+      // const { quantity } = req.body
+      const quantity = parseInt(num)
+      const product = {
+        id: pid,
+        quantity: parseInt(num),
+      }
+
+      const agregado = await cartService.add(cid, pid, quantity)
+      const resultado = await cartService.getByID(cid)
+
+      res.status(200).send({
+        status: "success",
+        payload: resultado,
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  putProductOnMyCart = async (req, res) => {
+    try {
+      const { pid } = req.params
       const { quantity } = req.body
       const product = {
         id: pid,
         quantity: quantity,
       }
+      console.log(req.user.cart);
 
-      const agregado = await cartService.add(cid, pid, quantity)
-      const resultado = await cartService.getByID(cid)
+      const agregado = await cartService.add(req.user.cart , pid, quantity)
+      const resultado = await cartService.getByID(req.user.cart)
 
       res.status(200).send({
         status: "success",

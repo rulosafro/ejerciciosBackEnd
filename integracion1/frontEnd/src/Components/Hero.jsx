@@ -1,5 +1,4 @@
-
-export const Hero = () => (
+export const Hero = props => (
   <section className="mx-auto background-radial-gradient text-center lg:text-left">
     <div className="relative overflow-hidden bg-cover bg-no-repeat bg-[50%] bg-[url('https://smartcookie-design.co.uk/img/posts/25-watch-brands-for-eCommerce-Inspirations-banner2.jpg')] min-h-[700px]">
       <div className="absolute top-0 right-0 bottom-0 left-0 h-full w-full overflow-hidden bg-[hsla(0,0%,0%,0.75)] bg-fixed">

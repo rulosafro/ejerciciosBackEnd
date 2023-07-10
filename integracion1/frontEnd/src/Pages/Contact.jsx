@@ -1,8 +1,8 @@
-import { FormContact } from "../Components/FormContact";
+import { FormContact } from '../Components/FormContact'
 
 export const Contact = () => (
-	<div className='min-h-screen'>
-		<FormContact/>
+  <div className='min-h-screen'>
+    <FormContact/>
 
-	</div>
+  </div>
 )

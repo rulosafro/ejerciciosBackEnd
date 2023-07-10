@@ -13,6 +13,7 @@ const messagesRouter = require("./messages.router")
 const cookieRouter = require("./cookie.router")
 const pruebasRouter = require("./others/pruebas.router")
 const ticketsRouter = require("./tickets.router")
+const mockRouter = require("./mock.router")
 
 const router = Router()
 const passportCall = require("../middlewares/passportCall")
@@ -20,6 +21,7 @@ const { authorization } = require("../middlewares/authorizationJwtRole")
 
 const midUser = [passportCall("jwt"), authorization("user")]
 const midAdmin = [passportCall("jwt"), authorization("admin")]
+const midJWT = [passportCall("jwt")]
 // const midUser = []
 
 router.use("/", homeRouter) //validacion adentro del router
@@ -29,17 +31,16 @@ router.use("/static", express.static(__dirname + "./../public"))
 
 router.use("/api/products", apiProductsRouter)
 router.use("/api/users", midAdmin, apiUsuariosRouter)
-router.use("/api/carts", midAdmin, apiCartsRouter)
+router.use("/api/carts", midJWT, apiCartsRouter)
 router.use("/current", midUser, apiSessionRouter)
 router.use("/chat", midUser, contactsRouter)
 router.use("/contacts", midUser, contactsRouter)
-// router.use("/tickets", midAdmin, ticketsRouter)
 router.use("/tickets", ticketsRouter)
-
+router.use("/mockingproducts", mockRouter)
 router.use("/pruebas", pruebasRouter)
+
 // router.use("/cookie", cookieRouter)
 // router.use("/messages", messagesRouter)
-
 // router.use("/api/session", midUser, apiSessionRouter)
 // const NewUsersRouter = require("./example/3newUser.Router")
 // const userRouter2 = new NewUsersRouter()

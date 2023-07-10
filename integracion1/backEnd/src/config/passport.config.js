@@ -8,6 +8,7 @@ const JWTStrategy = jwt.Strategy
 const ExtractJWT = jwt.ExtractJwt
 const LocalStrategy = local.Strategy
 const GithubStrategy = require("passport-github2")
+const { userService, cartService } = require("../service/index.service")
 require("dotenv").config()
 
 const initPassportMid = () => {
@@ -19,24 +20,29 @@ const initPassportMid = () => {
         usernameField: "email",
       },
       async (req, username, password, done) => {
-        const { first_name, last_name } = req.body
+        const { first_name, last_name, age, nickname } = req.body
         try {
           let userDB = await userModel.findOne({ email: username })
           if (userDB) {
             return done(null, false)
           }
+          let carrito = await cartService.create()
           let newUser = {
             first_name,
             last_name,
             email: username,
             password: await createHash(password),
             role: "user",
+            age,
+            nickname,
+            cart: carrito._id
           }
-          let result = userModel.create(newUser)
-          console.log(result)
-          return done(null, result)
+          let result = await userService.add(newUser)
+          // console.log("🚀 ~ file: passport.config.js:40 ~ result:", result)
+          // console.log(result)
+          return done(null, newUser)
         } catch (error) {
-          return done("Error al obtener usuario" + error)
+          return done("Error al crear usuario" + error)
         }
       }
     )
@@ -90,7 +96,7 @@ const initPassportJWT = () => {
       async (jwt_payload, done) => {
         try {
           //! validacion usuario + donde(null, false, {message: 'Usuario no encontrado'})
-          return done(null, jwt_payload)
+          return await done(null, jwt_payload)
         } catch (error) {
           return done(error)
         }
@@ -116,7 +122,7 @@ const initPassportGithub = () => {
             let newUser = {
               first_name: profile.displayName,
               last_name: profile.displayName,
-              username: profile.username,
+              nickname: profile.username,
               email: profile._json.email,
               // password: await createHash(profile.id),
               password: "",
