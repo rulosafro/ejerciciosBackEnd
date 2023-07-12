@@ -1,11 +1,11 @@
-const { userModel } = require("../Daos/mongo/models/user.model")
-const { cartService } = require("../service/index.service")
-const { validPassword, createHash } = require("../utils/bcryptHash")
-const { generateToken } = require("../utils/jwt")
-const passportCall = require("../middlewares/passportCall")
+const { userModel } = require('../Daos/mongo/models/user.model')
+const { cartService } = require('../service/index.service')
+const { validPassword, createHash } = require('../utils/bcryptHash')
+const { generateToken } = require('../utils/jwt')
+const passportCall = require('../middlewares/passportCall')
 
 class PassportController {
-  getLogin = async (req, res) => {
+  getLogin = async (req, res, next) => {
     try {
       const userDB = req.user
       const access_Token = generateToken({
@@ -15,42 +15,44 @@ class PassportController {
         role: userDB.role,
         id: userDB._id,
         age: userDB.age,
-        cart: userDB.cart,
+        cart: userDB.cart
       })
 
       res
-        .cookie("coderCookieToken", access_Token, {
+        .cookie('coderCookieToken', access_Token, {
           maxAge: 60 * 60 * 100,
-          httpOnly: true,
+          httpOnly: true
         })
-        .redirect("/views/products")
+        .send(access_Token)
+        // .redirect("/views/products")
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
-  getRegister = async (req, res) => {
+  getRegister = async (req, res, next) => {
     try {
       const newUser = req.user
-      let token = generateToken(newUser)
+      const token = generateToken(newUser)
 
       res
         .status(200)
-        .cookie("coderCookieToken", token, { maxAge: 60 * 60 * 1000, httpOnly: true })
-        .redirect("/views/products")
+        .cookie('coderCookieToken', token, { maxAge: 60 * 60 * 1000, httpOnly: true })
+        // .send(token)
+        .redirect('/views/products')
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
   failLogin = (req, res) => {
-    console.log("Fallo el login")
-    res.send({ status: "error", message: "Estrategia invalida" })
+    console.log('Fallo el login')
+    res.send({ status: 'error', message: 'Estrategia invalida' })
   }
 
   failRegister = (req, res) => {
-    console.log("Fallo el login")
-    res.send({ status: "error", message: "Autentificación invalida" })
+    console.log('Fallo el login')
+    res.send({ status: 'error', message: 'Autentificación invalida' })
   }
 }
 

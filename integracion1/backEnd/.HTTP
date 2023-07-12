@@ -1,0 +1,54 @@
+###? Register
+POST  http://localhost:8080/session/passport/register
+Content-Type: application/json 
+
+{
+  "first_name": "pablo20",
+  "last_name": "pablo20",
+  "email": "pablo20@a.com",
+  "age": "22",
+  "password": "pablo20123",
+  "nickname": "pablo20123"
+}
+
+###? Logout
+GET  http://localhost:8080/session/logout
+
+###? Logeo de usuario
+POST  http://localhost:8080/session/passport/login
+Content-Type: application/json 
+
+{
+  "email": "pablo20@a.com",
+  "password": "pablo20123"
+}
+
+###? Current - Revisar keys
+GET http://localhost:8080/current
+
+###? Agregar primer producto (producto sin stock)
+POST http://localhost:8080/api/carts/64ac64b114270463e42ef7bc/product/64a71db3631be5565b981f2a/quantity/5
+
+###? Agregar segundo producto
+POST http://localhost:8080/api/carts/64ac64b114270463e42ef7bc/product/64a71db3631be5565b981f2c/quantity/10
+
+###? Agregar tercer producto
+POST http://localhost:8080/api/carts/64ac64b114270463e42ef7bc/product/64a71db3631be5565b981f37/quantity/12
+
+###? Reagregar primer producto para ver suma de cantidad
+POST http://localhost:8080/api/carts/64ac64b114270463e42ef7bc/product/64a71db3631be5565b981f2a/quantity/5
+
+###? Ver carrito
+GET http://localhost:8080/api/carts/64ac64b114270463e42ef7bc
+
+###? Crear Ticket
+POST  http://localhost:8080/api/carts/64ac64b114270463e42ef7bc/purchase/
+
+###? Ver carrito si devolvio producto sin stock
+GET http://localhost:8080/api/carts/64ac64b114270463e42ef7bc
+
+###? Revisar cambio de Stock 1 
+GET http://localhost:8080/api/products/64a71db3631be5565b981f2c
+
+###? Revisar cambio de Stock 2
+GET http://localhost:8080/api/products/64a71db3631be5565b981f2a

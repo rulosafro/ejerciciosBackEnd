@@ -1,0 +1,8 @@
+### Try1
+POST  http://localhost:8080/session/passport/login
+Content-Type: application/json 
+
+{
+  "email": "pablo20@a.com",
+  "password": "pablo20123"
+}
