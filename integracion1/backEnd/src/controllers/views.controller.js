@@ -1,20 +1,20 @@
-const { productModel } = require("../Daos/mongo/models/product.model")
-const { userModel } = require("../Daos/mongo/models/user.model")
-const { cartService } = require("../service/index.service")
+const { productModel } = require('../Daos/mongo/models/product.model')
+const { userModel } = require('../Daos/mongo/models/user.model')
+const { cartService } = require('../service/index.service')
 
 class OrdersController {
   viewsUsers = async (req, res) => {
     try {
       const { page = 1 } = req.query
-      let users2 = await userModel.paginate({}, { limit: 10, page: page, lean: true })
+      const users2 = await userModel.paginate({}, { limit: 10, page, lean: true })
       const { docs, hasPrevPage, hasNextPage, prevPage, nextPage } = users2
-      res.status(200).render("users", {
-        status: "success",
+      res.status(200).render('users', {
+        status: 'success',
         data: docs,
         hasPrevPage,
         hasNextPage,
         prevPage,
-        nextPage,
+        nextPage
       })
     } catch (error) {
       console.log(error)
@@ -32,12 +32,12 @@ class OrdersController {
       }
 
       const products2 = await productModel.paginate(query, {
-        limit: limit,
+        limit,
         page: pages,
         sort: {
-          price: sort,
+          price: sort
         },
-        lean: true,
+        lean: true
       })
       const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages, page } = products2
 
@@ -47,8 +47,8 @@ class OrdersController {
       console.log(req.user)
       const dataUser = req.user
 
-      res.status(200).render("products", {
-        status: "success",
+      res.status(200).render('products', {
+        status: 'success',
         payload: docs,
         totalPages,
         page,
@@ -58,21 +58,21 @@ class OrdersController {
         hasNextPage,
         prevLink,
         nextLink,
-        dataUser,
+        dataUser
       })
     } catch (error) {
-      console.log({ status: "error", error })
+      console.log({ status: 'error', error })
     }
   }
 
   viewsRealTime = (req, res) => {
-    res.render("realTimeProducts", {})
+    res.render('realTimeProducts', {})
   }
 
   viewsCarts = async (req, res) => {
     try {
       const carts = await cartService.get()
-      res.status(200).render("carts", { carts })
+      res.status(200).render('carts', { carts })
     } catch (error) {
       console.log(error)
     }
@@ -81,29 +81,29 @@ class OrdersController {
   viewsMyCart = async (req, res) => {
     try {
       const { cid } = req.params
-      let carrito = await cartService.getByID(cid)
+      const carrito = await cartService.getByID(cid)
       if (!carrito) {
-        res.status(404).send("ID no identificado")
+        res.status(404).send('ID no identificado')
       }
       // let shop = carrito.products
       console.log(carrito)
-      res.status(200).render("cartsById", { carrito, cid })
+      res.status(200).render('cartsById', { carrito, cid })
     } catch (error) {
       console.log(error)
     }
   }
 
   viewsRegister = (req, res) => {
-    res.status(200).render("registerForm", {})
+    res.status(200).render('registerForm', {})
   }
 
   viewsLogin = (req, res) => {
-    res.status(200).render("login", {})
+    res.status(200).render('login', {})
   }
 
   viewsLogout = async (req, res) => {
     try {
-      res.clearCookie("coderCookieToken").clearCookie("connect.sid").redirect("/views/products")
+      res.clearCookie('coderCookieToken').clearCookie('connect.sid').redirect('/views/products')
     } catch (error) {
       console.log(error)
     }
@@ -112,8 +112,8 @@ class OrdersController {
   viewsUpload = (req, res) => {
     try {
       res.send({
-        status: "success",
-        mensaje: "Archivo subido ",
+        status: 'success',
+        mensaje: 'Archivo subido '
       })
     } catch (error) {
       console.log(error)

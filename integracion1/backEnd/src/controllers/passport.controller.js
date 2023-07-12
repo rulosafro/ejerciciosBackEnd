@@ -3,6 +3,9 @@ const { cartService } = require('../service/index.service')
 const { validPassword, createHash } = require('../utils/bcryptHash')
 const { generateToken } = require('../utils/jwt')
 const passportCall = require('../middlewares/passportCall')
+const { CustomError } = require('../utils/CustomError/CustomError')
+const { generateRegisterErrorInfo } = require('../utils/CustomError/info')
+const { EError } = require('../utils/CustomError/Erros')
 
 class PassportController {
   getLogin = async (req, res, next) => {
@@ -32,14 +35,26 @@ class PassportController {
 
   getRegister = async (req, res, next) => {
     try {
+      // const { first_name, last_name, age, nickname } = req.body
+
+      // if (!first_name || !last_name || !age || !nickname) {
+      //   CustomError.createError({
+      //     name: 'User login fail',
+      //     cause: generateRegisterErrorInfo({
+      //       first_name, last_name, age, nickname
+      //     }),
+      //     message: 'Error trying to login',
+      //     code: EError.INVALID_TYPE_ERROR
+      //   })
+      // }
       const newUser = req.user
       const token = generateToken(newUser)
 
       res
         .status(200)
         .cookie('coderCookieToken', token, { maxAge: 60 * 60 * 1000, httpOnly: true })
-        // .send(token)
-        .redirect('/views/products')
+        .send(token)
+        // .redirect('/views/products')
     } catch (error) {
       next(error)
     }

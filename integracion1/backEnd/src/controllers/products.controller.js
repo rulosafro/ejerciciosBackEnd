@@ -1,6 +1,6 @@
-const { productModel } = require("../Daos/mongo/models/product.model")
-const { productService } = require("../service/index.service")
-const { generateProductErrorInfo } = require("../utils/CustomError/info")
+const { productModel } = require('../Daos/mongo/models/product.model')
+const { productService } = require('../service/index.service')
+const { generateProductErrorInfo } = require('../utils/CustomError/info')
 
 class ProductController {
   getProducts = async (req, res) => {
@@ -14,17 +14,17 @@ class ProductController {
       }
 
       const products2 = await productModel.paginate(query, {
-        limit: limit,
+        limit,
         page: pages,
         sort: { price: sort },
-        lean: true,
+        lean: true
       })
 
       const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, totalPages, page } = products2
       const prevLink = hasPrevPage ? `http://localhost:8080/views/products?page=${prevPage}&limit=${limit}&query=${query}&sort=${sort}` : null
       const nextLink = hasNextPage ? `http://localhost:8080/views/products?page=${nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null
 
-      res.status(200).send({ status: "success", payload: docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage, prevLink, nextLink,})
+      res.status(200).send({ status: 'success', payload: docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage, prevLink, nextLink })
     } catch (error) {
       console.log(error)
     }
@@ -33,7 +33,7 @@ class ProductController {
   getProductsById = async (req, res) => {
     try {
       const { pid } = req.params
-      let product = await productService.getByID(pid)
+      const product = await productService.getByID(pid)
 
       // if (product) {
       //   if (!email || !password) {
@@ -49,8 +49,8 @@ class ProductController {
       // }
 
       res.status(200).send({
-        status: "success",
-        payload: product,
+        status: 'success',
+        payload: product
       })
     } catch (error) {
       console.log(error)
@@ -61,10 +61,10 @@ class ProductController {
     try {
       const newProduct = req.body
       //! Validaciones
-      let result = await productService.add(newProduct)
+      const result = await productService.add(newProduct)
       res.status(200).send({
-        status: "success",
-        payload: result,
+        status: 'success',
+        payload: result
       })
     } catch (error) {
       console.log(error)
@@ -77,8 +77,8 @@ class ProductController {
       const cambio = req.body
       const modificado = await productService.update(pid, cambio)
       res.status(200).send({
-        status: "success",
-        payload: modificado,
+        status: 'success',
+        payload: modificado
       })
     } catch (error) {
       console.log(error)
@@ -90,8 +90,8 @@ class ProductController {
       const { pid } = req.params
       const quitar = await productService.delete(pid)
       res.status(200).send({
-        status: "success",
-        payload: quitar,
+        status: 'success',
+        payload: quitar
       })
     } catch (error) {
       console.log(error)

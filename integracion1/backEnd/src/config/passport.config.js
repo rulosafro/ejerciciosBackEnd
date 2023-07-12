@@ -9,10 +9,11 @@ const ExtractJWT = jwt.ExtractJwt
 const LocalStrategy = local.Strategy
 const GithubStrategy = require('passport-github2')
 const { userService, cartService } = require('../service/index.service')
+require('dotenv').config()
+
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { EError } = require('../utils/CustomError/Erros')
-const { generateRegisterErrorInfo, generateLoginErrorInfo } = require('../utils/CustomError/info')
-require('dotenv').config()
+const { generateLoginErrorInfo, generateRegisterErrorInfo } = require('../utils/CustomError/info')
 
 const initPassportMid = () => {
   passport.use(
@@ -22,7 +23,7 @@ const initPassportMid = () => {
         passReqToCallback: true,
         usernameField: 'email'
       },
-      async (req, username, password, done) => {
+      async (req, username, password, done, next) => {
         try {
           const { first_name, last_name, age, nickname } = req.body
 
@@ -30,7 +31,7 @@ const initPassportMid = () => {
             CustomError.createError({
               name: 'User login fail',
               cause: generateRegisterErrorInfo({
-                nickname, first_name, last_name, password, age
+                first_name, last_name, age, nickname
               }),
               message: 'Error trying to login',
               code: EError.INVALID_TYPE_ERROR
@@ -69,7 +70,7 @@ const initPassportMid = () => {
       {
         usernameField: 'email'
       },
-      async (username, password, done) => {
+      async (username, password, done, next) => {
         try {
           const userDB = await userModel.findOne({ email: username })
           if (!username || !password) {
@@ -79,14 +80,14 @@ const initPassportMid = () => {
                 username, password
               }),
               message: 'Error trying to login',
-              code: EError.INVALID_TYPE_ERROR
+              code: EError.INVALID_VALUE_ERROR
             })
           }
           if (!userDB) return done(null, false)
           if (!validPassword(password, userDB)) return done(null, false)
           return done(null, userDB)
         } catch (error) {
-          return done(error)
+          return next(error)
         }
       }
     )

@@ -1,4 +1,4 @@
-exports.generateRegisterErrorInfo = (register) => {
+const generateRegisterErrorInfo = (register) => {
   return `
   One or more properties ware incomplete or not valid. 
     Listado de requerimientos de propiedades de register:
@@ -11,7 +11,7 @@ exports.generateRegisterErrorInfo = (register) => {
     `
 }
 
-exports.generateLoginErrorInfo = (login) => {
+const generateLoginErrorInfo = (login) => {
   return `
   One or more properties ware incomplete or not valid. 
     Listado de requerimientos de propiedades del login:
@@ -19,7 +19,7 @@ exports.generateLoginErrorInfo = (login) => {
     * password: needs to a String, received ${login.password}`
 }
 
-exports.generateProductErrorInfo = (product) => {
+const generateProductErrorInfo = (product) => {
   return `
   One or more properties ware incomplete or not valid. 
     Listado de requerimientos de propiedades del product:
@@ -27,11 +27,18 @@ exports.generateProductErrorInfo = (product) => {
 `
 }
 
-exports.generateCartErrorInfo = (cart) => {
+const generateCartErrorInfo = (cart) => {
   return `
   One or more properties ware incomplete or not valid. 
     Listado de requerimientos de propiedades del cart:
     * first_name: needs to a String, received ${cart.first_name}
     * last_name: needs to a String, received ${cart.last_name}
     * email: needs to a String, received ${cart.email}`
+}
+
+module.exports = {
+  generateCartErrorInfo,
+  generateLoginErrorInfo,
+  generateRegisterErrorInfo,
+  generateProductErrorInfo
 }
