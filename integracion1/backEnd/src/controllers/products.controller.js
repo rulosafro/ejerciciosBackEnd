@@ -1,9 +1,11 @@
 const { productModel } = require('../Daos/mongo/models/product.model')
 const { productService } = require('../service/index.service')
+const { CustomError } = require('../utils/CustomError/CustomError')
+const { EError } = require('../utils/CustomError/Erros')
 const { generateProductErrorInfo } = require('../utils/CustomError/info')
 
 class ProductController {
-  getProducts = async (req, res) => {
+  getProducts = async (req, res, next) => {
     try {
       const productos = await productService.get()
       let { pages = 1, limit = 10, sort = 1, query } = req.query
@@ -26,75 +28,119 @@ class ProductController {
 
       res.status(200).send({ status: 'success', payload: docs, totalPages, page, prevPage, nextPage, hasPrevPage, hasNextPage, prevLink, nextLink })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
-  getProductsById = async (req, res) => {
+  getProductsById = async (req, res, next) => {
     try {
       const { pid } = req.params
       const product = await productService.getByID(pid)
 
-      // if (product) {
-      //   if (!email || !password) {
-      //     CustomError.createError({
-      //       name: 'User login fail',
-      //       cause: generateProductErrorInfo({
-      //         pid
-      //       }),
-      //       message: 'Error trying to login',
-      //       code: EError.INVALID_TYPE_ERROR
-      //     })
-      //   }
-      // }
+      if (!product) {
+        CustomError.createError({
+          name: 'Product finder fail',
+          cause: generateProductErrorInfo(
+            product
+          ),
+          message: 'Error trying find a product by ID: ' + pid,
+          code: EError.ROUTING_ERROR
+        })
+      }
 
       res.status(200).send({
         status: 'success',
         payload: product
       })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
-  createProducts = async (req, res) => {
+  createProducts = async (req, res, next) => {
     try {
       const newProduct = req.body
-      //! Validaciones
+
+      if (!newProduct) {
+        CustomError.createError({
+          name: 'Product create fail',
+          cause: generateProductErrorInfo(
+            newProduct
+          ),
+          message: 'Error trying create a product',
+          code: EError.ROUTING_ERROR
+        })
+      }
+
       const result = await productService.add(newProduct)
       res.status(200).send({
         status: 'success',
         payload: result
       })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
-  updateProducts = async (req, res) => {
+  updateProducts = async (req, res, next) => {
     try {
       const { pid } = req.params
       const cambio = req.body
+
+      if (!pid) {
+        CustomError.createError({
+          name: 'Product finder fail',
+          cause: generateProductErrorInfo(
+            pid
+          ),
+          message: 'Error trying find a product without ID ',
+          code: EError.ROUTING_ERROR
+        })
+      }
+
+      if (!cambio) {
+        CustomError.createError({
+          name: 'Product create fail',
+          cause: generateProductErrorInfo(
+            cambio
+          ),
+          message: 'Error trying create a product',
+          code: EError.ROUTING_ERROR
+        })
+      }
+
       const modificado = await productService.update(pid, cambio)
       res.status(200).send({
         status: 'success',
         payload: modificado
       })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
-  deleteProducts = async (req, res) => {
+  deleteProducts = async (req, res, next) => {
     try {
       const { pid } = req.params
+
+      if (!pid) {
+        CustomError.createError({
+          name: 'Product finder fail',
+          cause: generateProductErrorInfo(
+            pid
+          ),
+          message: 'Error trying find a product by ID: ' + pid,
+          code: EError.ROUTING_ERROR
+        })
+      }
+
       const quitar = await productService.delete(pid)
       res.status(200).send({
         status: 'success',
         payload: quitar
       })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 }

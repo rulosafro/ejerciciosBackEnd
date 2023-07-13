@@ -2,7 +2,7 @@ const { Router } = require('express')
 const passportCall = require('../middlewares/passportCall')
 const githubRouter = require('./github.router')
 const passportRouter = require('./passport.router')
-const { getCounter, getPrivada, getCurrent, getLogin, getRegister, getLogout } = require('../controllers/session.controller')
+const { getCounter, getPrivada, getCurrent, getLogin, getRegister, getLogout } = require('../controllers/example/session.controller')
 const { authorization } = require('../middlewares/authorizationJwtRole')
 
 const midAdmin = [passportCall('jwt'), authorization('admin')]

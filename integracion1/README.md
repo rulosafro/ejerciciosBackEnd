@@ -1,3 +1,8 @@
+### Otra entrega
+
+artillery quick --count 40 'http://localhost:8080/pruebas/simple' -o simple.json
+
+
 ##Revision de Feedback
 
 ###Registrarme con un usuario nuevo,

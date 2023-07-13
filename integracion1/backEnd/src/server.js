@@ -14,6 +14,7 @@ const { connectDB } = require('./config/objectConfig.js')
 const { initPassportGithub, initPassportMid, initPassportJWT } = require('./config/passport.config.js')
 const { errorHandler } = require('./middlewares/errorMiddleware.js')
 const ProductManagerMongo = require('./Daos/mongo/product.mongo.js')
+const { addLogger } = require('./config/logger.js')
 
 dotenv.config()
 connectDB()
@@ -34,6 +35,7 @@ app.set('view engine', 'hbs')
 // CookieParser & Morgan----------------------------------------------------------------
 app.use(logger('dev'))
 app.use(cookieParser(process.env.SECRET_KEY))
+app.use(addLogger)
 
 // LOGIN----------------------------------------------------------------
 initPassportJWT()

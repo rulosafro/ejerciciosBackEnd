@@ -17,3 +17,6 @@ Content-Type: application/json
   "password": "pablo21123",
   "nickname": "pablo21123"
 }
+
+### Try2
+GET  http://localhost:8080/api/products/asdlsfgre

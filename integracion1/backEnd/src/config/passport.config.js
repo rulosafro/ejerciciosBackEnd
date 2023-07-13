@@ -26,7 +26,6 @@ const initPassportMid = () => {
       async (req, username, password, done) => {
         try {
           const { first_name, last_name, age, nickname } = req.body
-
           const userDB = await userModel.findOne({ email: username })
           if (userDB) {
             return done(null, false)
@@ -119,7 +118,7 @@ const initPassportGithub = () => {
         callbackURL: 'http://localhost:8080/session/github/githubcallback'
       },
       async (accessToken, refreshToken, profile, done) => {
-        console.log('Profile', profile)
+        // console.log('Profile', profile)
         try {
           const user = await userModel.findOne({ email: profile._json.email })
           if (!user) {

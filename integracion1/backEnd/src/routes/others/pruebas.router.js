@@ -8,6 +8,29 @@ const { generateUser } = require('../../utils/generateUsers')
 
 const nombres = ['javi', 'isi']
 
+router.get('/simple', (req, res) => {
+  let suma = 0
+  for (let i = 0; i < 10000000; i++) {
+    suma += i
+  }
+  res.send({ suma })
+})
+router.get('/complejo', (req, res) => {
+  let suma = 0
+  for (let i = 0; i < 5e8; i++) {
+    suma += i
+  }
+  res.send({ suma })
+})
+
+router.get('/logger', async (req, res) => {
+  // req.logger.warn('alerta')
+  req.logger.info('info')
+  req.logger.warning('warning')
+  req.logger.error('error')
+  res.send({ message: 'Prueba Logger' })
+})
+
 router.get('/string muy largo', async (req, res) => {
 
 })
