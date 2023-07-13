@@ -4,7 +4,6 @@ Content-Type: application/json
 
 {
   "email": "pablo20@a.com",
-  "password": "pablo20123"
 }
 
 ### Try2
@@ -12,6 +11,9 @@ POST  http://localhost:8080/session/passport/register
 Content-Type: application/json 
 
 {
-  "email": "pablo20@a.com",
-  "password": "pablo20123"
+  "first_name": "pablo21",
+  "email": "pablo21@a.com",
+  "age": "22",
+  "password": "pablo21123",
+  "nickname": "pablo21123"
 }

@@ -23,20 +23,9 @@ const initPassportMid = () => {
         passReqToCallback: true,
         usernameField: 'email'
       },
-      async (req, username, password, done, next) => {
+      async (req, username, password, done) => {
         try {
           const { first_name, last_name, age, nickname } = req.body
-
-          if (!first_name || !last_name || !age || !nickname) {
-            CustomError.createError({
-              name: 'User login fail',
-              cause: generateRegisterErrorInfo({
-                first_name, last_name, age, nickname
-              }),
-              message: 'Error trying to login',
-              code: EError.INVALID_TYPE_ERROR
-            })
-          }
 
           const userDB = await userModel.findOne({ email: username })
           if (userDB) {
@@ -54,8 +43,6 @@ const initPassportMid = () => {
             cart: carrito._id
           }
           const result = await userService.add(newUser)
-          // console.log("🚀 ~ file: passport.config.js:40 ~ result:", result)
-          // console.log(result)
           return done(null, newUser)
         } catch (error) {
           return done('Error al crear usuario' + error)
@@ -73,21 +60,12 @@ const initPassportMid = () => {
       async (username, password, done, next) => {
         try {
           const userDB = await userModel.findOne({ email: username })
-          if (!username || !password) {
-            CustomError.createError({
-              name: 'User login fail',
-              cause: generateLoginErrorInfo({
-                username, password
-              }),
-              message: 'Error trying to login',
-              code: EError.INVALID_VALUE_ERROR
-            })
-          }
+
           if (!userDB) return done(null, false)
           if (!validPassword(password, userDB)) return done(null, false)
           return done(null, userDB)
         } catch (error) {
-          return next(error)
+          return done(error)
         }
       }
     )

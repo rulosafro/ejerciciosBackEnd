@@ -1,15 +1,15 @@
-const generateRegisterErrorInfo = (register) => {
+const generateRegisterErrorInfo = (user) => {
   return `
   One or more properties ware incomplete or not valid. 
-    Listado de requerimientos de propiedades de register:
-    * nickname: needs to a String, received ${register.nickname}
-    * first_name: needs to a String, received ${register.first_name}
-    * last_name: needs to a String, received ${register.last_name}
-    * email: needs to a String, received ${register.email}
-    * password: needs to a String, received ${register.password}
-    * age: needs to a String, received ${register.age}
+    Listado de requerimientos de propiedades de user:
+    * nickname: needs to a String, received ${user.nickname}
+    * first_name: needs to a String, received ${user.first_name}
+    * last_name: needs to a String, received ${user.last_name}
+    * age: needs to a String, received ${user.age}
     `
 }
+// * email: needs to a String, received ${email}
+// * password: needs to a String, received ${password}
 
 const generateLoginErrorInfo = (login) => {
   return `
