@@ -1,10 +1,11 @@
-const { connect } = require("mongoose")
-const dotenv = require("dotenv")
-const { commander } = require("./commander")
+const { connect } = require('mongoose')
+const dotenv = require('dotenv')
+const { commander } = require('./commander')
 const { mode } = commander.opts()
+const { logger } = require('./logger')
 
 dotenv.config({
-  path: mode === "development" ? "./.env.development" : "./.env.production",
+  path: mode === 'development' ? './.env.development' : './.env.production'
 })
 
 module.exports = {
@@ -20,9 +21,9 @@ module.exports = {
   connectDB: async () => {
     try {
       connect(process.env.MONGO_URL)
-      console.log("Base de datos conectadas")
+      console.log('Base de datos conectadas')
     } catch (err) {
       console.log(err)
     }
-  },
+  }
 }

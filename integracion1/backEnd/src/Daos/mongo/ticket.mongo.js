@@ -1,56 +1,57 @@
+const { logger } = require('../../config/logger')
 const { ticketModel } = require('./models/ticket.model')
 
-
-class TicketManagerMongo { 
-    constructor() {
+class TicketManagerMongo {
+  constructor () {
     //  iniciar la base de datos
     this.ticketModel = ticketModel
   }
-  async get() {
+
+  async get () {
     try {
       return await ticketModel.find({}).lean()
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
-  async getById(tid) {
+  async getById (tid) {
     try {
-      return await ticketModel.find({_id: tid})
+      return await ticketModel.find({ _id: tid })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
-  async getByCode(tid) {
+  async getByCode (tid) {
     try {
-      return await ticketModel.find({code: tid})
+      return await ticketModel.find({ code: tid })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
-  async update(tid, cambio) {
+  async update (tid, cambio) {
     try {
       return await ticketModel.updateOne({ _id: tid }, cambio)
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
-  async create(obj) {
+  async create (obj) {
     try {
       return await ticketModel.create(obj)
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
-  async delete(tid) {
+  async delete (tid) {
     try {
       return ticketModel.deleteOne({ _id: tid })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 }

@@ -1,6 +1,8 @@
-const form = document.querySelector("#cookieForm")
+const { logger } = require('../../config/logger')
 
-form.addEventListener("submit", (e) => {
+const form = document.querySelector('#cookieForm')
+
+form.addEventListener('submit', (e) => {
   e.preventDefault()
 
   const data = new FormData(form)
@@ -9,17 +11,17 @@ form.addEventListener("submit", (e) => {
     obj[key] = value
   })
 
-  fetch("/pruebas/session", {
-    method: "POST",
+  fetch('/pruebas/session', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(obj),
+    body: JSON.stringify(obj)
   })
     .then((respuesta) => respuesta.JSON.parse())
-    .then((respuesta) => console.log(respuesta))
+    .then((respuesta) => logger.info(respuesta))
 })
 
 const getCookie = () => {
-  console.log(document.cookie)
+  logger.info(document.cookie)
 }

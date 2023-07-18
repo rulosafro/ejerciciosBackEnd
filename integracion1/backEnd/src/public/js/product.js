@@ -5,7 +5,7 @@
 // form.addEventListener("submit", (evt) => {
 //   evt.preventDefault()
 //   let title = form.elements.title.value
-//   console.log(title)
+//   logger.info(title)
 //   if (title !== "") {
 //     socket.emit("addProduct", {
 //       title,
@@ -15,7 +15,7 @@
 // })
 
 // socket.on("productos", async (data) => {
-//   console.log(data)
+//   logger.info(data)
 
 //   const products = await productManager.getProducts()
 //   let div = document.getElementById("listProducts")

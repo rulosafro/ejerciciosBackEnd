@@ -5,22 +5,36 @@ const config = require('../../config/objectConfig')
 const { sendMail } = require('../../utils/sendmail')
 const { sendSMS } = require('../../utils/sendSMS')
 const { generateUser } = require('../../utils/generateUsers')
+const { faker } = require('@faker-js/faker')
 
 const nombres = ['javi', 'isi']
+
+router.get('/testuser', (req, res) => {
+  const persona = {
+    first_name: faker.person.first_name(),
+    last_name: faker.person.last_name(),
+    email: faker.internet.email(),
+    password: faker.internet.password()
+  }
+  res.send({
+    status: 'success',
+    payload: persona
+  })
+})
 
 router.get('/simple', (req, res) => {
   let suma = 0
   for (let i = 0; i < 10000000; i++) {
     suma += i
   }
-  res.send({ suma })
+  res.send({ status: 'success', message: `El worker ${process.id} a atendido esat petición, el resultado es ${suma}` })
 })
 router.get('/complejo', (req, res) => {
   let suma = 0
   for (let i = 0; i < 5e8; i++) {
     suma += i
   }
-  res.send({ suma })
+  res.send({ status: 'success', message: `El worker ${process.id} a atendido esat petición, el resultado es ${suma}` })
 })
 
 router.get('/logger', async (req, res) => {

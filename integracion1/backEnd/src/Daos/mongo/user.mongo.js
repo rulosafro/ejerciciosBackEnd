@@ -1,43 +1,44 @@
-const { userModel } = require("./models/user.model")
+const { logger } = require('../../config/logger')
+const { userModel } = require('./models/user.model')
 
 class UserManagerMongo {
-  async get() {
+  async get () {
     try {
       return await userModel.find({}).lean()
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
   }
 
-  async getByID(uid) {
+  async getByID (uid) {
     try {
       return await userModel.findOne({ _id: uid })
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
   }
 
-  async add(newUser) {
+  async add (newUser) {
     try {
       return await userModel.create(newUser)
     } catch (error) {
-      console.error(error)
+      logger.error(error)
     }
   }
 
-  async update(uid, cambio) {
+  async update (uid, cambio) {
     try {
       return await userModel.updateOne({ _id: uid }, cambio)
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
-  async delete(uid) {
+  async delete (uid) {
     try {
       return userModel.deleteOne({ _id: uid })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 }

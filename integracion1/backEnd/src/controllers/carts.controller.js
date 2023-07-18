@@ -1,3 +1,4 @@
+const { logger } = require('../config/logger')
 const { cartService, productService, ticketService } = require('../service/index.service')
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { EError } = require('../utils/CustomError/Erros')
@@ -7,7 +8,7 @@ class CartController {
   getCarts = async (req, res, next) => {
     try {
       const carts = await cartService.get()
-      console.log(req.user)
+      logger.info(req.user)
       res.status(200).send({
         status: 'success',
         payload: carts
@@ -82,7 +83,7 @@ class CartController {
     }
   }
 
-  putProductOnCarts = async (req, res, next) => {
+  putProductOnCartsQuantity = async (req, res, next) => {
     try {
       const { cid, pid, num } = req.params
       // const { quantity } = req.body
@@ -102,6 +103,39 @@ class CartController {
       const product = {
         id: pid,
         quantity: parseInt(num)
+      }
+
+      const agregado = await cartService.add(cid, pid, quantity)
+      const resultado = await cartService.getByID(cid)
+
+      res.status(200).send({
+        status: 'success',
+        payload: resultado
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  putProductOnCarts = async (req, res, next) => {
+    try {
+      const { cid, pid } = req.params
+      const { quantity } = req.body
+
+      if (!cid) {
+        CustomError.createError({
+          name: 'Cart finder fail',
+          cause: generateCartErrorInfo(
+            cid
+          ),
+          message: 'Error trying find a cart by ID: ' + cid,
+          code: EError.ROUTING_ERROR
+        })
+      }
+
+      const product = {
+        id: pid,
+        quantity: parseInt(quantity)
       }
 
       const agregado = await cartService.add(cid, pid, quantity)
@@ -136,7 +170,7 @@ class CartController {
         id: pid,
         quantity
       }
-      console.log(req.user.cart)
+      logger.info(req.user.cart)
 
       const agregado = await cartService.add(req.user.cart, pid, quantity)
       const resultado = await cartService.getByID(req.user.cart)

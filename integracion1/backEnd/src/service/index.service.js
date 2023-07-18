@@ -1,6 +1,6 @@
-const ContactRepository = require("../repositories/contacts.repository")
-const { UserDao, ProductDao, CartDao, MessagesDao, ContactDao, TicketDao } = require("../Daos/factory")
-const ProductRepository = require("../repositories/products.repository")
+const ContactRepository = require('../repositories/contacts.repository')
+const { UserDao, ProductDao, CartDao, MessagesDao, ContactDao, TicketDao } = require('../Daos/factory')
+const ProductRepository = require('../repositories/products.repository')
 
 // Traer los repositories
 

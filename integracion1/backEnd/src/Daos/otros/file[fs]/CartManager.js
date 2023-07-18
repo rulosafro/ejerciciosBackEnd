@@ -1,17 +1,18 @@
-const fs = require("fs")
+const fs = require('fs')
+const { logger } = require('../../../config/logger')
 
 class CartManager {
-  constructor() {
+  constructor () {
     this.carts = []
-    this.path = "./src/data/carts.json"
+    this.path = './src/data/carts.json'
   }
 
   createCart = async () => {
-    let contenido = await fs.promises.readFile(this.path, "utf-8")
+    const contenido = await fs.promises.readFile(this.path, 'utf-8')
     const parseData = JSON.parse(contenido)
     const products = []
     try {
-      if (parseData.length == 0) {
+      if (parseData.length === 0) {
         parseData.push({ id: 1, products })
         fs.writeFileSync(this.path, JSON.stringify(parseData, null, 2))
       } else {
@@ -20,61 +21,59 @@ class CartManager {
       }
       await fs.promises.writeFile(this.path, JSON.stringify(parseData, null, 2))
     } catch (error) {
-      return console.log(error)
+      return logger.error(error)
     }
   }
 
   getCarts = async () => {
-    let contenido = await fs.promises.readFile(this.path, "utf-8")
+    const contenido = await fs.promises.readFile(this.path, 'utf-8')
     const parseData = JSON.parse(contenido)
     try {
       return parseData
     } catch (error) {
-      return console.log(error)
+      return logger.error(error)
     }
   }
 
   getCartById = async (cid) => {
     try {
-      let contenido = await fs.promises.readFile(this.path, "utf-8")
+      const contenido = await fs.promises.readFile(this.path, 'utf-8')
       const parseData = JSON.parse(contenido)
       const productos = parseData.find((prod) => prod.id === cid)
       const items = productos.products
       return items
     } catch (error) {
-      return console.log(error)
+      return logger.error(error)
     }
   }
 
   addToCart = async (cid, pid, productNew) => {
     try {
-      let contenido = await fs.promises.readFile(this.path, "utf-8")
+      const contenido = await fs.promises.readFile(this.path, 'utf-8')
       const parseData = JSON.parse(contenido)
       const carrito = parseData.find((prod) => prod.id === cid)
       const producto = carrito.products.find((prod) => prod.id === pid)
 
-
-
       if (!carrito) {
-        return "carrito no encontrado"
+        return 'carrito no encontrado'
       } else {
         if (producto) {
           producto.quantity++
           await fs.promises.writeFile(this.path, JSON.stringify(parseData, null, 2))
           return { producto }
         } else {
-          let prodNew = { id: pid, quantity: 1 }
+          const prodNew = { id: pid, quantity: 1 }
           carrito.products.push(prodNew)
           await fs.promises.writeFile(this.path, JSON.stringify(parseData, null, 2))
           return { prodNew }
         }
       }
     } catch (error) {
-      return console.log(error)
+      return logger.error(error)
     }
   }
 }
-//----------------------------------------------------------------
+// ----------------------------------------------------------------
 
 const cartManager = new CartManager()
 

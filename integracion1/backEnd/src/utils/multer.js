@@ -1,5 +1,6 @@
-const multer = require("multer")
-const { dirname } = require("path")
+const multer = require('multer')
+const { dirname } = require('path')
+const { logger } = require('../config/logger')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -7,17 +8,17 @@ const storage = multer.diskStorage({
   },
   filename: (req, file, callback) => {
     callback(null, `${Date.now()}-${file.originalname}`)
-  },
+  }
 })
 
 const uploader = multer({
   storage,
   onError: (err, next) => {
-    console.log(err)
+    logger.info(err)
     next(err)
-  },
+  }
 })
 
 module.exports = {
-  uploader,
+  uploader
 }

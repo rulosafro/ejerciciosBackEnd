@@ -1,31 +1,35 @@
 const express = require('express')
+const app = express()
 const cookieParser = require('cookie-parser')
-const logger = require('morgan')
+// const logger = require('morgan')
 const cors = require('cors')
 const handlebars = require('express-handlebars')
 const passport = require('passport')
-const dotenv = require('dotenv')
 const compression = require('express-compression')
-
 const routerServer = require('./routes/index.js')
-const { Server } = require('socket.io')
-const { productService } = require('./service/index.service')
-const { connectDB } = require('./config/objectConfig.js')
+// const { Server } = require('socket.io')
 const { initPassportGithub, initPassportMid, initPassportJWT } = require('./config/passport.config.js')
 const { errorHandler } = require('./middlewares/errorMiddleware.js')
-const ProductManagerMongo = require('./Daos/mongo/product.mongo.js')
-const { addLogger } = require('./config/logger.js')
+// const {process.env.PORT} = require('./config/objectConfig.js')
+const config = require('./config/objectConfig.js')
+const { port } = require('./config/objectConfig.js')
+// const dotenv = require('dotenv')
+// dotenv.config()
 
-dotenv.config()
-connectDB()
-
-const app = express()
-const PORT = process.env.PORT || 8080
+const PORT = port || 8080
 
 app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(compression())
+
+const { Server: ServerHTTP } = require('http')
+const { Server: ServerIO } = require('socket.io')
+const { socketMessage } = require('./utils/socketMessage.js')
+const { logger, addLogger } = require('./config/logger.js')
+const serverHttp = ServerHTTP(app)
+const io = new ServerIO(serverHttp)
+// const io = new Server(httpServer)
 
 // HBS----------------------------------------------------------------
 app.engine('hbs', handlebars.engine())
@@ -33,9 +37,9 @@ app.set('views', __dirname + '/views')
 app.set('view engine', 'hbs')
 
 // CookieParser & Morgan----------------------------------------------------------------
-app.use(logger('dev'))
 app.use(cookieParser(process.env.SECRET_KEY))
 app.use(addLogger)
+// app.use(logger('dev'))
 
 // LOGIN----------------------------------------------------------------
 initPassportJWT()
@@ -43,38 +47,17 @@ initPassportMid()
 initPassportGithub()
 passport.use(passport.initialize())
 
-// ROUTER & LISTENER----------------------------------------------------------------
+// ROUTER & LISTENER & ChatWeb----------------------------------------------------------------
 app.use(routerServer)
 app.use(errorHandler)
+socketMessage(io)
 
-const httpServer = app.listen(PORT, (err) => {
-  if (err) console.log('error en el servidor', err)
-  console.log(`Escuchanding port: ${PORT}`)
+app.listen(PORT, (err) => {
+  if (err) logger.info('error en el servidor', err)
+  logger.info(`Escuchanding port: ${PORT}`)
 })
 
-// CHAT WEB----------------------------------------------------------------
-const io = new Server(httpServer)
-const messages = []
-
-io.on('connection', async (socket) => {
-  socket.on('message', (data) => {
-    console.log(data)
-    messages.push(data)
-    io.emit('messageLogs', messages)
-  })
-
-  socket.on('authenticated', (data) => {
-    socket.broadcast.emit('newUserConnected', data)
-  })
-
-  // Product
-  const products = await productService.get()
-  // let products = await ProductManagerMongo.getProducts()
-
-  socket.emit('productos', products)
-
-  socket.on('addProduct', (data) => {
-    console.log(data)
-    products.push(data)
-  })
-})
+// exports.initServer = () => serverHttp.listen(PORT, (err) => {
+//   if (err) logger.info('error en el servidor', err)
+//   logger.info(`Escuchanding port: ${PORT}`)
+// })

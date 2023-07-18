@@ -14,6 +14,7 @@ require('dotenv').config()
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { EError } = require('../utils/CustomError/Erros')
 const { generateLoginErrorInfo, generateRegisterErrorInfo } = require('../utils/CustomError/info')
+const { logger } = require('./logger')
 
 const initPassportMid = () => {
   passport.use(
@@ -118,7 +119,7 @@ const initPassportGithub = () => {
         callbackURL: 'http://localhost:8080/session/github/githubcallback'
       },
       async (accessToken, refreshToken, profile, done) => {
-        // console.log('Profile', profile)
+        // logger.info('Profile', profile)
         try {
           const user = await userModel.findOne({ email: profile._json.email })
           if (!user) {
@@ -134,13 +135,13 @@ const initPassportGithub = () => {
               // id: profile.id,
             }
             const result = await userModel.create(newUser)
-            await console.log('newUser', newUser)
+            await logger.info('newUser', newUser)
             return done(null, result)
           }
-          console.log('User', user)
+          logger.info('User', user)
           return done(null, user)
         } catch (error) {
-          console.log(error)
+          logger.error(error)
         }
       }
     )

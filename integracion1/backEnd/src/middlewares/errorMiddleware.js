@@ -1,11 +1,11 @@
+const { logger } = require('../config/logger')
 const { EError } = require('../utils/CustomError/Erros')
 
 exports.errorHandler = (error, req, res, next) => {
-  console.log('------')
-  // console.log(error)
+  logger.error(error)
   switch (error.code) {
     case EError.INVALID_TYPE_ERROR:
-      console.log(error.cause)
+      logger.info(error.cause)
       return res.send({ status: 'type error', error: error.name })
       break
 
@@ -14,7 +14,7 @@ exports.errorHandler = (error, req, res, next) => {
       //   break
 
     default:
-      console.log(error.cause)
+      logger.info(error.cause)
       return res.send({ status: 'error', error: 'Unhandled error' })
       break
   }

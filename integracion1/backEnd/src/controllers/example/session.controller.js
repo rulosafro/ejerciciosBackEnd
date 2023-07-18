@@ -1,4 +1,5 @@
 const { userModel } = require('../../Daos/mongo/models/user.model')
+const { logger } = require('../../config/logger')
 const { CustomError } = require('../../utils/CustomError/CustomError')
 const { EError } = require('../../utils/CustomError/Erros')
 const { generateUserErrorInfo, generateLoginErrorInfo, generateRegisterErrorInfo } = require('../../utils/CustomError/info')
@@ -20,7 +21,7 @@ class SessionController {
         res.send('bienvenido')
       }
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -33,7 +34,7 @@ class SessionController {
         res.send('logout ok')
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -53,7 +54,7 @@ class SessionController {
   //     }
 
   //     const userDB = await userModel.findOne({ email })
-  //     console.log(userDB)
+  //     logger.info(userDB)
 
   //     if (!userDB) return res.render("login", { status: "error", message: "No existe ese usuario" })
 
@@ -118,7 +119,7 @@ class SessionController {
   //       role: "user",
   //       // cart: cartShop_id,
   //     }
-  //     // console.log("🚀 ~ file: session.controller.js:112 ~ SessionController ~ getRegister= ~ newUser:", newUser)
+  //     // logger.info("🚀 ~ file: session.controller.js:112 ~ SessionController ~ getRegister= ~ newUser:", newUser)
 
   //     // let resultUser = await userService.create(newUser)
   //     let token = generateToken(newUser)

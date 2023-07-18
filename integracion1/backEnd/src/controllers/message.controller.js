@@ -1,4 +1,5 @@
-const { messageService } = require("../service/index.service")
+const { logger } = require('../config/logger')
+const { messageService } = require('../service/index.service')
 
 class MessageController {
   getMessage = async (req, res) => {
@@ -8,35 +9,35 @@ class MessageController {
       //   status: "success",
       //   payload: messages,
       // })
-      res.render("chat", { titutlo1: "hola" })
+      res.render('chat', { titutlo1: 'hola' })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
   getMessageById = async (req, res) => {
     try {
       const { mid } = req.params
-      let message = await messageService.getByID(mid)
+      const message = await messageService.getByID(mid)
       res.status(200).send({
-        status: "success",
-        payload: message,
+        status: 'success',
+        payload: message
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
   createMessage = async (req, res) => {
     try {
       const newMessage = req.body
-      let result = await messageService.add(newMessage)
+      const result = await messageService.add(newMessage)
       res.status(200).send({
-        status: "success",
-        payload: result,
+        status: 'success',
+        payload: result
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -46,11 +47,11 @@ class MessageController {
       const cambio = req.body
       const modificado = await messageService.update(mid, cambio)
       res.status(200).send({
-        status: "success",
-        payload: modificado,
+        status: 'success',
+        payload: modificado
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 
@@ -59,11 +60,11 @@ class MessageController {
       const { mid } = req.params
       const quitar = await messageService.delete(mid)
       res.status(200).send({
-        status: "success",
-        payload: quitar,
+        status: 'success',
+        payload: quitar
       })
     } catch (error) {
-      console.log(error)
+      logger.error(error)
     }
   }
 }

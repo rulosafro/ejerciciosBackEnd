@@ -1,22 +1,23 @@
-const moongoose = require("mongoose")
+const moongoose = require('mongoose')
+const { logger } = require('../../config/logger')
 
 class MongoSingleton {
   static #instance
 
-  constructor() {
+  constructor () {
     moongoose.connect(process.env.MONGO_URL, {
       useNewUrlParse: true,
-      useUnifiedTopology: true,
+      useUnifiedTopology: true
     })
   }
 
-  static getInstances() {
+  static getInstances () {
     if (this.#instance) {
-      console.log("Base de datos ya está creada")
+      logger.info('Base de datos ya está creada')
       return this.#instance
     }
     this.#instance = new MongoSingleton()
-    console.log("Base de datos creada")
+    logger.info('Base de datos creada')
     return this.#instance
   }
 }
