@@ -1,6 +1,10 @@
 class ApiSessionController {
-  getSession = async (req, res) => {
-    res.send(req.user)
+  getSession = async (req, res, next) => {
+    try {
+      res.send(req.user)
+    } catch (error) {
+      next(error)
+    }
   }
 }
 

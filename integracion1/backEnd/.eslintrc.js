@@ -13,7 +13,8 @@ module.exports = {
     'no-unused-vars': 'off',
     'n/no-path-concat': 'off',
     'no-unreachable': 'off',
-    'no-case-declarations': 'off'
+    'no-case-declarations': 'off',
+    'no-undef': 'off'
 
   }
 }

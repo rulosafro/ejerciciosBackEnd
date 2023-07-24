@@ -1,10 +1,12 @@
 const { logger } = require('../config/logger')
 const { userService } = require('../service/index.service')
-// const userManager = require("../Daos/mongo/user.mongo")
-// const { userModel } = require("../Daos/mongo/models/user.model")
 
 class UserController {
-  getUsers = async (req, res) => {
+  constructor () {
+    this.userService = userService
+  }
+
+  getUsers = async (req, res, next) => {
     try {
       const users = await userService.get()
       const prueba1 = users.slice(0, 20)
@@ -15,11 +17,11 @@ class UserController {
         payload: users
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  getUserById = async (req, res) => {
+  getUserById = async (req, res, next) => {
     try {
       const { uid } = req.params
       const product = await userService.getByID(uid)
@@ -28,11 +30,11 @@ class UserController {
         payload: product
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  createUser = async (req, res) => {
+  createUser = async (req, res, next) => {
     try {
       const newUser = req.body
       const usuarioNuevo = await userService.add(newUser)
@@ -41,11 +43,11 @@ class UserController {
         payload: usuarioNuevo
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  updateUser = async (req, res) => {
+  updateUser = async (req, res, next) => {
     try {
       const { uid } = req.params
       const cambio = req.body
@@ -55,11 +57,11 @@ class UserController {
         payload: modificado
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  deleteUser = async (req, res) => {
+  deleteUser = async (req, res, next) => {
     try {
       const { uid } = req.params
       const quitar = await userService.delete(uid)
@@ -68,7 +70,7 @@ class UserController {
         payload: quitar
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 }

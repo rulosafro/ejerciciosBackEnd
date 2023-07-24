@@ -1,22 +1,22 @@
-const { Schema, model } = require("mongoose")
+const { Schema, model } = require('mongoose')
 
-const ContactCollection = "contacts"
+const ContactCollection = 'contacts'
 
 const ContactSchema = Schema({
   first_name: {
     type: String,
-    required: true,
+    required: true
   },
   last_name: {
     type: String,
-    require: true,
+    require: true
   },
   active: Boolean,
-  phone: String,
+  phone: String
 })
 
-let contactsModel = model(ContactCollection, ContactSchema)
+const contactsModel = model(ContactCollection, ContactSchema)
 
 module.exports = {
-  contactsModel,
+  contactsModel
 }

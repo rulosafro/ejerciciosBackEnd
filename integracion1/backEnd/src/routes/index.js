@@ -1,5 +1,6 @@
 const express = require('express')
 const { Router } = require('express')
+const router = Router()
 
 const homeRouter = require('./home.router')
 const apiUsuariosRouter = require('./api.usuarios.router')
@@ -11,12 +12,11 @@ const apiSessionRouter = require('./api.session.router')
 const contactsRouter = require('./contacts.router')
 const messagesRouter = require('./messages.router')
 const cookieRouter = require('./cookie.router')
-const pruebasRouter = require('./others/pruebas.router')
+const pruebasRouter = require('./example/pruebas.router')
 const ticketsRouter = require('./tickets.router')
 const mockRouter = require('./mock.router')
 const loggerRouter = require('./logger.router')
 
-const router = Router()
 const passportCall = require('../middlewares/passportCall')
 const { authorization } = require('../middlewares/authorizationJwtRole')
 
@@ -25,7 +25,7 @@ const midAdmin = [passportCall('jwt'), authorization('admin')]
 const midJWT = [passportCall('jwt')]
 // const midUser = []
 
-router.use('/', homeRouter) // validacion adentro del router
+router.use('/', homeRouter)
 router.use('/views', viewsRouter)
 router.use('/session', sessionRouter)
 router.use('/static', express.static(__dirname + './../public'))

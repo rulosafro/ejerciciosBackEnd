@@ -10,7 +10,6 @@ router.get('/:cid', getCartsById)
 router.post('/', createCarts)
 router.post('/:cid/product/:pid', putProductOnCarts)
 router.post('/:cid/product/:pid/quantity/:num', putProductOnCartsQuantity)
-
 router.post('/mycart/product/:pid', putProductOnMyCart)
 router.post('/:tid/purchase', purchaseTicket)
 

@@ -1,7 +1,5 @@
-const { logger } = require('../config/logger')
-
 class HomeController {
-  getHome = async (req, res) => {
+  getHome = async (req, res, next) => {
     try {
       const data = {
         titulo1: 'Bienvenido33',
@@ -9,7 +7,7 @@ class HomeController {
       }
       res.render('home', data)
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 }

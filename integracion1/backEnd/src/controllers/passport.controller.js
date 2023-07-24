@@ -1,8 +1,4 @@
-const { userModel } = require('../Daos/mongo/models/user.model')
-const { cartService } = require('../service/index.service')
-const { validPassword, createHash } = require('../utils/bcryptHash')
 const { generateToken } = require('../utils/jwt')
-const passportCall = require('../middlewares/passportCall')
 
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { generateRegisterErrorInfo, generateLoginErrorInfo } = require('../utils/CustomError/info')

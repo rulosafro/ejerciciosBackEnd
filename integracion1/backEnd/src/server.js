@@ -1,20 +1,15 @@
 const express = require('express')
 const app = express()
 const cookieParser = require('cookie-parser')
-// const logger = require('morgan')
 const cors = require('cors')
 const handlebars = require('express-handlebars')
 const passport = require('passport')
 const compression = require('express-compression')
-const routerServer = require('./routes/index.js')
+const routerServer = require('./routes/index')
 // const { Server } = require('socket.io')
 const { initPassportGithub, initPassportMid, initPassportJWT } = require('./config/passport.config.js')
 const { errorHandler } = require('./middlewares/errorMiddleware.js')
-// const {process.env.PORT} = require('./config/objectConfig.js')
-const config = require('./config/objectConfig.js')
 const { port } = require('./config/objectConfig.js')
-// const dotenv = require('dotenv')
-// dotenv.config()
 
 const PORT = port || 8080
 

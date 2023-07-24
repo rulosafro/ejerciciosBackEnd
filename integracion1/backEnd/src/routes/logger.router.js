@@ -1,14 +1,15 @@
 const { Router } = require('express')
 const router = Router()
 const { faker } = require('@faker-js/faker')
+const { logger } = require('../config/logger')
 
 router.get('/', async (req, res) => {
-  req.logger.debug('debug')
-  req.logger.http('http')
-  req.logger.info('info')
-  req.logger.warning('warning')
-  req.logger.error('error')
-  req.logger.fatal('fatal')
+  logger.debug('debug')
+  logger.http('http')
+  logger.info('info')
+  logger.warning('warning')
+  logger.error('error')
+  logger.fatal('fatal')
   res.send({ message: 'Prueba Logger' })
 })
 

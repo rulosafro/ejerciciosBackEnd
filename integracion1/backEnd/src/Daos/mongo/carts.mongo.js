@@ -20,11 +20,7 @@ class CartsManagerMongo {
 
   async create () {
     try {
-      return await cartsModel.create({
-        products: [],
-        userId: null,
-        email: null
-      })
+      return await cartsModel.create({ products: [], userId: null, email: null })
     } catch (error) {
       return logger.error(error)
     }

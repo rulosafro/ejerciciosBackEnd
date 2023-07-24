@@ -1,7 +1,7 @@
-const { contactsModel } = require("./models/contacts.model")
+const { contactsModel } = require('./models/contacts.model')
 
 class ContactDaoMongo {
-  constructor() {
+  constructor () {
     this.contactsModel = contactsModel
   }
 

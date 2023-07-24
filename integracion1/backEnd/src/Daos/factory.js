@@ -49,7 +49,7 @@ switch (config.persistence) {
     const ProductDaoMemory = require('../Daos/otros/memory[json]/product.memory.js')
     ProductDao = ProductDaoMemory
 
-    // ProductDao = ProductDaoMongo
+    ProductDao = ProductDaoMongo
     UserDao = UserDaoMongo
     MessagesDao = MessagesDaoMongo
     CartDao = CartDaoMongo

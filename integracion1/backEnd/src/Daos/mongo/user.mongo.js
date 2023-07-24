@@ -2,6 +2,10 @@ const { logger } = require('../../config/logger')
 const { userModel } = require('./models/user.model')
 
 class UserManagerMongo {
+  constructor () {
+    this.userModel = userModel
+  }
+
   async get () {
     try {
       return await userModel.find({}).lean()

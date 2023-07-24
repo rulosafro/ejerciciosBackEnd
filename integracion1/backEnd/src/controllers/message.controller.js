@@ -2,7 +2,7 @@ const { logger } = require('../config/logger')
 const { messageService } = require('../service/index.service')
 
 class MessageController {
-  getMessage = async (req, res) => {
+  getMessage = async (req, res, next) => {
     try {
       const messages = await messageService.get()
       // res.status(200).send({
@@ -11,7 +11,7 @@ class MessageController {
       // })
       res.render('chat', { titutlo1: 'hola' })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
@@ -28,7 +28,7 @@ class MessageController {
     }
   }
 
-  createMessage = async (req, res) => {
+  createMessage = async (req, res, next) => {
     try {
       const newMessage = req.body
       const result = await messageService.add(newMessage)
@@ -37,11 +37,11 @@ class MessageController {
         payload: result
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  updateMessage = async (req, res) => {
+  updateMessage = async (req, res, next) => {
     try {
       const { mid } = req.params
       const cambio = req.body
@@ -51,11 +51,11 @@ class MessageController {
         payload: modificado
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  deleteMessage = async (req, res) => {
+  deleteMessage = async (req, res, next) => {
     try {
       const { mid } = req.params
       const quitar = await messageService.delete(mid)
@@ -64,7 +64,7 @@ class MessageController {
         payload: quitar
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 }

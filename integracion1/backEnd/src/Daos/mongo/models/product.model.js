@@ -13,6 +13,7 @@ const productSchema = new Schema({
   thumbnail: String,
   price: Number,
   stock: Number,
+  image: String,
   code: {
     type: String,
     unique: true,

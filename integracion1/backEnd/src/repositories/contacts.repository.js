@@ -1,17 +1,18 @@
-const ContactDto = require("../Dto/contact.dto")
+const ContactDto = require('../Dto/contact.dto')
 
 class ContactRepository {
-  constructor(dao) {
+  constructor (dao) {
     this.dao = dao
   }
+
   getContacts = async () => {
-    let result = await this.dao.get()
+    const result = await this.dao.get()
     return result
   }
 
   createContact = async (newContact) => {
-    let contactToInsert = new ContactDto(newContact)
-    let result = await this.dao.create(contactToInsert)
+    const contactToInsert = new ContactDto(newContact)
+    const result = await this.dao.create(contactToInsert)
     return result
   }
 }

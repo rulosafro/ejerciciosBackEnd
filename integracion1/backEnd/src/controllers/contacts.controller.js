@@ -1,20 +1,28 @@
-const { contactService } = require("../service/index.service")
+const { contactService } = require('../service/index.service')
 
 class ContactsController {
-  getContacts = async (req, res) => {
-    res.render("chat", {
-      status: "success",
-      payload: "contactos get",
-    })
+  getContacts = async (req, res, next) => {
+    try {
+      res.render('chat', {
+        status: 'success',
+        payload: 'contactos get'
+      })
+    } catch (error) {
+      next(error)
+    }
   }
 
-  createContacts = async (req, res) => {
-    let { name, last_name, phone } = req.body
-    let result = await contactService.createContact({ name, last_name, phone })
-    res.send({
-      status: "success",
-      payload: result,
-    })
+  createContacts = async (req, res, next) => {
+    try {
+      const { name, last_name, phone } = req.body
+      const result = await contactService.createContact({ name, last_name, phone })
+      res.send({
+        status: 'success',
+        payload: result
+      })
+    } catch (error) {
+      next(error)
+    }
   }
 
   // getOrdersById = async () => {}

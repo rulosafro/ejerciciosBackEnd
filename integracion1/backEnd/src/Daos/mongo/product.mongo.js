@@ -3,7 +3,6 @@ const { productModel } = require('./models/product.model')
 
 class ProductManagerMongo {
   constructor () {
-    //  iniciar la base de datos
     this.productModel = productModel
   }
 

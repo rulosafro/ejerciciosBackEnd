@@ -4,7 +4,7 @@ const { logger } = require('../config/logger')
 const { cartService } = require('../service/index.service')
 
 class OrdersController {
-  viewsUsers = async (req, res) => {
+  viewsUsers = async (req, res, next) => {
     try {
       const { page = 1 } = req.query
       const users2 = await userModel.paginate({}, { limit: 10, page, lean: true })
@@ -18,11 +18,11 @@ class OrdersController {
         nextPage
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  viewsProducts = async (req, res) => {
+  viewsProducts = async (req, res, next) => {
     try {
       let { pages = 1, limit = 10, sort = 1, query } = req.query
 
@@ -66,20 +66,20 @@ class OrdersController {
     }
   }
 
-  viewsRealTime = (req, res) => {
+  viewsRealTime = (req, res, next) => {
     res.render('realTimeProducts', {})
   }
 
-  viewsCarts = async (req, res) => {
+  viewsCarts = async (req, res, next) => {
     try {
       const carts = await cartService.get()
       res.status(200).render('carts', { carts })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  viewsMyCart = async (req, res) => {
+  viewsMyCart = async (req, res, next) => {
     try {
       const { cid } = req.params
       const carrito = await cartService.getByID(cid)
@@ -90,34 +90,34 @@ class OrdersController {
       logger.info(carrito)
       res.status(200).render('cartsById', { carrito, cid })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  viewsRegister = (req, res) => {
+  viewsRegister = (req, res, next) => {
     res.status(200).render('registerForm', {})
   }
 
-  viewsLogin = (req, res) => {
+  viewsLogin = (req, res, next) => {
     res.status(200).render('login', {})
   }
 
-  viewsLogout = async (req, res) => {
+  viewsLogout = async (req, res, next) => {
     try {
       res.clearCookie('coderCookieToken').clearCookie('connect.sid').redirect('/views/products')
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 
-  viewsUpload = (req, res) => {
+  viewsUpload = (req, res, next) => {
     try {
       res.send({
         status: 'success',
         mensaje: 'Archivo subido '
       })
     } catch (error) {
-      logger.error(error)
+      next(error)
     }
   }
 }

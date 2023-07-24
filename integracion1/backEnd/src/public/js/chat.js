@@ -1,10 +1,10 @@
-const { logger } = require('../../config/logger')
 const express = require('express')
 const app = express()
 
 const { Server: ServerHTTP } = require('http')
 const { Server: ServerIO } = require('socket.io')
 const { socketMessage } = require('./utils/socketMessage.js')
+const { logger } = require('../../config/logger.js')
 const serverHttp = ServerHTTP(app)
 const io = new ServerIO(serverHttp)
 

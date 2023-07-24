@@ -9,6 +9,6 @@ exports.generateProduct = () => {
     description: faker.commerce.productDescription(),
     id: faker.database.mongodbObjectId(),
     code: faker.database.mongodbObjectId(),
-    image: faker.image.url(),
+    image: faker.image.url()
   }
 }
