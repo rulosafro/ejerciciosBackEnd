@@ -14,6 +14,5 @@ export const Home = () => (
     <InfoImg/>
     <Banner />
     {/* <Section1 /> */}
-
   </div>
 )

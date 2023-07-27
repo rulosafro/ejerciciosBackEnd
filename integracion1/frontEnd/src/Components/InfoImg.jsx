@@ -1,4 +1,3 @@
-
 export const InfoImg = () => (
   <div>
     <div className="container my-24 mx-auto md:px-6">
@@ -52,12 +51,8 @@ export const InfoImg = () => (
                 </div>
               </div>
               <div className="ml-4 grow">
-                <p className="mb-1 font-bold">Support 24/7</p>
-                <p className="text-neutral-500 dark:text-neutral-300">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Nihil quisquam quibusdam modi sapiente magni molestias
-              pariatur facilis reprehenderit facere aliquam ex.
-                </p>
+                <p className="mb-1 font-bold">Estilo atemporal</p>
+                <p className="text-neutral-500 dark:text-neutral-300"> El encanto perdura en el tiempo con nuestros relojes de diseño intemporal. Desde icónicos clásicos hasta creaciones contemporáneas, cada pieza captura la esencia de la elegancia atemporal, siendo el complemento perfecto para tu estilo, sin importar las tendencias del momento </p>
               </div>
             </div>
 
@@ -72,11 +67,9 @@ export const InfoImg = () => (
                 </div>
               </div>
               <div className="ml-4 grow">
-                <p className="mb-1 font-bold">Safe and solid</p>
+                <p className="mb-1 font-bold">Tecnología innovadora</p>
                 <p className="text-neutral-500 dark:text-neutral-300">
-              Eum nostrum fugit numquam, voluptates veniam neque quibusdam
-              ullam aspernatur odio soluta, quisquam dolore animi mollitia a
-              omnis praesentium, expedita nobis!
+El futuro se une al presente en nuestros relojes con tecnología de vanguardia. Desde movimientos mecánicos hasta smartwatches avanzados, nuestros modelos combinan diseño clásico con funcionalidades de última generación, garantizando un rendimiento óptimo y una experiencia única
                 </p>
               </div>
             </div>
@@ -92,11 +85,9 @@ export const InfoImg = () => (
                 </div>
               </div>
               <div className="ml-4 grow">
-                <p className="mb-1 font-bold">Extremely fast</p>
+                <p className="mb-1 font-bold">Materiales de primera calidad</p>
                 <p className="text-neutral-500 dark:text-neutral-300">
-              Enim cupiditate, minus nulla dolor cumque iure eveniet facere
-              ullam beatae hic voluptatibus dolores exercitationem? Facilis
-              debitis aspernatur amet nisi iure eveniet facere?
+ La excelencia reside en cada componente de nuestros relojes. Desde cajas elegantes hasta mecanismos precisos y correas refinadas, cada detalle refleja la artesanía impecable y los materiales exquisitos que los conforman, ofreciendo piezas duraderas y de alto nivel estético
                 </p>
               </div>
             </div>
@@ -112,11 +103,9 @@ export const InfoImg = () => (
                 </div>
               </div>
               <div className="ml-4 grow">
-                <p className="mb-1 font-bold">Live analytics</p>
+                <p className="mb-1 font-bold">Elegancia en cada ocasión</p>
                 <p className="text-neutral-500 dark:text-neutral-300">
-              Illum doloremque ea, blanditiis sed dolor laborum praesentium
-              maxime sint, consectetur atque ipsum ab adipisci ullam
-              aspernatur odio soluta, quisquam dolore
+              Nuestros relojes de alta gama encarnan la sofisticación en cada detalle. Eleva tu presencia con un toque de lujo atemporal en cualquier evento o situación, reflejando tu estilo distinguido con cada movimiento
                 </p>
               </div>
             </div>

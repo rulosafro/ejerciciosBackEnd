@@ -8,6 +8,7 @@ export const ProductGrid = () => {
 
   const getProducts = async () => {
     await fetch('http://localhost:8080/api/products/?limit=31')
+    // await fetch('http://localhost:8080/api/products')
       .then(response => response.json())
       .then(response => setProducts(response.payload))
       .catch(error => console.log(error))
@@ -15,7 +16,7 @@ export const ProductGrid = () => {
 
   useEffect(() => {
     getProducts()
-  }, [])
+  }, [products])
 
   console.log(products)
 

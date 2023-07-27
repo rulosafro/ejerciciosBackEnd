@@ -16,14 +16,16 @@ const pruebasRouter = require('./example/pruebas.router')
 const ticketsRouter = require('./tickets.router')
 const mockRouter = require('./mock.router')
 const loggerRouter = require('./logger.router')
+const contrasenaRouter = require('./contrasena.router')
 
 const passportCall = require('../middlewares/passportCall')
 const { authorization } = require('../middlewares/authorizationJwtRole')
 
 const midUser = [passportCall('jwt'), authorization('user')]
-const midAdmin = [passportCall('jwt'), authorization('admin')]
+// const midAdmin = [passportCall('jwt'), authorization('admin')]
 const midJWT = [passportCall('jwt')]
 // const midUser = []
+const midAdmin = []
 
 router.use('/', homeRouter)
 router.use('/views', viewsRouter)
@@ -40,6 +42,7 @@ router.use('/tickets', ticketsRouter)
 router.use('/mockingproducts', mockRouter)
 router.use('/loggerTest', loggerRouter)
 router.use('/pruebas', pruebasRouter)
+router.use('/recuperar', contrasenaRouter)
 
 // router.use("/cookie", cookieRouter)
 // router.use("/messages", messagesRouter)

@@ -20,6 +20,10 @@ p {
   font-size: 14px;
 }
 
+h2 {
+  @apply text-center text-5xl uppercase mt-5 font-black
+}
+
 .ramHover {
   color: black;
   text-align: center;

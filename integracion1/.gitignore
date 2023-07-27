@@ -1,0 +1,7 @@
+node_modules
+# .errors.log
+# .HTTP
+# backEnd/.env
+# /backEnd/.env.development
+# .env.production
+# .prettierrc

@@ -7,22 +7,6 @@ const customLevelOptions = {
   colors: { fatal: 'red', error: 'yellow', warning: 'blue', info: 'green', http: 'cyan', debug: 'white' }
 }
 
-// const logger = winston.createLogger({
-//   levels: customLevelOptions.levels,
-//   transports: [
-//     new winston.transports.Console({
-//       level: 'info',
-//       format: winston.format.combine(
-//         winston.format.colorize({ colors: customLevelOptions.colors }),
-//         winston.format.simple()
-//       )
-//     }),
-//     new winston.transports.File({ filename: '.errors.log', level: 'error', format: winston.format.simple() })
-//   ]
-// })
-
-// const name2 = config.env.PERSISTENCE
-
 let logger
 switch (persistence) {
   case 'MONGO':

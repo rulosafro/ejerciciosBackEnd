@@ -79,7 +79,6 @@ router.get('/sms', async (req, res) => {
 
 router.get('/mail', async (req, res) => {
   await sendMail('rulosafro@gmail.com', 'Correo de prueba 2', '<div><h1> Este es un test </h1></div>')
-
   res.send({ message: 'Email enviado' })
 })
 

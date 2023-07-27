@@ -34,6 +34,18 @@ class UserController {
     }
   }
 
+  getUserByMail = async (req, res, next) => {
+    try {
+      const data = await userService.getByMail(mail)
+      res.status(200).send({
+        status: 'success',
+        payload: data
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   createUser = async (req, res, next) => {
     try {
       const newUser = req.body
@@ -41,6 +53,26 @@ class UserController {
       res.status(200).send({
         status: 'success',
         payload: usuarioNuevo
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  changeUserPremium = async (req, res, next) => {
+    try {
+      const { uid } = req.params
+      const user = await userService.getByID(uid)
+      let cambio
+      user.role === 'user' ? cambio = { role: 'premium' } : cambio = { role: 'user' }
+      user.role === 'premium' ? cambio = { role: 'user' } : cambio = { role: 'premium' }
+      const modificado = await userService.update(uid, cambio)
+      const user2 = await userService.getByID(uid)
+
+      res.status(200).send({
+        status: 'success',
+        modificado,
+        payload: user2
       })
     } catch (error) {
       next(error)
