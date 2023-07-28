@@ -5,4 +5,9 @@ const generateToken = (user) => {
   return token
 }
 
-module.exports = { generateToken }
+const generateTokenPassword = (user) => {
+  const token = jwt.sign(user, process.env.SECRET_KEY, { expiresIn: '1h' })
+  return token
+}
+
+module.exports = { generateToken, generateTokenPassword }

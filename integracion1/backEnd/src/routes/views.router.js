@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const { uploader } = require('../utils/multer')
-const passportCall = require('../middlewares/passportCall')
+const { passportCall } = require('../middlewares/passportCall')
 const { authorization } = require('../middlewares/authorizationJwtRole')
 const { viewsUsers, viewsProducts, viewsRealTime, viewsCarts, viewsMyCart, viewsLogin, viewsRegister, viewsLogout, viewsUpload } = require('../controllers/views.controller')
 

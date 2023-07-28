@@ -6,6 +6,8 @@ const handlebars = require('express-handlebars')
 const passport = require('passport')
 const compression = require('express-compression')
 const routerServer = require('./routes/index')
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUiExpress = require('swagger-ui-express')
 // const { Server } = require('socket.io')
 const { initPassportGithub, initPassportMid, initPassportJWT } = require('./config/passport.config.js')
 const { errorHandler } = require('./middlewares/errorMiddleware.js')
@@ -35,6 +37,21 @@ app.set('view engine', 'hbs')
 app.use(cookieParser(process.env.SECRET_KEY))
 app.use(addLogger)
 // app.use(logger('dev'))
+
+// Swaggerr
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentación de WatchWorld',
+      description: 'Ecommerce para la venta de relojeria'
+    }
+  },
+  apis: [`${__dirname}/docs/**/*.yaml`]
+}
+
+const specs = swaggerJsDoc(swaggerOptions)
+app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
 // LOGIN----------------------------------------------------------------
 initPassportJWT()

@@ -1,6 +1,6 @@
 const { Router, request } = require('express')
 const { auth } = require('../middlewares/auth.middleware')
-const passportCall = require('../middlewares/passportCall')
+const { passportCall } = require('../middlewares/passportCall')
 const { authorization } = require('../middlewares/authorizationJwtRole')
 const { setCookie, setSignCookie, getSignCookie, deleteCookie, privateRoute } = require('../controllers/cookie.controller')
 const router = Router()

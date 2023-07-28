@@ -3,11 +3,11 @@ const { cpus } = require('os')
 const { initServer } = require('./src/server')
 const { logger } = require('./src/config/logger')
 
-// logger.info(cluster.isPrimary)
-// logger.info(cpus())
+logger.info(cluster.isPrimary)
+logger.info(cpus())
 const numeroDeProcesadores = cpus().length
 
-// logger.info('Cantidad de hilos de ejecición ', numeroDeProcesadores)
+logger.info('Cantidad de hilos de ejecición ', numeroDeProcesadores)
 
 if (cluster.isPrimary) {
   logger.info('Proceso primario, generando proceso ')

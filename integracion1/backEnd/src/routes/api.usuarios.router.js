@@ -1,6 +1,4 @@
 const { Router } = require('express')
-const passportCall = require('../middlewares/passportCall')
-const { authorization } = require('../middlewares/authorizationJwtRole')
 const userController = require('../controllers/users.controller')
 
 const router = Router()

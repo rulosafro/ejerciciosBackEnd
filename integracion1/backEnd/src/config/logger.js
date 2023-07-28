@@ -1,4 +1,3 @@
-const config = require('./objectConfig')
 const winston = require('winston')
 const { persistence } = require('../config/objectConfig')
 

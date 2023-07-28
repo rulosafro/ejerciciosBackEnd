@@ -1,8 +1,8 @@
 <div class="text-white">
   <h1>Login</h1>
   <hr />
-  <p class="{{style}}">{{message}}</p>
-  <form id="cookieForm" action="/session/passport/login" method="post" class="">
+<p class="{{style}}">{{message}}</p>
+  <form id="cookieForm" action="/passport/login" method="post" class="">
     <div class="my-3">
       <input type="text" name="email" id="" placeholder="Email" />
     </div>
@@ -12,11 +12,11 @@
     <button type="submit" class="btn btn-primary">Enviar</button>
   </form>
 
-  <a href="/session/github/github" class="text-white hover:underline hover: decoration-solid" >Login Github </a>
-  <br />
-  <a href="/recuperar" class="text-white">Recuperar Contraseña </a>
+  <a href="/github/github" class="text-white hover:underline hover: decoration-solid" >Login Github </a>
   <br />
   <a href="/views/register" class="text-white " >Regístrate</a>
+  <br />
+  <a href="/recuperar" class="text-white">Recuperar Contraseña </a>
   {{! <button onclick="getCookie()"> Ver Cookie</button> }}
 </div>
 

@@ -8,6 +8,7 @@ class ProductController {
   getProducts = async (req, res, next) => {
     try {
       const productos = await productService.get()
+
       let { pages = 1, limit = 10, sort = 1, query } = req.query
       if (!query) {
         query = {}

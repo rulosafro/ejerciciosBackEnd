@@ -20,6 +20,7 @@ class PassportController {
           code: EError.INVALID_TYPE_ERROR
         })
       }
+
       const newUser = req.user
       const token = generateToken(newUser)
 

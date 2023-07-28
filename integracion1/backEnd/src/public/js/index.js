@@ -1,7 +1,3 @@
-const { logger } = require('../../config/logger')
-
-logger.info('Funcionando el JS')
-
 const form = document.querySelector('#cookieForm')
 form.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -9,7 +5,7 @@ form.addEventListener('submit', (e) => {
   const obj = {}
   data.forEach((value, key) => (obj[key] = value))
 
-  fetch('/session/passport/login', {
+  fetch('/passport/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

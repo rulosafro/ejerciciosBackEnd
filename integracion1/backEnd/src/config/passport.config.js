@@ -99,7 +99,6 @@ const initPassportJWT = () => {
       },
       async (jwt_payload, done) => {
         try {
-          //! validacion usuario + donde(null, false, {message: 'Usuario no encontrado'})
           return await done(null, jwt_payload)
         } catch (error) {
           return done(error)
@@ -114,9 +113,9 @@ const initPassportGithub = () => {
     'github',
     new GithubStrategy(
       {
-        clientID: 'Iv1.59474a1e33b56236',
-        clientSecret: '3c586c9ac0e4ee0d5f5064c1fbc33d3fb960f385',
-        callbackURL: 'http://localhost:8080/session/github/githubcallback'
+        clientID: 'Iv1.9daae68a5123e71f',
+        clientSecret: '88efcf6279b508ddb2f89170a80059fdcd6db55c',
+        callbackURL: 'http://localhost:8080/github/githubcallback'
       },
       async (accessToken, refreshToken, profile, done) => {
         // logger.info('Profile', profile)

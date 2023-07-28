@@ -2,7 +2,6 @@ const { connect } = require('mongoose')
 const dotenv = require('dotenv')
 const { commander } = require('./commander')
 const { mode } = commander.opts()
-const { logger } = require('./logger')
 const MongoSingleton = require('./singleton')
 
 dotenv.config({
