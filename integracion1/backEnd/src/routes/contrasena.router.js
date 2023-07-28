@@ -15,20 +15,17 @@ router.get('/nueva', passportCall2('jwt'), (req, res) => res.status(200).render(
 router.post('/nueva', passportCall2('jwt'), async (req, res, next) => {
   try {
     const { contrasenaNueva, validacionNueva } = req.body
+    const person = await userService.getByMail('javi@a.com')
 
     if (!contrasenaNueva || !validacionNueva) { res.send('falta ingresar los valores') }
     contrasenaNueva !== validacionNueva && res.send('Los valores no coinciden')
-    const person = await userService.getByMail(req.user.email)
     if (validPassword(contrasenaNueva, person)) { res.send('La contraseña tiene que ser diferente a tu contraseña anterior') }
+    await userModel.findOneAndUpdate({ _id: person._id }, { password: createHash(contrasenaNueva) })
 
-    // console.log('🚀 ~ file: contrasena.router.js:25 ~ router.post ~ person:', person)
-
-    userModel.findOneAndUpdate({ email: 'javi@a.com' }, { $set: { password: createHash(contrasenaNueva) } })
-    // userService.updateUser
     res
       .status(200)
-      .send('oal')
-      // .redirect('/views/products')
+      // .send('oal')
+      .redirect('/views/products')
   } catch (error) {
     next(error)
   }
