@@ -61,6 +61,9 @@ class ProductController {
   createProducts = async (req, res, next) => {
     try {
       const newProduct = req.body
+      if (!newProduct.owner) {
+        newProduct.owner = req.user.email
+      }
 
       if (!newProduct) {
         CustomError.createError({

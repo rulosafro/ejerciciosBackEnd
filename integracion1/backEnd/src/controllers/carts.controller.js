@@ -1,3 +1,4 @@
+const { RecordingRulesInstance } = require('twilio/lib/rest/video/v1/room/recordingRules')
 const { logger } = require('../config/logger')
 const { cartService, productService, ticketService } = require('../service/index.service')
 const { CustomError } = require('../utils/CustomError/CustomError')
@@ -36,6 +37,28 @@ class CartController {
       //   res.status(404).send('ID no identificado')
       // }
       const cart = await cartService.getByID(cid)
+      res.status(200).send({
+        status: 'success',
+        payload: cart
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  getMyCart = async (req, res, next) => {
+    try {
+      if (!cid) {
+        CustomError.createError({
+          name: 'Cart finder fail',
+          cause: generateCartErrorInfo(
+            cid
+          ),
+          message: 'Error trying find a cart by ID: ' + cid,
+          code: EError.ROUTING_ERROR
+        })
+      }
+      const cart = await cartService.getByID(req.user._id)
       res.status(200).send({
         status: 'success',
         payload: cart
@@ -99,6 +122,11 @@ class CartController {
         })
       }
 
+      if (req.user.role === 'premium') {
+        const productData = productService.getByID(pid)
+        productData.owner === req.user.email && res.status(400).send('Un usuario premium no puede agregar productos de su pertenencia al carrito')
+      }
+
       const quantity = parseInt(num)
       const product = {
         id: pid,
@@ -133,10 +161,18 @@ class CartController {
         })
       }
 
+      if (req.user.role === 'premium') {
+        const productData = productService.getByID(pid)
+        productData.owner === req.user.email && res.status(400).send('Un usuario premium no puede agregar productos de su pertenencia al carrito')
+      }
+
       const product = {
         id: pid,
         quantity: parseInt(quantity)
       }
+      const dataProduct = productService.getByID(pid)
+
+      console.log('🚀 ~ file: carts.controller.js:163 ~ CartController ~ putProductOnCarts= ~ dataProduct:', dataProduct)
 
       const agregado = await cartService.add(cid, pid, quantity)
       const resultado = await cartService.getByID(cid)
@@ -164,6 +200,11 @@ class CartController {
           message: 'Error trying find a cart by ID: ' + pid,
           code: EError.ROUTING_ERROR
         })
+      }
+
+      if (req.user.role === 'premium') {
+        const productData = productService.getByID(pid)
+        productData.owner === req.user.email && res.status(400).send('Un usuario premium no puede agregar productos de su pertenencia al carrito')
       }
 
       const product = {

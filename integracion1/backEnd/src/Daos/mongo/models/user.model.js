@@ -22,11 +22,7 @@ const userSchema = new Schema({
   age: Number,
   password: String,
   role: String,
-  cart: String,
-  owner: {
-    type: String,
-    default: 'admin'
-  }
+  cart: String
   // gender: String,
 })
 

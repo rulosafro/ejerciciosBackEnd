@@ -12,34 +12,14 @@ const router = Router()
 router.get('/', (req, res) => res.status(200).render('recuperar', {}))
 router.get('/nueva', passportCall2('jwt'), (req, res) => res.status(200).render('formularioRecuperacion', {}))
 
-router.post('/nueva', passportCall2('jwt'), async (req, res, next) => {
-  try {
-    const { contrasenaNueva, validacionNueva } = req.body
-    const person = await userService.getByMail('javi@a.com')
-
-    if (!contrasenaNueva || !validacionNueva) { res.send('falta ingresar los valores') }
-    contrasenaNueva !== validacionNueva && res.send('Los valores no coinciden')
-    if (validPassword(contrasenaNueva, person)) { res.send('La contraseña tiene que ser diferente a tu contraseña anterior') }
-    await userModel.findOneAndUpdate({ _id: person._id }, { password: createHash(contrasenaNueva) })
-
-    res
-      .status(200)
-      // .send('oal')
-      .redirect('/views/products')
-  } catch (error) {
-    next(error)
-  }
-})
-
 router.post('/', async (req, res, next) => {
   try {
     const { email } = req.body
+    if (!email) res.render('recuperar', { status: 'error', message: 'Falta llenar todos los inputs', style: 'text-danger' })
     const userData = await userService.getByMail(email)
-    if (!email) res.status(404).send('Debes ingresar un email')
-    if (!userData) res.status(404).send('No encontramos un usuario con este email')
+    if (!userData) res.render('recuperar', { status: 'error', message: 'No se ha encontrado un usuario con este email', style: 'text-danger' })
     const html = '<div><h1> Restablece tu contraseña </h1> <p> Haz click en el siguiente enlace para llegar al link e ingresar tu nueva contraseña</p> <blockquote> El link tiene una hora de validez </blockquote> <blockquote> Es importante que mantengas en el mismo explorador </blockquote> <br> <button> <a href="http://localhost:8080/recuperar/nueva" target="_blank"> Cambiar contraseña </a> </button></div>'
 
-    // todo:
     await sendMail(email, 'Restablecer contraseña CodeOwner', html)
 
     const newData = {
@@ -54,8 +34,29 @@ router.post('/', async (req, res, next) => {
     res
       .status(200)
       .cookie('coderCookieToken', access_Token, { maxAge: 60 * 60 * 100, httpOnly: true })
-      // .cookie('coderCookieToken', access_Token, { maxAge: 600 * 60 * 1000 })
+    // .cookie('coderCookieToken', access_Token, { maxAge: 600 * 60 * 1000 })
       .send('Se ha enviado un email a tu correo para restablecer tu contraseña')
+  } catch (error) {
+    next(error)
+  }
+})
+
+router.post('/nueva', passportCall2('jwt'), async (req, res, next) => {
+  try {
+    const { contrasenaNueva, validacionNueva } = req.body
+    const person = await userService.getByMail(req.user.email)
+    const time = Math.floor(new Date().getTime() / 1000)
+
+    if (!contrasenaNueva || !validacionNueva) res.render('formularioRecuperacion', { status: 'error', message: 'Falta llenar todos los inputs', style: 'text-danger' })
+    contrasenaNueva !== validacionNueva && res.render('formularioRecuperacion', { status: 'error', message: 'Los valores no son iguales', style: 'text-danger' })
+    if (time > req.user.exp) res.render('login', { status: 'error', message: 'Se expiró el código, vuelve a generar uno', style: 'text-danger' })
+    if (validPassword(contrasenaNueva, person)) { res.send('La contraseña tiene que ser diferente a tu contraseña anterior') }
+
+    await userModel.findOneAndUpdate({ _id: person._id }, { password: createHash(contrasenaNueva) })
+    res
+      .status(200)
+      // .send('oal')
+      .redirect('/views/products')
   } catch (error) {
     next(error)
   }

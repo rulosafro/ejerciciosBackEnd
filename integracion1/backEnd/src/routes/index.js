@@ -23,10 +23,10 @@ const { passportCall } = require('../middlewares/passportCall')
 const { authorization } = require('../middlewares/authorizationJwtRole')
 
 const midUser = [passportCall('jwt'), authorization('user')]
-// const midAdmin = [passportCall('jwt'), authorization('admin')]
+const midAdmin = [passportCall('jwt'), authorization('admin')]
 const midJWT = [passportCall('jwt')]
 // const midUser = []
-const midAdmin = []
+// const midAdmin = []
 
 router.use('/', homeRouter)
 router.use('/views', viewsRouter)
@@ -36,7 +36,7 @@ router.use('/static', express.static(__dirname + './../public'))
 
 router.use('/api/products', apiProductsRouter)
 router.use('/api/users', midAdmin, apiUsuariosRouter)
-router.use('/api/carts', midJWT, apiCartsRouter)
+router.use('/api/carts', apiCartsRouter) // Validacion interna
 router.use('/chat', midUser, contactsRouter)
 router.use('/contacts', midUser, contactsRouter)
 router.use('/tickets', ticketsRouter)
