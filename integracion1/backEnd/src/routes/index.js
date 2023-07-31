@@ -40,10 +40,10 @@ router.use('/api/carts', apiCartsRouter) // Validacion interna
 router.use('/chat', midUser, contactsRouter)
 router.use('/contacts', midUser, contactsRouter)
 router.use('/tickets', ticketsRouter)
-router.use('/mockingproducts', mockRouter)
 router.use('/loggerTest', loggerRouter)
-router.use('/pruebas', pruebasRouter)
 router.use('/recuperar', contrasenaRouter)
+router.use('/pruebas', pruebasRouter)
+// router.use('/mockingproducts', mockRouter)
 
 // router.use("/cookie", cookieRouter)
 // router.use("/messages", messagesRouter)

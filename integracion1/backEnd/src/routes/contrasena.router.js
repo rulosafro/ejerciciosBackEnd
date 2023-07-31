@@ -28,7 +28,6 @@ router.post('/', async (req, res, next) => {
       special: 'recuperación'
     }
 
-    // newData += req.user
     const access_Token = generateTokenPassword(newData)
 
     res
@@ -48,15 +47,14 @@ router.post('/nueva', passportCall2('jwt'), async (req, res, next) => {
     const time = Math.floor(new Date().getTime() / 1000)
 
     if (!contrasenaNueva || !validacionNueva) res.render('formularioRecuperacion', { status: 'error', message: 'Falta llenar todos los inputs', style: 'text-danger' })
-    contrasenaNueva !== validacionNueva && res.render('formularioRecuperacion', { status: 'error', message: 'Los valores no son iguales', style: 'text-danger' })
+    if (contrasenaNueva !== validacionNueva) res.render('formularioRecuperacion', { status: 'error', message: 'Los valores no son iguales', style: 'text-danger' })
     if (time > req.user.exp) res.render('login', { status: 'error', message: 'Se expiró el código, vuelve a generar uno', style: 'text-danger' })
     if (validPassword(contrasenaNueva, person)) { res.send('La contraseña tiene que ser diferente a tu contraseña anterior') }
 
     await userModel.findOneAndUpdate({ _id: person._id }, { password: createHash(contrasenaNueva) })
     res
       .status(200)
-      // .send('oal')
-      .redirect('/views/products')
+      .render('login', { status: 'success', message: 'cambio de clave exitoso, ingresa a tu cuenta', style: '' })
   } catch (error) {
     next(error)
   }

@@ -3,6 +3,7 @@ const { productService } = require('../service/index.service')
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { EError } = require('../utils/CustomError/Erros')
 const { generateProductErrorInfo } = require('../utils/CustomError/info')
+const { userService } = require('./users.controller')
 
 class ProductController {
   getProducts = async (req, res, next) => {
@@ -61,6 +62,7 @@ class ProductController {
   createProducts = async (req, res, next) => {
     try {
       const newProduct = req.body
+
       if (!newProduct.owner) {
         newProduct.owner = req.user.email
       }
@@ -126,6 +128,8 @@ class ProductController {
   deleteProducts = async (req, res, next) => {
     try {
       const { pid } = req.params
+      const dataUser = userService.getByID(req.user._id)
+      const dataProduct = productService.getByID(pid)
 
       if (!pid) {
         CustomError.createError({
@@ -136,6 +140,13 @@ class ProductController {
           message: 'Error trying find a product by ID: ' + pid,
           code: EError.ROUTING_ERROR
         })
+      }
+
+      if (dataUser.role === 'premium' && dataProduct.owner !== dataUser.email) {
+        res.status(400).send('El usuario premium sólo puede elimianr productos de su pertenencia')
+      }
+      if (dataUser.role === 'user') {
+        res.status(400).send('No tienes permiso para eliminar un producto del catálogo')
       }
 
       const quitar = await productService.delete(pid)
