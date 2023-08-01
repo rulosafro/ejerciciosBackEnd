@@ -1,0 +1,367 @@
+paths: 
+  /api/carts:
+    get:
+      summary: Obtiene todos los carros
+      tags: 
+        - Carts
+      responses:
+        "200":
+          description: Los carritos fueron obtenidos correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#components/schemas/Cart'
+        "500":
+          description: Error interno del server 
+    post:
+      summary: Crea un nuevo carrito vacio
+      tags:
+        - Carts
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/CartVacio'
+      responses:
+        "201":
+          description: El usuario fue creado correctamente
+  
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene el carrito según id
+      tags: 
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: El id del carrito a solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: El carrito fue obtenido correctamente
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Cart'
+        "400": 
+          description: Petición fallida
+        "500":
+          description: Error interno del server 
+
+    put:
+      summary: Actualización de un carrito
+      tags:
+      - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateCartItem'
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: El id del carrito a solicitar
+        schema:
+          $type: String      
+      responses:
+        "200":
+          description: Respuesta Exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#components/schemas/Cart'
+        "300":
+          description: Redirección de la petición
+        "400":
+          description: Error en la petición
+        "500":
+          description: Error interno del servidor
+
+    delete:
+      summary: Vaciar el carrito 
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: El id del usuario a eliminar
+        schema:
+          $type: String
+      responses:
+        "200": 
+          description: El usuario fue eliminado
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#components/schemas/Cart'
+        "300":
+          description: Redirección de la petición
+        "400":
+          description: Error en la petición
+        "500":
+          description: Error interno del servidor
+
+  /api/carts/{cid}/product/{pid}:
+    put:
+      summary: Sumar un producto al carrito con el quantity en el body
+      tags:
+      - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/exampleQuantity'
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: El id del carro del usuario
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: El id del producto a agregar
+      responses:
+        "200":
+          description: Petición exitosa
+        "300":
+          description: Redirección de la petición
+        "400":
+          description: Error del request
+        "500":
+          description: Error interno del servidor
+
+    delete:
+      summary: Eliminar un producto del carrito según el ID
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: El id del carro del usuario
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: El id del producto a agregar
+      responses:
+        "200":
+          description: Petición exitosa
+        "300":
+          description: Redirección de la petición
+        "400":
+          description: Error del request
+        "500":
+          description: Error interno del servidor
+
+  /api/carts/{cid}/product/{pid}/quantity/{num}:
+    put:
+      summary: Sumar un producto según la cantidad del parametro a un carrito
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: El id del carro del usuario
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: El id del producto a agregar
+      - name: num
+        in: path
+        required: true
+        description: El quantity del producto
+      responses:
+        "200":
+          description: Petición exitosa
+        "300":
+          description: Redirección de la petición
+        "400":
+          description: Error del request
+        "500":
+          description: Error interno del servidor
+
+  /api/carts/{tid}/purchase:
+    post:
+      summary: Procesamineto de un ticket de compra
+      tags:
+      - Carts
+      requestBody:
+      parameters:
+      - name: tid
+        in: path
+        required: true
+        description: El id del ticket a procesar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Petición exitosa
+        "300":
+          description: Redirección de la petición
+        "400":
+          description: Error del request
+        "500":
+          description: Error interno del servidor
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por Mongo
+        products:
+          type: array
+          description: Primer nombre del usuario
+
+      example:
+        _id: 64a47ea6d8adbf2654543d4a,
+        products: [
+          {
+            product: 645343eabb68782cec44ceb1,
+            quantity: 10,
+            _id: 64627e6f7df60f4d9c99d76b
+          },
+          {
+            product: 64625afa0a77a5c31928d3e3,
+            quantity: 4,
+            _id: 64630342f71553ffc6663a21
+          },
+          {
+            product: 64534597ff60520f41a5c168,
+            quantity: 400,
+            _id: 64630359f71553ffc6663a37
+          }
+        ]
+    CartVacio:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por Mongo
+        products:
+          type: array
+          description: Primer nombre del usuario
+
+      example:
+        products: []
+
+  requestBodies:
+    updateCart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por Mongo
+        products:
+          type: array
+          description: Primer nombre del usuario
+      example:
+        _id: 64a47ea6d8adbf2654543d4a,
+        products: [
+          {
+            product: 645343eabb68782cec44ceb1,
+            quantity: 10,
+            _id: 64627e6f7df60f4d9c99d76b
+          },
+          {
+            product: 64625afa0a77a5c31928d3e3,
+            quantity: 4,
+            _id: 64630342f71553ffc6663a21
+          },
+          {
+            product: 64534597ff60520f41a5c168,
+            quantity: 400,
+            _id: 64630359f71553ffc6663a37
+          }
+        ]
+
+    updateCartItem:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: ID autogenerado por Mongo
+        products:
+          type: array
+          description: Primer nombre del usuario
+      example:
+        # _id: 64627a88402b20090a33cc6b,
+        products: 
+          product: 64534597ff60520f41a5c168
+          quantity: 400
+          _id: 64630359f71553ffc6663a37
+
+    exampleQuantity:
+      type: string
+      properties:
+        quantity:
+          type: string
+          description: Cantidad de productos para agregar en el carro
+      example:
+        quantity: 12
+
+  # /api/carts/mycart:
+  #   get:
+  #     summary: Obtener el cart del usuario que se logeo
+  #     tags:
+  #     - Carts
+  #     parameters:
+  #     responses:
+  #       "200":
+  #         description:
+  #       "300":
+  #         description:
+  #       "400":
+  #         description:
+  #       "500":
+  #         description:
+
+  # /api/carts/mycart/product/{pid}:
+  #   put:
+  #     summary: Sumar un producto al carrito del usuario actual
+  #     tags:
+  #     - Carts
+  #     requestBody:
+  #       required: true
+  #       content:
+  #         application/json:
+  #           schema:
+  #             $ref: '#components/requestBodies/updateCart'
+  #     parameters:
+  #     - name: pid
+  #       in: path
+  #       required: true
+  #       description: El id del usuario a eliminar
+  #       schema:
+  #         $type: String
+  #     responses:
+  #       "200":
+  #         description:
+  #       "300":
+  #         description:
+  #       "400":
+  #         description:
+  #       "500":
+  #         description:

@@ -1,0 +1,191 @@
+paths:
+  /api/products:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: La petición fue exitosa
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#components/schemas/Products'
+
+        "300":
+          description: Redirección de la petición
+          # content:
+          #   application/json:
+          #     schema:
+          #       type: array
+          #       items: 
+          #         $ref: '#components/schemas/Products'
+        "400":
+          description: Fallo de la petición
+        "500":
+          description: Error interno del server
+    post:
+      summary: Crear un producto
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProducts'
+      responses:
+        "200":
+          description: El producto fue creado correctamente
+          # content:
+          #   application/json:
+          #     schema:
+          #       type: object
+          #       items: 
+          #         $ref: '#components/schemas/Products'
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene el producto del ID ingresado
+      tags: 
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: El id del usuario a solicitar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: La solicitud fue exitosa y se mostró el producto
+          content:
+            application/json:
+              schema:
+                $ref: '#components/schemas/Products'
+        "500":
+          description: Error interno del server 
+
+    put:
+      summary: Actualizar un producto
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: El id del producto a modificar
+        schema: 
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProducts'
+      responses:
+        "200": 
+          description: El usuario de modifico correctamente
+
+    delete:
+      summary: Eliminar un producto
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: El id del producto a eliminar
+        schema:
+          $type: String
+      responses:
+        "200": 
+          description: El producto fue eliminado
+
+components:
+  schemas:
+    Products:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id de identificación
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        thumbnail:
+          type: string
+          description: Línea de clasificación del producto
+        price:
+          type: integer
+          description: Precio del producto
+        stock:
+          type: integer
+          description: Stock disponible para la venta
+        image:
+          type: string
+          description: Imagen adjunta al producto
+        code:
+          type: string
+          description: Código de identificación
+        owner:
+          type: string
+          description: Dueño del producto que se ha subido
+      example:
+        _id: 3c503bbb2f5ac23bf1drwwef2
+        title: Luxurious Wooden Cheese
+        description: The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J
+        thumbnail:
+        price: 140 
+        stock: 6 
+        image: https://picsum.photos/seed/r9FxEbnJ/640/480
+        code: 8dff0cbcb48f36cc41aaddba
+        owner: admin
+
+
+  requestBodies:
+    updateProducts:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id de identificación
+        title:
+          type: string
+          description: Nombre del producto
+        description:
+          type: string
+          description: Descripción del producto
+        thumbnail:
+          type: string
+          description: Línea de clasificación del producto
+        price:
+          type: integer
+          description: Precio del producto
+        stock:
+          type: integer
+          description: Stock disponible para la venta
+        image:
+          type: string
+          description: Imagen adjunta al producto
+        code:
+          type: string
+          description: Código de identificación
+        owner:
+          type: string
+          description: Dueño del producto que se ha subido
+      example:
+        _id: 3c503bbb2f5ac23bf1drwwef2
+        title: Luxurious Wooden Cheese
+        description: The Nagasaki Lander is the trademarked name of several series of Nagasaki sport bikes, that started with the 1984 ABC800J
+        thumbnail:
+        price: 140 
+        stock: 6 
+        image: https://picsum.photos/seed/r9FxEbnJ/640/480
+        code: 8dff0cbcb48f36cc41aaddba
+        owner: admin

@@ -87,8 +87,8 @@ class TicketController {
       const ticket = {
         code: createHash(tid),
         amount: parseInt(total),
-        // purchaser: 'b@b.com',
-        purchaser: req.user.mail
+        cartID: tid
+        // purchaser: req.user.mail
       }
 
       const tickets = await ticketService.get({})

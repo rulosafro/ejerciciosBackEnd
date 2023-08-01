@@ -38,6 +38,7 @@ class ProductController {
     try {
       const { pid } = req.params
       const product = await productService.getByID(pid)
+      // console.log('🚀 ~ file: products.controller.js:41 ~ ProductController ~ getProductsById= ~ product:', product)
 
       if (!product) {
         CustomError.createError({

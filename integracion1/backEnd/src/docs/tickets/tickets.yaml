@@ -1,0 +1,136 @@
+# paths:
+#   api/products:
+#     get:
+#       summary: Obtiene todos los productos
+#       tags:
+#         - Products
+#       respones:
+#         "200":
+#           description: La petición fue exitosa
+#           content:
+#             application/json:
+#               schema:
+#                 type: array
+#                 items: 
+#                   $ref: '#components/schemas/Products'
+
+#         "300":
+#           description: Redirección de la petición
+#           content:
+#             application/json:
+#               schema:
+#                 type: array
+#                 items: 
+#                   $ref: '#components/schemas/Products'
+#         "400":
+#           description: Fallo de la petición
+#         "500":
+#           description: Error interno del server
+#     post:
+#       summary:
+#       tags:
+#       requestBody:
+#       responses:
+
+
+#   api/products/:pid:
+#     get:
+#             summary:
+#       tags:
+#       requestBody:
+#       responses:
+#     put:
+#           summary:
+#       tags:
+#       requestBody:
+#       responses:
+#     delete:
+#           summary:
+#       tags:
+#       requestBody:
+#       responses:
+
+# components:
+#   schemas:
+#     Product:
+#       type: object
+#       properties:
+#         _id:
+#           type: string
+#           description: Id de identificación
+#         title:
+#           type: string
+#           description: Nombre del producto
+#         description:
+#           type: string
+#           description: Descripción del producto
+#         thumbnail:
+#           type: string
+#           description: Línea de clasificación del producto
+#         price:
+#           type: integer
+#           description: Precio del producto
+#         stock:
+#           type: integer
+#           description: Stock disponible para la venta
+#         image:
+#           type: string
+#           description: Imagen adjunta al producto
+#         code:
+#           type: string
+#           description: Código de identificación
+#         owner:
+#           type: string
+#           description: Dueño del producto que se ha subido
+#       example:
+#         _id: 
+#         title: 
+#         description:
+#         thumbnail:
+#         price:
+#         stock:
+#         image:
+#         code:
+#         owner:
+
+#   requestBodies:
+#     updateProduct:
+#       type: object
+#       properties:
+#         _id:
+#           type: string
+#           description: Id de identificación
+#         title:
+#           type: string
+#           description: Nombre del producto
+#         description:
+#           type: string
+#           description: Descripción del producto
+#         thumbnail:
+#           type: string
+#           description: Línea de clasificación del producto
+#         price:
+#           type: integer
+#           description: Precio del producto
+#         stock:
+#           type: integer
+#           description: Stock disponible para la venta
+#         image:
+#           type: string
+#           description: Imagen adjunta al producto
+#         code:
+#           type: string
+#           description: Código de identificación
+#         owner:
+#           type: string
+#           description: Dueño del producto que se ha subido
+#       example:
+#         _id: 
+#         title: 
+#         description:
+#         thumbnail:
+#         price:
+#         stock:
+#         image:
+#         code:
+#         owner:
