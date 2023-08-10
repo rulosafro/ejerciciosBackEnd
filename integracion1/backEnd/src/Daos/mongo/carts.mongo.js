@@ -52,11 +52,12 @@ class CartsManagerMongo {
 
   async delete (cid) {
     try {
-      return cartsModel.findOneAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
+      return cartsModel.deleteOne({ _id: cid })
     } catch (error) {
       logger.error(error)
     }
   }
+  // return cartsModel.findOneAndUpdate({ _id: cid }, { $set: { products: [] } }, { new: true })
 
   async deleteProduct (cid, pid) {
     try {

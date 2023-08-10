@@ -263,7 +263,7 @@ class CartController {
         })
       }
 
-      const quitar = await cartService.delete(cid, pid)
+      const quitar = await cartService.deleteProduct(cid, pid)
 
       res.status(200).send({
         status: 'success',
