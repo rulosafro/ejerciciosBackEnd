@@ -4,6 +4,8 @@ paths:
       summary: Obtiene todos los productos
       tags:
         - Products
+      security:
+        - cookieAuth: []
       responses:
         "200":
           description: La petición fue exitosa
@@ -30,6 +32,8 @@ paths:
       summary: Crear un producto
       tags:
         - Products
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -51,6 +55,8 @@ paths:
       summary: Obtiene el producto del ID ingresado
       tags: 
         - Products
+      security:
+        - cookieAuth: []
       parameters:
       - name: pid
         in: path
@@ -69,9 +75,11 @@ paths:
           description: Error interno del server 
 
     put:
-      summary: Actualizar un producto
+      summary: Actualizar un producto [Admin]
       tags:
         - Products
+      security:
+        - cookieAuth: []
       parameters:
       - name: pid
         in: path
@@ -90,9 +98,11 @@ paths:
           description: El usuario de modifico correctamente
 
     delete:
-      summary: Eliminar un producto
+      summary: Eliminar un producto [Admin]
       tags:
         - Products
+      security:
+        - cookieAuth: []
       parameters:
       - name: pid
         in: path

@@ -7,16 +7,16 @@ const userSchema = new Schema({
   nickname: String,
   first_name: {
     type: String,
-    // required: true,
+    required: true,
     index: true
   },
   last_name: {
-    type: String
-    // required: true,
+    type: String,
+    required: true
   },
   email: {
     type: String,
-    // required: true,
+    required: true,
     index: true
   },
   age: Number,

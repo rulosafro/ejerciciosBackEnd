@@ -14,6 +14,10 @@ class UserManagerMongo {
     }
   }
 
+  async get2 (params) {
+    return userModel.find(params)
+  }
+
   async getByID (uid) {
     try {
       return await userModel.findOne({ _id: uid })
@@ -32,7 +36,10 @@ class UserManagerMongo {
 
   async add (newUser) {
     try {
-      return await userModel.create(newUser)
+      // const carritoNum = await cartService.create()
+      // newUser = { cart: carritoNum._id, ...newUser }
+      const userData = await userModel.create(newUser)
+      return userData
     } catch (error) {
       logger.error(error)
     }

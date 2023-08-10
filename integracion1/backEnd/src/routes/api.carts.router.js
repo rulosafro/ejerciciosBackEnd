@@ -6,10 +6,10 @@ const { authorization } = require('../middlewares/authorizationJwtRole')
 
 const router = Router()
 
-// const midUser = [passportCall('jwt'), authorization('user')]
-// const midAdmin = [passportCall('jwt'), authorization('admin')]
-const midUser = []
-const midAdmin = []
+const midUser = [passportCall('jwt'), authorization('user')]
+const midAdmin = [passportCall('jwt'), authorization('admin')]
+// const midUser = []
+// const midAdmin = []
 
 router.get('/', midAdmin, getCarts)
 router.get('/:cid', midAdmin, getCartsById)

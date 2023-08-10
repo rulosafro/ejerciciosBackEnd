@@ -1,9 +1,11 @@
 paths: 
   /api/users:
     get:
-      summary: Obtiene todos los usuarios
+      summary: Obtiene todos los usuarios [Admin]
       tags: 
         - Users
+      security:
+        - cookieAuth: []
       responses:
         "200":
           description: Los usuarios fueron obtenidos correctamente
@@ -16,9 +18,11 @@ paths:
         "500":
           description: Error interno del server 
     post:
-      summary: Crea un nuevo usuario
+      summary: Crea un nuevo usuario [Admin]
       tags:
         - Users
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -31,9 +35,11 @@ paths:
   
   /api/users/{uid}:
     get:
-      summary: Obtiene el usuario del id
+      summary: Obtiene el usuario del id [Admin]
       tags: 
         - Users
+      security:
+        - cookieAuth: []
       parameters:
       - name: uid
         in: path
@@ -52,9 +58,11 @@ paths:
           description: Error interno del server 
   
     delete:
-      summary: Eliminar un usuario
+      summary: Eliminar un usuario [Admin]
       tags:
         - Users
+      security:
+        - cookieAuth: []
       parameters:
       - name: uid
         in: path

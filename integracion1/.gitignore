@@ -1,4 +1,5 @@
 node_modules
+archive
 # .errors.log
 # .HTTP
 # backEnd/.env

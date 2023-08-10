@@ -14,7 +14,8 @@ module.exports = {
     'n/no-path-concat': 'off',
     'no-unreachable': 'off',
     'no-case-declarations': 'off',
-    'no-undef': 'off'
+    'no-undef': 'off',
+    'no-unused-expressions': 'off'
 
   }
 }

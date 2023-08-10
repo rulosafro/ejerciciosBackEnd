@@ -1,9 +1,11 @@
 paths: 
   /api/carts:
     get:
-      summary: Obtiene todos los carros
+      summary: Obtiene todos los carros [Admin]
       tags: 
         - Carts
+      security:
+        - cookieAuth: []
       responses:
         "200":
           description: Los carritos fueron obtenidos correctamente
@@ -15,10 +17,13 @@ paths:
                   $ref: '#components/schemas/Cart'
         "500":
           description: Error interno del server 
+
     post:
-      summary: Crea un nuevo carrito vacio
+      summary: Crea un nuevo carrito vacio [Admin]
       tags:
         - Carts
+      security:
+        - cookieAuth: []
       requestBody:
         required: false
         content:
@@ -31,9 +36,11 @@ paths:
   
   /api/carts/{cid}:
     get:
-      summary: Obtiene el carrito según id
+      summary: Obtiene el carrito según id [Admin]
       tags: 
         - Carts
+      security:
+        - cookieAuth: []
       parameters:
       - name: cid
         in: path
@@ -54,9 +61,11 @@ paths:
           description: Error interno del server 
 
     put:
-      summary: Actualización de un carrito
+      summary: Actualización de un carrito [Admin]
       tags:
       - Carts
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -87,9 +96,11 @@ paths:
           description: Error interno del servidor
 
     delete:
-      summary: Vaciar el carrito 
+      summary: Vaciar el carrito [Admin]
       tags:
         - Carts
+      security:
+        - cookieAuth: []
       parameters:
       - name: cid
         in: path
@@ -115,9 +126,11 @@ paths:
 
   /api/carts/{cid}/product/{pid}:
     put:
-      summary: Sumar un producto al carrito con el quantity en el body
+      summary: Sumar un producto al carrito con el quantity en el body [Admin]
       tags:
-      - Carts
+        - Carts
+      security:
+        - cookieAuth: []
       requestBody:
         required: true
         content:
@@ -149,6 +162,8 @@ paths:
       summary: Eliminar un producto del carrito según el ID
       tags:
       - Carts
+      security:
+        - cookieAuth: []
       parameters:
       - name: cid
         in: path
@@ -172,9 +187,11 @@ paths:
 
   /api/carts/{cid}/product/{pid}/quantity/{num}:
     put:
-      summary: Sumar un producto según la cantidad del parametro a un carrito
+      summary: Sumar un producto según la cantidad del parametro a un carrito [Admin]
       tags:
       - Carts
+      security:
+        - cookieAuth: []
       parameters:
       - name: cid
         in: path
@@ -205,6 +222,8 @@ paths:
       summary: Procesamineto de un ticket de compra
       tags:
       - Carts
+      security:
+        - cookieAuth: []
       requestBody:
       parameters:
       - name: tid
@@ -327,6 +346,8 @@ components:
   #     summary: Obtener el cart del usuario que se logeo
   #     tags:
   #     - Carts
+  # security:
+  #   - cookieAuth: []
   #     parameters:
   #     responses:
   #       "200":
@@ -343,6 +364,8 @@ components:
   #     summary: Sumar un producto al carrito del usuario actual
   #     tags:
   #     - Carts
+  # security:
+  #   - cookieAuth: []
   #     requestBody:
   #       required: true
   #       content:

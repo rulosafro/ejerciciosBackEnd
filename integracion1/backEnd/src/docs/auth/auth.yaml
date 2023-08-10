@@ -1,0 +1,161 @@
+paths:
+  /views/logout:
+    get:
+      summary: Logout -> Eliminar la cookie para reiniciar el proceso
+      tags:
+        - Auth
+
+  /passport/swagger/register:
+    post:
+      summary: Registro con un usuario normal.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        description: JSON con el form para el register
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/RegisterRequestUser'
+      security: [] 
+      responses:
+        "200":
+          description: Auth exitosa
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoib3R0byIsImxhc3RfbmFtZSI6InB0byIsImVtYWlsIjoib3R0b0BhLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWQiOiI2NGFjMzFmMzZiMjUxNTQxYzhmYjkxOGIiLCJpYXQiOjE2OTE2MDM4ODgsImV4cCI6MTY5MTY5MDI4OH0.EaqSLqZkN_RJ77XLPHok-WlM_MHVTj_AFCXMBmBz9-U
+
+  /passport/swagger/login:
+    post:
+      summary: Logear con un usuario tipo User.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        description: JSON con mail y password
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/LoginRequestUser'
+      security: [] 
+      responses:
+        "200":
+          description: Auth exitosa
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoib3R0byIsImxhc3RfbmFtZSI6InB0byIsImVtYWlsIjoib3R0b0BhLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWQiOiI2NGFjMzFmMzZiMjUxNTQxYzhmYjkxOGIiLCJpYXQiOjE2OTE2MDM4ODgsImV4cCI6MTY5MTY5MDI4OH0.EaqSLqZkN_RJ77XLPHok-WlM_MHVTj_AFCXMBmBz9-U
+
+  /passport/swagger/login2:
+    post:
+      summary: Logear con un usuario tipo Admin.
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        description: JSON con mail y password
+        content:
+          application/json:
+            schema:
+              $ref: '#components/schemas/LoginRequestAdmin'
+      security: [] 
+      responses:
+        "200":
+          description: Auth exitosa
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoib3R0byIsImxhc3RfbmFtZSI6InB0byIsImVtYWlsIjoib3R0b0BhLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWQiOiI2NGFjMzFmMzZiMjUxNTQxYzhmYjkxOGIiLCJpYXQiOjE2OTE2MDM4ODgsImV4cCI6MTY5MTY5MDI4OH0.EaqSLqZkN_RJ77XLPHok-WlM_MHVTj_AFCXMBmBz9-U
+
+components:
+  schemas:
+    LoginRequestUser:
+      type: object
+      properties:
+        email:
+          type: string
+          description: ID autogenerado por Mongo
+          example: otto@a.com
+        password:
+          type: string
+          description: Contraseña 
+          example: otto123
+
+    LoginRequestAdmin:
+      type: object
+      properties:
+        email:
+          type: string
+          description: ID autogenerado por Mongo
+          example: javi@a.com 
+        password:
+          type: string
+          description: Contraseña 
+          example: javi1234
+
+    LoginRequestCoder:
+      type: object
+      properties:
+        email:
+          type: string
+          description: ID autogenerado por Mongo
+          example: adminCoder@coder.com
+        password:
+          type: string
+          description: Contraseña 
+          example: 
+
+    RegisterRequestUser:
+      type: object
+      properties:
+        nickname:
+          type: String
+          description: Apodo que quiere usar el usuario
+          example: LaPulgaaa
+        first_name:
+          type: String
+          description: Primer nombre del usuario
+          example: Pedro
+        last_name:
+          type: String
+          description: Apellido del usuario 
+          example: Pascal
+        age:
+          type: Interger
+          description: Edad del usuario 
+          example: 48
+        email:
+          type: String
+          description: Email del usuario 
+          example: pedrito2@a.com
+        password:
+          type: String
+          description: Contraseña de la cuenta
+          example: pedrito123
+
+
+  securitySchemes:
+    cookieAuth: 
+      type: apiKey
+      in: cookie
+      name: coderCookieToken 
+
+  responses:
+    UnauthorizedError:
+      description: Auth fallida o invalida
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                type: string
+                example: Error
+              error:
+                type: string
+                example: No Auth token
+                

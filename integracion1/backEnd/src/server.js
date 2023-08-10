@@ -1,18 +1,17 @@
 const express = require('express')
-const app = express()
 const cookieParser = require('cookie-parser')
 const cors = require('cors')
+const compression = require('express-compression')
+const swaggerJsDoc = require('swagger-jsdoc')
+const app = express()
 const handlebars = require('express-handlebars')
 const passport = require('passport')
-const compression = require('express-compression')
 const routerServer = require('./routes/index')
-const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUiExpress = require('swagger-ui-express')
-// const { Server } = require('socket.io')
-const { initPassportGithub, initPassportMid, initPassportJWT } = require('./config/passport.config.js')
 const { errorHandler } = require('./middlewares/errorMiddleware.js')
+const { initPassportGithub, initPassportMid, initPassportJWT } = require('./config/passport.config.js')
+// const { Server } = require('socket.io')
 const { port } = require('./config/objectConfig.js')
-
 const PORT = port || 8080
 
 app.use(cors())
@@ -38,7 +37,7 @@ app.use(cookieParser(process.env.SECRET_KEY))
 app.use(addLogger)
 // app.use(logger('dev'))
 
-// Swaggerr
+// Swagger
 const swaggerOptions = {
   definition: {
     openapi: '3.0.1',
