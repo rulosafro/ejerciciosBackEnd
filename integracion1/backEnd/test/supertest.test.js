@@ -176,7 +176,6 @@ describe('Testing de app', () => {
         quantity: 401
       }
       const response = await requester.put(`/api/carts/${cartId}/product/${productId}`).send(updatedCart).set('Cookie', [`${cookie.name}=${cookie.value}`])
-      console.log('🚀 ~ file: supertest.test.js:181 ~ it ~ response:', response.body.payload.products)
       expect(response.statusCode).to.equal(200)
       expect(response.body).to.have.property('payload')
       expect(response.body.payload.products[1].quantity).to.equal(401)
