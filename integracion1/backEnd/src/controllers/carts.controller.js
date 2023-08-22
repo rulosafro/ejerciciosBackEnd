@@ -4,12 +4,12 @@ const { cartService, productService, ticketService } = require('../service/index
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { EError } = require('../utils/CustomError/Erros')
 const { generateCartErrorInfo } = require('../utils/CustomError/info')
+const { cartsModel } = require('../Daos/mongo/models/carts.model')
 
 class CartController {
   getCarts = async (req, res, next) => {
     try {
       const carts = await cartService.get()
-      logger.info(req.user)
       res.status(200).send({
         status: 'success',
         payload: carts
@@ -48,17 +48,18 @@ class CartController {
 
   getMyCart = async (req, res, next) => {
     try {
-      if (!cid) {
-        CustomError.createError({
-          name: 'Cart finder fail',
-          cause: generateCartErrorInfo(
-            cid
-          ),
-          message: 'Error trying find a cart by ID: ' + cid,
-          code: EError.ROUTING_ERROR
-        })
-      }
-      const cart = await cartService.getByID(req.user._id)
+      // if (!cid) {
+      //   CustomError.createError({
+      //     name: 'Cart finder fail',
+      //     cause: generateCartErrorInfo(
+      //       cid
+      //     ),
+      //     message: 'Error trying find a cart by ID: ' + cid,
+      //     code: EError.ROUTING_ERROR
+      //   })
+      // }
+      console.log(req.user)
+      const cart = await cartsModel.getByID(req.user.id)
       res.status(200).send({
         status: 'success',
         payload: cart

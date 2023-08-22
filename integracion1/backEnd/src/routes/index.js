@@ -36,19 +36,17 @@ router.use('/static', express.static(__dirname + './../public'))
 
 router.use('/api/products', apiProductsRouter)
 router.use('/api/carts', apiCartsRouter) // Validacion interna
-router.use('/api/users', midAdmin, apiUsuariosRouter)
+router.use('/api/users', apiUsuariosRouter)
 router.use('/chat', midUser, contactsRouter)
 router.use('/contacts', midUser, contactsRouter)
 router.use('/tickets', ticketsRouter)
-router.use('/loggerTest', loggerRouter)
 router.use('/recuperar', contrasenaRouter)
 router.use('/pruebas', pruebasRouter)
-// router.use('/mockingproducts', mockRouter)
 
+router.use('/loggerTest', loggerRouter)
+// router.use('/mockingproducts', mockRouter)
 // router.use("/cookie", cookieRouter)
 // router.use("/messages", messagesRouter)
 // const NewUsersRouter = require("./example/3newUser.Router")
-// const userRouter2 = new NewUsersRouter()
-// router.use("/api/users2", userRouter2.getRouter())
 
 module.exports = router

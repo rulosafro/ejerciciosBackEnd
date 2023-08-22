@@ -1,0 +1,14 @@
+<h1 class="h1 text-white">Carga tus archivos</h1>
+<p class="text-white">User Id: {{dataUser.id}}</p>
+<p class="{{style}}">{{message}}</p>
+<form action="/api/users/{{dataUser.id}}/documents" enctype="multipart/form-data" method="post">
+  <div class="flex flex-col gap-10 text-white">
+    <label for="profile" class="text-white">Profile</label><br>
+    <input type="file" name="profile" class="form-control" placeholder="profile" fieldname="profile"/>
+    <label for="document" class="text-white">Document</label><br>
+    <input type="file" name="document" class="form-control" placeholder="document" fieldname="document"/>
+    <label for="product" class="text-white">Product</label><br>
+    <input type="file" name="product" class="form-control" placeholder="product" fieldname="product"/>
+  </div>
+<button type="submit"> Submit </button>
+</form>

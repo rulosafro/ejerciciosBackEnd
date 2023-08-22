@@ -59,9 +59,20 @@ class UserController {
     }
   }
 
+  documentsUser = async (req, res, next) => {
+    try {
+      // res.send({ status: 'success', payload: 'ok' })
+      res.render('home', { message: 'carga exitosa', style: 'text-white' })
+      // res.render('formData', { dataUser })
+    } catch (error) {
+      next(error)
+    }
+  }
+
   changeUserPremium = async (req, res, next) => {
     try {
       const { uid } = req.params
+
       const user = await userService.getByID(uid)
       let cambio
       user.role === 'user' ? cambio = { role: 'premium' } : cambio = { role: 'user' }

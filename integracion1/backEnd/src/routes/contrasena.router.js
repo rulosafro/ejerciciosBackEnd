@@ -32,7 +32,7 @@ router.post('/', async (req, res, next) => {
 
     res
       .status(200)
-      .cookie('coderCookieToken', access_Token, { maxAge: 60 * 60 * 100, httpOnly: true })
+      .cookie('coderCookieToken', access_Token, { maxAge: 60 * 60 * 1000, httpOnly: true })
     // .cookie('coderCookieToken', access_Token, { maxAge: 600 * 60 * 1000 })
       .send('Se ha enviado un email a tu correo para restablecer tu contraseña')
   } catch (error) {

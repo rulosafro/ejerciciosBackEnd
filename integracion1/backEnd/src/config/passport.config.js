@@ -40,7 +40,8 @@ const initPassportMid = () => {
             role: 'user',
             age,
             nickname,
-            cart: carrito._id
+            cart: carrito._id,
+            last_connection: Date.now()
           }
           const result = await userService.add(newUser)
           return done(null, newUser)
@@ -60,8 +61,10 @@ const initPassportMid = () => {
       async (username, password, done, next) => {
         try {
           const userDB = await userModel.findOne({ email: username })
+          const update = await userModel.findOneAndUpdate({ email: username }, { last_connection: Date.now() })
 
           if (!userDB) return done(null, false)
+          if (!update) return done(null, false)
           if (!validPassword(password, userDB)) return done(null, false)
           return done(null, userDB)
         } catch (error) {

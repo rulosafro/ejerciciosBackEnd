@@ -1,9 +1,10 @@
+const { cartsModel } = require('../Daos/mongo/models/carts.model')
 const { productModel } = require('../Daos/mongo/models/product.model')
 const { userModel } = require('../Daos/mongo/models/user.model')
 const { logger } = require('../config/logger')
 const { cartService } = require('../service/index.service')
 
-class OrdersController {
+class ViewsController {
   viewsUsers = async (req, res, next) => {
     try {
       const { page = 1 } = req.query
@@ -81,13 +82,9 @@ class OrdersController {
 
   viewsMyCart = async (req, res, next) => {
     try {
-      const { cid } = req.params
+      const cid = req.user.cart
       const carrito = await cartService.getByID(cid)
-      if (!carrito) {
-        res.status(404).send('ID no identificado')
-      }
-      // let shop = carrito.products
-      logger.info(carrito)
+      if (!carrito) res.status(404).send('ID no identificado')
       res.status(200).render('cartsById', { carrito, cid })
     } catch (error) {
       next(error)
@@ -114,12 +111,21 @@ class OrdersController {
     try {
       res.send({
         status: 'success',
-        mensaje: 'Archivo subido '
+        mensaje: 'Archivo subido'
       })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  formData = async (req, res, next) => {
+    try {
+      const dataUser = req.user
+      res.render('formData', { dataUser })
     } catch (error) {
       next(error)
     }
   }
 }
 
-module.exports = new OrdersController()
+module.exports = new ViewsController()

@@ -7,7 +7,7 @@
   <hr />
   <p>Bienvenido {{dataUser.first_name}} {{dataUser.last_name}} | Role: {{dataUser.role}} | Edad: {{dataUser.age}} | Email: {{dataUser.email}}</p>
   {{!-- {{dataUser.id}} --}}
-
+<p class="{{style}}">{{message}}</p>
   <div class="d-flex row">
     {{#each payload}}
       <div class="card m-2" style="width: 18rem;">

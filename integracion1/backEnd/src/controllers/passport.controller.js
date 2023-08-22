@@ -63,7 +63,7 @@ class PassportController {
 
       res
         .cookie('coderCookieToken', access_Token, {
-          maxAge: 60 * 60 * 100,
+          maxAge: 60 * 60 * 1000,
           httpOnly: true
         })
         // .send(access_Token)
@@ -129,7 +129,7 @@ class PassportController {
 
       res
         .cookie('coderCookieToken', access_Token, {
-          maxAge: 60 * 60 * 100,
+          maxAge: 60 * 60 * 1000,
           httpOnly: true
         })
         .send(access_Token)

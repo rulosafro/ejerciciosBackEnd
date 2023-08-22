@@ -23,8 +23,12 @@ const userSchema = new Schema({
   age: Number,
   password: String,
   role: String,
-  cart: String
-  // gender: String,
+  cart: String,
+  last_connection: String,
+  documents: [{
+    name: String,
+    reference: String
+  }]
 })
 
 userSchema.plugin(moongoosePaginate)
