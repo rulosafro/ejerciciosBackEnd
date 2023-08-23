@@ -1,3 +1,4 @@
+const { userModel } = require('../Daos/mongo/models/user.model')
 const { logger } = require('../config/logger')
 const { userService } = require('../service/index.service')
 
@@ -61,7 +62,6 @@ class UserController {
 
   documentsUser = async (req, res, next) => {
     try {
-      // res.send({ status: 'success', payload: 'ok' })
       res.render('home', { message: 'carga exitosa', style: 'text-white' })
       // res.render('formData', { dataUser })
     } catch (error) {
@@ -72,19 +72,21 @@ class UserController {
   changeUserPremium = async (req, res, next) => {
     try {
       const { uid } = req.params
-
       const user = await userService.getByID(uid)
+      // console.log('🚀 ~ file: users.controller.js:76 ~ UserController ~ changeUserPremium= ~ user:', user.documents)
       let cambio
-      user.role === 'user' ? cambio = { role: 'premium' } : cambio = { role: 'user' }
-      user.role === 'premium' ? cambio = { role: 'user' } : cambio = { role: 'premium' }
-      const modificado = await userService.update(uid, cambio)
-      const user2 = await userService.getByID(uid)
+      const lock1 = user.documents.some(doc => doc.reference === `Document-Identificacion-${uid}`)
+      const lock2 = user.documents.some(doc => doc.reference === `Document-ComprobanteDomicilio-${uid}`)
+      const lock3 = user.documents.some(doc => doc.reference === `Document-ComprobanteCuenta-${uid}`)
 
-      res.status(200).send({
-        status: 'success',
-        modificado,
-        payload: user2
-      })
+      if (lock1 && lock2 && lock3) {
+        user.role === 'user' ? cambio = { role: 'premium' } : cambio = { role: 'user' }
+        user.role === 'premium' ? cambio = { role: 'user' } : cambio = { role: 'premium' }
+        const modificado = await userService.update(uid, cambio)
+        const user2 = await userService.getByID(uid)
+        return res.status(200).send({ status: 'success', modificado, payload: user2 })
+      }
+      res.send({ status: 'denied', message: 'Es necesario subir los documentos de Identificación, Comprobante de domicilio y Comprobante de estado de cuenta para hacer el upgrade de este cuenta' })
     } catch (error) {
       next(error)
     }
