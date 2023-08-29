@@ -3,6 +3,7 @@ const { productModel } = require('../Daos/mongo/models/product.model')
 const { userModel } = require('../Daos/mongo/models/user.model')
 const { logger } = require('../config/logger')
 const { cartService } = require('../service/index.service')
+const { userService } = require('./users.controller')
 
 class ViewsController {
   viewsUsers = async (req, res, next) => {
@@ -17,6 +18,19 @@ class ViewsController {
         hasNextPage,
         prevPage,
         nextPage
+      })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  changeRoles = async (req, res, next) => {
+    try {
+      const users = await userService.get()
+      console.log('🚀 ~ file: views.controller.js:30 ~ ViewsController ~ changeRoles= ~ users:', users)
+      res.status(200).render('changeRoles', {
+        status: 'success',
+        users
       })
     } catch (error) {
       next(error)

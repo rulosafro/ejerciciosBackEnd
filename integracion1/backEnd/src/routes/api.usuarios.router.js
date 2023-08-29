@@ -1,5 +1,5 @@
 const { Router } = require('express')
-const { getUserById, getUsers, createUser, updateUser, changeUserPremium, deleteUser, documentsUser, formData } = require('../controllers/users.controller')
+const { getUserById, getUsers, createUser, updateUser, changeUserPremium, deleteUser, documentsUser, formData, deleteTimeUser, changeRoles } = require('../controllers/users.controller')
 const { uploader } = require('../utils/multer')
 const { passportCall } = require('../middlewares/passportCall')
 const { authorization } = require('../middlewares/authorizationJwtRole')
@@ -17,8 +17,9 @@ router.post('/:uid/documents', midUser, uploader.fields([{ name: 'profile', maxC
 // req.files is an object (String -> Array) where fieldname is the key, and the value is array of file
 
 router.put('/:uid', midAdmin, updateUser)
-router.put('/premium/:uid', midAdmin, changeUserPremium)
+router.put('/premium/:uid', changeUserPremium)
 
 router.delete('/:uid', midAdmin, deleteUser)
+router.delete('/', midAdmin, deleteTimeUser)
 
 module.exports = router
