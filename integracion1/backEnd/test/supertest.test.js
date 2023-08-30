@@ -19,7 +19,7 @@ describe('Testing de app', () => {
         password: 'javi1234'
       }
 
-      const result = await requester.post('/passport/login').send(userMock)
+      const result = await requester.post('/sessions/login').send(userMock)
       const cookieResult = result.headers['set-cookie'][0]
       expect(cookieResult).to.be.ok
       cookie = {
@@ -209,7 +209,7 @@ describe('Testing de app', () => {
         password: 'javi1234'
       }
 
-      const result = await requester.post('/passport/login').send(userMock)
+      const result = await requester.post('/sessions/login').send(userMock)
       const cookieResult = result.headers['set-cookie'][0]
       expect(cookieResult).to.be.ok
       cookie = {

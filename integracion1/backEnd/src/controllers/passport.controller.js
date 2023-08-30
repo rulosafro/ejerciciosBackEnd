@@ -8,18 +8,7 @@ const { logger } = require('../config/logger')
 class PassportController {
   getRegister = async (req, res, next) => {
     try {
-      const { first_name, last_name, age, nickname } = req.body
-
-      if (!first_name || !last_name || !age || !nickname) {
-        CustomError.createError({
-          name: 'User register fail',
-          cause: generateRegisterErrorInfo(
-            first_name, last_name, age, nickname
-          ),
-          message: 'Error trying to register',
-          code: EError.INVALID_TYPE_ERROR
-        })
-      }
+      const { first_name, last_name, age, nickname, email, password } = req.body
 
       const newUser = req.user
       const token = generateToken(newUser)
@@ -38,19 +27,10 @@ class PassportController {
     try {
       const { username, password } = req.body
       const userDB = req.user
-      // logger.info(req.user)
-      const emailUser = req.body.email
+      console.log('🚀 ~ file: passport.controller.js:41 ~ PassportController ~ getLogin= ~ userDB:', userDB)
+      const emailUser = req.user.email
+      console.log('🚀 ~ file: passport.controller.js:32 ~ PassportController ~ getLogin= ~ emailUser:', emailUser)
 
-      if (!emailUser || !password) {
-        CustomError.createError({
-          name: 'User login fail',
-          cause: generateLoginErrorInfo({
-            emailUser, password
-          }),
-          message: 'Error trying to login',
-          code: EError.INVALID_VALUE_ERROR
-        })
-      }
       const access_Token = generateToken({
         first_name: userDB.first_name,
         last_name: userDB.last_name,

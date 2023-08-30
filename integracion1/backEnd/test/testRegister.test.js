@@ -18,7 +18,7 @@ describe('Testing de app', () => {
       email: 'pedrito0111@gmail.com', // Cambiar en cada intento
       password: 'pedrito123'
     }
-    const response = await requester.post('/passport/swagger/register').send(userMock)
+    const response = await requester.post('/sessions/swagger/register').send(userMock)
     expect(response.statusCode).to.equal(200)
   }).timeout(9000)
 })

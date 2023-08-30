@@ -1,5 +1,6 @@
 const { userModel } = require('../Daos/mongo/models/user.model')
 const { logger } = require('../config/logger')
+const objectConfig = require('../config/objectConfig')
 const { userService } = require('../service/index.service')
 const { sendMail } = require('./../utils/sendmail')
 
@@ -11,12 +12,18 @@ class UserController {
   getUsers = async (req, res, next) => {
     try {
       const users = await userService.get()
-      const prueba1 = users.slice(0, 20)
+      const result = users.map(el => {
+        const obj = {}
+        Object.entries(el).forEach(([key, val]) => {
+          if (key !== 'password' && key !== 'cart' && key !== '_id' && key !== 'documents' && key !== '__v') { obj[key] = val }
+        })
+        return obj
+      })
       const { page = 1 } = req.query
 
       res.status(200).send({
         status: 'success',
-        payload: users
+        payload: result
       })
     } catch (error) {
       next(error)
@@ -26,10 +33,11 @@ class UserController {
   getUserById = async (req, res, next) => {
     try {
       const { uid } = req.params
-      const product = await userService.getByID(uid)
+      const user = await userService.getByID(uid)
+
       res.status(200).send({
         status: 'success',
-        payload: product
+        payload: user
       })
     } catch (error) {
       next(error)
@@ -126,7 +134,6 @@ class UserController {
   deleteTimeUser = async (req, res, next) => {
     try {
       const timeMonth = Date.now() - (2629746000 * 2)
-      // console.log('🚀 ~ file: users.controller.js:141 ~ UserController ~ deleteTimeUser ~ timeMonth:', timeMonth)
       const mail1 = await userModel.find({ last_connection: { $lte: timeMonth } })
       const html = '<div><h1> Se ha eliminado tu cuenta</h1> <p> Debido a la inactivadad de la cuenta tu usuario se ha eliminado por los procesos de limpieza de la plataforma</p> <blockquote> Es un proceso que opta por mejorar el funcionamiento de nuestra plataforma </blockquote> <p> Cuando quieras puedes volver a abrir una cuenta en nuestra web. Esperamos verte de nuevo pronto. </p> </div>'
       await mail1.forEach(user => {

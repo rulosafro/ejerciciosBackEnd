@@ -9,9 +9,9 @@ exports.errorHandler = (error, req, res, next) => {
       return res.send({ status: 'type error', error: error.name })
       break
 
-      // case EError.ROUTING_ERROR:
-      //   return res.send({ status: 'rounting error', error: error.name })
-      //   break
+    case EError.ROUTING_ERROR:
+      return res.send({ status: 'rounting error', error: error.name })
+      break
 
     default:
       logger.info(error.cause)

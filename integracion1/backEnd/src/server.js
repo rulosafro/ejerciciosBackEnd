@@ -52,7 +52,7 @@ const swaggerOptions = {
 const specs = swaggerJsDoc(swaggerOptions)
 app.use('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
 
-// LOGIN----------------------------------------------------------------
+// SESSIONS----------------------------------------------------------------
 initPassportJWT()
 initPassportMid()
 initPassportGithub()
@@ -67,8 +67,3 @@ app.listen(PORT, (err) => {
   if (err) logger.info('error en el servidor', err)
   logger.info(`Escuchanding port: ${PORT}`)
 })
-
-// exports.initServer = () => serverHttp.listen(PORT, (err) => {
-//   if (err) logger.info('error en el servidor', err)
-//   logger.info(`Escuchanding port: ${PORT}`)
-// })

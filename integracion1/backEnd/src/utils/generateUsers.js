@@ -8,15 +8,15 @@ const generateProduct = () => {
     stock: faker.string.numeric(),
     description: faker.commerce.productDescription(),
     id: faker.database.mongodbObjectId(),
-    image: faker.image.url(),
+    image: faker.image.url()
   }
 }
 
 exports.generateUser = () => {
-  let numOfProducts = parseInt(faker.string.numeric(1, {bannedDigits: ['0']}))
-  let products = []
+  const numOfProducts = parseInt(faker.string.numeric(1, { bannedDigits: ['0'] }))
+  const products = []
   for (let i = 0; i < numOfProducts; i++) {
-    products.push(generateProduct())    
+    products.push(generateProduct())
   }
   return {
     name: faker.person.firstName(),

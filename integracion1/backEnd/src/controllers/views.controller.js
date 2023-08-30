@@ -27,7 +27,6 @@ class ViewsController {
   changeRoles = async (req, res, next) => {
     try {
       const users = await userService.get()
-      console.log('🚀 ~ file: views.controller.js:30 ~ ViewsController ~ changeRoles= ~ users:', users)
       res.status(200).render('changeRoles', {
         status: 'success',
         users

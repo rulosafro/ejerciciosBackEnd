@@ -27,8 +27,20 @@ const initPassportMid = () => {
       async (req, username, password, done) => {
         try {
           const { first_name, last_name, age, nickname } = req.body
+
+          if (!first_name || !last_name || !age || !nickname) {
+            CustomError.createError({
+              name: 'User register fail',
+              cause: generateRegisterErrorInfo(
+                first_name, last_name, age, nickname
+              ),
+              message: 'Error trying to register',
+              code: EError.INVALID_TYPE_ERROR
+            })
+          }
+
           const userDB = await userModel.findOne({ email: username })
-          if (userDB) {
+          if (!userDB) {
             return done(null, false)
           }
           const carrito = await cartService.create()
@@ -62,10 +74,11 @@ const initPassportMid = () => {
         try {
           const userDB = await userModel.findOne({ email: username })
           const update = await userModel.findOneAndUpdate({ email: username }, { last_connection: Date.now() })
+          const validacionPassword = await validPassword(password, userDB)
 
           if (!userDB) return done(null, false)
           if (!update) return done(null, false)
-          if (!validPassword(password, userDB)) return done(null, false)
+          if (!validacionPassword) return done(null, false)
           return done(null, userDB)
         } catch (error) {
           return done(error)

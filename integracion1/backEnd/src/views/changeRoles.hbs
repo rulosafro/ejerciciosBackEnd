@@ -4,6 +4,7 @@
   </div>
   <hr />
   <p class="{{style}}">{{message}}</p>
+  
   <div class="d-flex row ms-2">
     {{#each users}}
       <div class="card mt-3 me-3" style="width: 25rem;">
@@ -11,17 +12,10 @@
           <h5 class="card-title"><b>Usuario:</b> {{this.first_name}} {{this.last_name}}</h5>
           <p class="card-title"><b>Email:</b> {{this.email}}</p>
           <p class="card-title"><b>Role:</b> {{this.role}}</p>
-          <div class="d-flex flex-row gap-2 items-center pt-2">
-            <form id="changeRolForm" action="/api/users/premium/{{this._id}}" method="put" class="">
-              <input type="hidden" name="" id=""  />
-              <button type="submit" class="btn btn-primary inline-block">Cambiar Rol</button>
-            </form>
 
-            <form id="changeRolForm" action="/api/users/premium/{{this._id}}" method="put" class="">
-              <input type="hidden" name="email" id=""  />
-              <button type="submit" class="btn btn-danger inline-block">Eliminar</button>
-            </form>
-
+          <div class="d-flex flex-row gap-2 items-center pt-2 pb-4">
+            <button onclick="changeUserRole('{{this._id}}')" class="btn btn-primary">Role ↕️</button>
+            <button onclick="deleteUser('{{this._id}}')" class="btn btn-danger">Eliminar</button>
           </div>
         </div>
       </div>
@@ -30,32 +24,26 @@
 </div>
 
 <script>
-  const form1 = document.querySelector("#changeRolForm");
-  form1.addEventListener("submit", checkboxClick);
 
-  function checkboxClick(event) {
-    event.preventDefault();
-    console.log("hola")
-    fetch()
-  }
-
-
-  form.addEventListener('submit', (e) => {
-  const data = new FormData(form)
-  const obj = []
-  data.forEach((value, key) => {
-    obj[key] = value
-  })
-
-  fetch('/pruebas/session', {
-    method: 'POST',
+const changeUserRole = (uid) => {
+  console.log(uid)
+    fetch(`/api/users/premium/${uid}`, {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(obj)
   })
-    .then((respuesta) => respuesta.JSON.parse())
-    .then((respuesta) => logger.info(respuesta))
-})
+    .then(() => window.location.reload())
+}
 
+const deleteUser = (uid) => {
+  console.log(uid)
+    fetch(`/api/users/${uid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
 </script>

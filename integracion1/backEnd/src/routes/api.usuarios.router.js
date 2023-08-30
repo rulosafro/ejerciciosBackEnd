@@ -14,7 +14,6 @@ router.get('/:uid', getUserById)
 
 router.post('/', midUser, createUser)
 router.post('/:uid/documents', midUser, uploader.fields([{ name: 'profile', maxCount: 1 }, { name: 'product' }, { name: 'document' }]), documentsUser)
-// req.files is an object (String -> Array) where fieldname is the key, and the value is array of file
 
 router.put('/:uid', midAdmin, updateUser)
 router.put('/premium/:uid', changeUserPremium)

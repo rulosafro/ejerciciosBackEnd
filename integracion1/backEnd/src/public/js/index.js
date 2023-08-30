@@ -5,7 +5,7 @@ form.addEventListener('submit', (e) => {
   const obj = {}
   data.forEach((value, key) => (obj[key] = value))
 
-  fetch('/passport/login', {
+  fetch('/sessions/login', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

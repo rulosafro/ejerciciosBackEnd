@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
       payload: result
     })
   } catch (error) {
-    console.log(error)
+    next(error)
   }
 })
 

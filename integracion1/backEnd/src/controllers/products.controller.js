@@ -3,6 +3,7 @@ const { productService } = require('../service/index.service')
 const { CustomError } = require('../utils/CustomError/CustomError')
 const { EError } = require('../utils/CustomError/Erros')
 const { generateProductErrorInfo } = require('../utils/CustomError/info')
+const { sendMail } = require('../utils/sendmail')
 const { userService } = require('./users.controller')
 
 class ProductController {
@@ -38,7 +39,6 @@ class ProductController {
     try {
       const { pid } = req.params
       const product = await productService.getByID(pid)
-      // console.log('🚀 ~ file: products.controller.js:41 ~ ProductController ~ getProductsById= ~ product:', product)
 
       if (!product) {
         CustomError.createError({
@@ -129,8 +129,10 @@ class ProductController {
   deleteProducts = async (req, res, next) => {
     try {
       const { pid } = req.params
-      const dataUser = userService.getByID(req.user._id)
-      const dataProduct = productService.getByID(pid)
+      await console.log(req.body)
+      const dataUser = await userService.getByMail(req.body.email)
+      const dataProduct = await productService.getByID(pid)
+      const dataOwner = await userService.getByMail(dataProduct.owner)
 
       if (!pid) {
         CustomError.createError({
@@ -144,13 +146,19 @@ class ProductController {
       }
 
       if (dataUser.role === 'premium' && dataProduct.owner !== dataUser.email) {
-        res.status(400).send('El usuario premium sólo puede elimianr productos de su pertenencia')
+        res.status(400).send('El usuario premium sólo puede eliminarr productos de su pertenencia')
+      }
+      if (dataOwner.role === 'premium') {
+        sendMail(dataOwner.email, 'Tu producto ha sido elimiando', `<h1>Un administrador ha eliminado un producto tuyo</h1> <blockquote>El producto de id: ${pid} title:${dataProduct.title} </blockquote> <p> Recuerda que siempre puedes subir productos a nuestro catálogo</p>`)
+        const quitar = await productService.delete(pid)
+        res.status(200).send({ status: 'success', message: 'Se ha eliminado de forma exitosa el producto', quitar })
       }
       if (dataUser.role === 'user') {
         res.status(400).send('No tienes permiso para eliminar un producto del catálogo')
       }
 
       const quitar = await productService.delete(pid)
+
       res.status(200).send({
         status: 'success',
         payload: quitar

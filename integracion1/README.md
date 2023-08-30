@@ -7,3 +7,9 @@ Se demora en enviar el mail
 Hay un alegato de dependencia circular que es por el "config.persistence" del logger pero no supé como cambiarlo para que siga funcionando sin ese
 
 Se creashea y por lo que lei en internet que puede ser por tener multiples res.send o .render 
+
+TODO
+[] Premium pass
+[] Error en logeo y register
+[] Pasarela de Pago
+``

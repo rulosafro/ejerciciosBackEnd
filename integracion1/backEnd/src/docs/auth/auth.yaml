@@ -5,7 +5,7 @@ paths:
       tags:
         - Auth
 
-  /passport/swagger/register:
+  /sessions/swagger/register:
     post:
       summary: Registro con un usuario normal.
       tags:
@@ -27,7 +27,7 @@ paths:
                 type: string
                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoib3R0byIsImxhc3RfbmFtZSI6InB0byIsImVtYWlsIjoib3R0b0BhLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWQiOiI2NGFjMzFmMzZiMjUxNTQxYzhmYjkxOGIiLCJpYXQiOjE2OTE2MDM4ODgsImV4cCI6MTY5MTY5MDI4OH0.EaqSLqZkN_RJ77XLPHok-WlM_MHVTj_AFCXMBmBz9-U
 
-  /passport/swagger/login:
+  /sessions/swagger/login:
     post:
       summary: Logear con un usuario tipo User.
       tags:
@@ -49,7 +49,7 @@ paths:
                 type: string
                 example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmaXJzdF9uYW1lIjoib3R0byIsImxhc3RfbmFtZSI6InB0byIsImVtYWlsIjoib3R0b0BhLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWQiOiI2NGFjMzFmMzZiMjUxNTQxYzhmYjkxOGIiLCJpYXQiOjE2OTE2MDM4ODgsImV4cCI6MTY5MTY5MDI4OH0.EaqSLqZkN_RJ77XLPHok-WlM_MHVTj_AFCXMBmBz9-U
 
-  /passport/swagger/login2:
+  /sessions/swagger/login2:
     post:
       summary: Logear con un usuario tipo Admin.
       tags:

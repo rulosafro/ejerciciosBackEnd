@@ -48,17 +48,6 @@ class CartController {
 
   getMyCart = async (req, res, next) => {
     try {
-      // if (!cid) {
-      //   CustomError.createError({
-      //     name: 'Cart finder fail',
-      //     cause: generateCartErrorInfo(
-      //       cid
-      //     ),
-      //     message: 'Error trying find a cart by ID: ' + cid,
-      //     code: EError.ROUTING_ERROR
-      //   })
-      // }
-      console.log(req.user)
       const cart = await cartsModel.getByID(req.user.id)
       res.status(200).send({
         status: 'success',
@@ -271,7 +260,7 @@ class CartController {
         payload: quitar
       })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 }

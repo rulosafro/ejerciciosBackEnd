@@ -19,11 +19,11 @@ router.post('/', midAdmin, createCarts) //
 router.post('/:tid/purchase', midUser, purchaseTicket)
 
 router.put('/:cid', midAdmin, updateCarts) //
-router.put('/:cid/product/:pid/quantity/:num', midAdmin, putProductOnCartsQuantity)
-router.put('/:cid/product/:pid', midAdmin, putProductOnCarts) //
-router.put('/mycart/product/:pid', midAdmin, putProductOnMyCart)
+router.put('/:cid/product/:pid/quantity/:num', midUser, putProductOnCartsQuantity)
+router.put('/:cid/product/:pid', midUser, putProductOnCarts) //
+router.put('/mycart/product/:pid', midUser, putProductOnMyCart)
 
 router.delete('/:cid', midAdmin, deleteCart) //
-router.delete('/:cid/product/:pid', midAdmin, deleteProductOnCart) //
+router.delete('/:cid/product/:pid', midUser, deleteProductOnCart) //
 
 module.exports = router

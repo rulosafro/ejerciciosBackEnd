@@ -1,7 +1,7 @@
 <div class="text-white">
   <h1>Register</h1>
   <hr />
-  <form action="/passport/register" method="POST" class="">
+  <form action="/sessions/register" method="POST" class="">
     <div class="my-3">
       <input type="text" name="nickname" id="" placeholder="Usuario" />
     </div>
@@ -18,11 +18,9 @@
       <input type="text" name="email" id="" placeholder="Email" />
     </div>
     <div class="my-3">
-      <input type="text" name="password" id="" placeholder="Contraseña" />
+      <input type="password" name="password" id="" placeholder="Contraseña" />
     </div>
     <button type="submit" class="btn btn-primary">Enviar</button>
   </form>
   <a href="/views/login" class="text-white">Ya tengo mi cuenta</a>
-
-  {{! <button onclick="getCookie()"> Ver Cookie</button> }}
 </div>
