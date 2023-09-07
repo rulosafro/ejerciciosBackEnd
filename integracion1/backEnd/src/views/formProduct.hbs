@@ -1,0 +1,49 @@
+<div class="text-white">
+  <div class="d-flex justify-content-between align-items-center">
+    <h2 class=""> Ingresar un Producto </h2>
+    <a href="/views/products" class="btn btn-outline-light text-white">Volver</a>
+  </div>
+  <hr />
+
+  <form id="formProduct" class="flex flex-column gap-3">
+    <input type="text" name="title" placeholder="Nombre del producto" class="my-2 form-control" />
+    <input type="text" name="description" placeholder="Descripción" class="my-2 form-control" />
+    <input type="number" name="price" placeholder="Precio" class="my-2 form-control" />
+    <input type="number" name="stock" placeholder="Stock" class="my-2 form-control" />
+    <input type="url" name="image" placeholder="Image URL" class="my-2 form-control" />
+    <input type="email" name="owner" placeholder="Email Owner" class="my-2 form-control" />
+    <button class="btn btn-primary pt-2" onclick="submitForm()">Crear</button>
+  </form>
+
+</div>
+
+<script>
+  const submitForm = () => {
+    event.preventDefault()
+    const form = document.getElementById("formProduct")
+    const formData = new FormData(form)
+
+    const formDataObject = {};
+    formData.forEach((value, key) => {
+      formDataObject[key] = value;
+    });
+
+    fetch(`/api/products/`, {
+      method: 'POST',
+      body: JSON.stringify(formDataObject),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log(res)
+      window.location.replace(`/views/products/`)
+    })
+    .catch((err) => {
+        next(err);
+    })
+  }
+
+  
+</script>

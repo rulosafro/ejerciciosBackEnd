@@ -16,7 +16,7 @@ class ProductManagerMongo {
 
   async getByID (pid) {
     try {
-      return await productModel.findOne({ _id: pid })
+      return await productModel.findOne({ _id: pid }).lean()
     } catch (error) {
       logger.error(error)
     }

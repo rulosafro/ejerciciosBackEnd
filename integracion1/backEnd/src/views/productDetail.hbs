@@ -1,0 +1,23 @@
+<div class="text-white">
+    <a href="/views/products" class="btn btn-outline-secondary"> Volver</a>
+
+    <h5 class="h1"><b>{{dataItem.title}}</b></h5>
+    <img src="{{dataItem.image}}" class="card-img-top mt-2" alt="..." />
+    <p class="pt-2" style="">{{dataItem.description}}</p>
+    <p class="card-text ">${{dataItem.price}}</p>
+
+    <div class="d-grid gap-1">
+    <button onclick="addToCart('{{dataItem._id}}')" class="btn btn-primary">Agregar al carrito</button>
+</div>
+
+<script>
+const addToCart = (pid) => {
+    fetch(`/api/carts/mycart/myproduct/${pid}/quantity/1`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
+</script>

@@ -26,7 +26,7 @@ const initPassportMid = () => {
       },
       async (req, username, password, done) => {
         try {
-          const { first_name, last_name, age, nickname } = req.body
+          const { first_name, last_name, age, nickname, email, password } = req.body
 
           if (!first_name || !last_name || !age || !nickname) {
             CustomError.createError({
@@ -40,7 +40,7 @@ const initPassportMid = () => {
           }
 
           const userDB = await userModel.findOne({ email: username })
-          if (!userDB) {
+          if (userDB) {
             return done(null, false)
           }
           const carrito = await cartService.create()
@@ -73,12 +73,12 @@ const initPassportMid = () => {
       async (username, password, done, next) => {
         try {
           const userDB = await userModel.findOne({ email: username })
-          const update = await userModel.findOneAndUpdate({ email: username }, { last_connection: Date.now() })
           const validacionPassword = await validPassword(password, userDB)
+          const update = await userModel.findOneAndUpdate({ email: username }, { last_connection: Date.now() })
 
           if (!userDB) return done(null, false)
           if (!update) return done(null, false)
-          if (!validacionPassword) return done(null, false)
+          if (!validacionPassword) return done('No se valido', false)
           return done(null, userDB)
         } catch (error) {
           return done(error)
@@ -138,15 +138,18 @@ const initPassportGithub = () => {
         try {
           const user = await userModel.findOne({ email: profile._json.email })
           if (!user) {
+            const carrito = await cartService.create()
             const newUser = {
               first_name: profile.displayName,
               last_name: profile.displayName,
               nickname: profile.username,
               email: profile._json.email,
-              // password: await createHash(profile.id),
+              cart: carrito._id,
               password: '',
               role: 'user',
-              age: null
+              age: null,
+              last_connection: Date.now()
+              // password: await createHash(profile.id),
               // id: profile.id,
             }
             const result = await userModel.create(newUser)

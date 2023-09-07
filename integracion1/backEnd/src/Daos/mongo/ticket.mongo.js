@@ -17,7 +17,15 @@ class TicketManagerMongo {
 
   async getById (tid) {
     try {
-      return await ticketModel.find({ _id: tid })
+      return await ticketModel.find({ _id: tid }).lean()
+    } catch (error) {
+      logger.error(error)
+    }
+  }
+
+  async getByCid (tid) {
+    try {
+      return await ticketModel.find({ cartID: tid }).sort({ purchase_datetime: -1 }).lean()
     } catch (error) {
       logger.error(error)
     }
@@ -25,7 +33,7 @@ class TicketManagerMongo {
 
   async getByCode (tid) {
     try {
-      return await ticketModel.find({ code: tid })
+      return await ticketModel.find({ code: tid }).lean()
     } catch (error) {
       logger.error(error)
     }

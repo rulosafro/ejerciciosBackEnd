@@ -1,23 +1,26 @@
 <div class="text-white">
   <div class="d-flex justify-content-between align-items-center">
     <h2 class="">Productos</h2>
-    {{!-- <a href="/views/carts/{{dataUser.id}}" class="btn btn-outline-light text-white">Ver Carrito</a> --}}
-    <a href="/api/realtime" class="btn btn-outline-light text-white">Nuevo Producto</a>
   </div>
   <hr />
-  <p>Bienvenido {{dataUser.first_name}} {{dataUser.last_name}} | Role: {{dataUser.role}} | Edad: {{dataUser.age}} | Email: {{dataUser.email}}</p>
-  {{!-- {{dataUser.id}} --}}
+  <div class="d-flex flex-wrap justify-content-between me-2 align-items-center">
+  <p class="">Bienvenido {{dataUser.first_name}} {{dataUser.last_name}} | Role: {{dataUser.role}} | Edad: {{dataUser.age}} | Email: {{dataUser.email}} </p>
+  <a href="/views/product/create" class="btn btn-outline-secondary">Crear Producto</a>
+  </div>
 <p class="{{style}}">{{message}}</p>
-  <div class="d-flex row">
+  <div class="d-flex flex-wrap justify-content-center">
     {{#each payload}}
-      <div class="card m-2" style="width: 18rem;">
-        {{! <img src="..." class="card-img-top" alt="..." /> }}
-        <div class="card-body">
+      <div class="card m-2" style="max-width: 20rem;">
+        <img src="{{this.image}}" class="card-img-top" alt="..." />
+        <div class=" m-2" style="min-width: 100px;">
           <h5 class="card-title"><b>{{this.title}}</b></h5>
-          <p class="card-text">{{this.description}}</p>
-          <p class="card-text">${{this.price}}</p>
-          <a href="/views/products/{{this._id}}" class="btn btn-primary disable">Ver más</a>
-          <a href="/api/carts/{{dataUser.cart}}/product/{{this._id}}/quantity/1'" class="btn btn-primary disable mt-2">Agregar al carrito</a>
+          <p class="card-text overflow-hidden" style="height:100px;">{{this.description}}</p>
+          <p class="card-text ">${{this.price}}</p>
+
+          <div class="d-grid gap-1">
+          <a href="/views/products/{{this._id}}" class="btn btn-primary">Ver más</a>
+          <button onclick="addToCart('{{this.id}}')" class="btn btn-primary">Agregar al carrito</button>
+          </div>
         </div>
       </div>
     {{/each}}
@@ -37,5 +40,15 @@
   {{/if}}
 </div>
 
-{{! <script src="socket.io/socket.io.js"></script> }}
-{{! <script src="/static/js/product.js"></script> }}
+
+<script>
+const addToCart = (pid) => {
+    fetch(`/api/carts/mycart/myproduct/${pid}/quantity/1`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
+</script>

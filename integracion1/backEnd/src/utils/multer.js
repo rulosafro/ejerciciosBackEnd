@@ -25,7 +25,6 @@ const storage = multer.diskStorage({
       userService.update(req.user.id, { $push: { documents: { name: nameDoc, reference: `Product-${req.user.id}` } } })
       cb(null, nameDoc)
     } else if (file.fieldname === 'document') {
-      console.log('🚀 ~ file: multer.js:30 ~ file.originalname:', file.originalname)
       if (file.originalname === 'Identificacion.jpg') {
         const nameDoc = `Document.${req.user.id}-${Date.now()}-${file.originalname}`
         userService.update(req.user.id, { $push: { documents: { name: nameDoc, reference: `Document-Identificacion-${req.user.id}` } } })

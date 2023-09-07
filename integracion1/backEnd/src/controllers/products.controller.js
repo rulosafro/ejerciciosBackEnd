@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb')
 const { productModel } = require('../Daos/mongo/models/product.model')
 const { productService } = require('../service/index.service')
 const { CustomError } = require('../utils/CustomError/CustomError')
@@ -64,9 +65,15 @@ class ProductController {
     try {
       const newProduct = req.body
 
+      if (!newProduct.code) {
+        newProduct.code = new ObjectId()
+        newProduct.code = newProduct.code.valueOf()
+      }
+
       if (!newProduct.owner) {
         newProduct.owner = req.user.email
       }
+      console.log('🚀 ~ file: products.controller.js:67 ~ ProductController ~ createProducts= ~ newProduct:', newProduct)
 
       if (!newProduct) {
         CustomError.createError({
@@ -78,6 +85,7 @@ class ProductController {
           code: EError.ROUTING_ERROR
         })
       }
+      // newProduct.code = ObjectId()
 
       const result = await productService.add(newProduct)
       res.status(200).send({
@@ -129,7 +137,6 @@ class ProductController {
   deleteProducts = async (req, res, next) => {
     try {
       const { pid } = req.params
-      await console.log(req.body)
       const dataUser = await userService.getByMail(req.body.email)
       const dataProduct = await productService.getByID(pid)
       const dataOwner = await userService.getByMail(dataProduct.owner)

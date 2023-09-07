@@ -9,8 +9,8 @@ class PassportController {
   getRegister = async (req, res, next) => {
     try {
       const { first_name, last_name, age, nickname, email, password } = req.body
-
       const newUser = req.user
+      console.log('🚀 ~ file: passport.controller.js:13 ~ PassportController ~ getRegister= ~ newUser:', newUser)
       const token = generateToken(newUser)
 
       res
@@ -27,9 +27,7 @@ class PassportController {
     try {
       const { username, password } = req.body
       const userDB = req.user
-      console.log('🚀 ~ file: passport.controller.js:41 ~ PassportController ~ getLogin= ~ userDB:', userDB)
       const emailUser = req.user.email
-      console.log('🚀 ~ file: passport.controller.js:32 ~ PassportController ~ getLogin= ~ emailUser:', emailUser)
 
       const access_Token = generateToken({
         first_name: userDB.first_name,
@@ -49,7 +47,7 @@ class PassportController {
         // .send(access_Token)
         .redirect('/views/products')
     } catch (error) {
-      next(error)
+      console.log(error)
     }
   }
 

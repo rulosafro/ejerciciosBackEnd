@@ -12,11 +12,11 @@ const midAdmin = [passportCall('jwt'), authorization('admin')]
 router.get('/', getUsers)
 router.get('/:uid', getUserById)
 
-router.post('/', midUser, createUser)
+router.post('/', midAdmin, createUser)
 router.post('/:uid/documents', midUser, uploader.fields([{ name: 'profile', maxCount: 1 }, { name: 'product' }, { name: 'document' }]), documentsUser)
 
 router.put('/:uid', midAdmin, updateUser)
-router.put('/premium/:uid', changeUserPremium)
+router.put('/premium/:uid', midAdmin, changeUserPremium)
 
 router.delete('/:uid', midAdmin, deleteUser)
 router.delete('/', midAdmin, deleteTimeUser)

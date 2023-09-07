@@ -17,34 +17,27 @@ const passportRouter = require('./passport.router')
 const paymentRouter = require('./payment.route')
 const messagesRouter = require('./messages.router')
 // const mockRouter = require('./mock.router')
-// const apiSessionRouter = require('./example/api.session.router')
+// const apiSessionRouter = require('./example/api.session.router')https://www.gravatar.com/avatar/2434991dc34dd1ae325f07bf5350b034?s=64&d=robohash
 // const cookieRouter = require('./cookie.router')
-
-const { passportCall } = require('../middlewares/passportCall')
-const { authorization } = require('../middlewares/authorizationJwtRole')
-
-const midUser = [passportCall('jwt'), authorization('user')]
-const midAdmin = [passportCall('jwt'), authorization('admin')]
-const midJWT = [passportCall('jwt')]
+router.use('/static', express.static(__dirname + './../public'))
 
 router.use('/', homeRouter)
 router.use('/views', viewsRouter)
 router.use('/sessions', passportRouter)
 router.use('/github', githubRouter)
-router.use('/static', express.static(__dirname + './../public'))
 
 router.use('/api/products', apiProductsRouter)
 router.use('/api/carts', apiCartsRouter) // Validacion interna
 router.use('/api/users', apiUsuariosRouter)
-router.use('/contacts', midUser, contactsRouter)
-router.use('/tickets', ticketsRouter)
-router.use('/recuperar', contrasenaRouter)
 
+router.use('/tickets', ticketsRouter)
 router.use('/api/payments', paymentRouter)
 
+router.use('/chat', messagesRouter)
+router.use('/contacts', contactsRouter)
+router.use('/recuperar', contrasenaRouter)
 router.use('/pruebas', pruebasRouter)
 router.use('/loggerTest', loggerRouter)
-router.use('/chat', midUser, messagesRouter)
 // router.use('/mockingproducts', mockRouter)
 // router.use("/cookie", cookieRouter)
 // router.use("/messages", messagesRouter)

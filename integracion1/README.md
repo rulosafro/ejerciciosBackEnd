@@ -1,15 +1,12 @@
-### Otra entrega
-
+NOTES_______________________________________________________________
 artillery quick --count 40 'http://localhost:8080/pruebas/simple' -o ./artillery/simple.json
 artillery quick --count 40 'http://localhost:8080/pruebas/compleja' -o ./artillery/compleja.json
 
-Se demora en enviar el mail
-Hay un alegato de dependencia circular que es por el "config.persistence" del logger pero no supé como cambiarlo para que siga funcionando sin ese
-
-Se creashea y por lo que lei en internet que puede ser por tener multiples res.send o .render 
-
-TODO
-[] Premium pass
-[] Error en logeo y register
-[] Pasarela de Pago
-``
+TODO________________________________________________________________
+[x] Premium pass
+[x] Productos tienen que tener relacion de la tematica o los de fakerjs estan bien?``
+[x] Error en logeo y register
+[x] Generar el ticket
+[x] Crear producto desde el premium (form)
+[] Pasarela de Pago Stripe
+[] DevOps

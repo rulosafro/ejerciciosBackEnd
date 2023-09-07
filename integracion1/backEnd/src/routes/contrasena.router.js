@@ -4,13 +4,13 @@ const { userService, updateUser } = require('../controllers/users.controller')
 const { sendMail } = require('../utils/sendmail')
 const { generateTokenPassword } = require('../utils/jwt')
 const { createHash, validPassword } = require('../utils/bcryptHash')
-const { passportCall2 } = require('../middlewares/passportCall')
+const { passportCall } = require('../middlewares/passportCall')
 const { initPassportJWT } = require('../config/passport.config')
 const { userModel } = require('../Daos/mongo/models/user.model')
 const router = Router()
 
 router.get('/', (req, res) => res.status(200).render('recuperar', {}))
-router.get('/nueva', passportCall2('jwt'), (req, res) => res.status(200).render('formularioRecuperacion', {}))
+router.get('/nueva', passportCall('jwt'), (req, res) => res.status(200).render('formularioRecuperacion', {}))
 
 router.post('/', async (req, res, next) => {
   try {
@@ -40,7 +40,7 @@ router.post('/', async (req, res, next) => {
   }
 })
 
-router.post('/nueva', passportCall2('jwt'), async (req, res, next) => {
+router.post('/nueva', passportCall('jwt'), async (req, res, next) => {
   try {
     const { contrasenaNueva, validacionNueva } = req.body
     const person = await userService.getByMail(req.user.email)

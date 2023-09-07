@@ -4,7 +4,10 @@
   </div>
   <hr />
   <p class="{{style}}">{{message}}</p>
+  <button onclick="deleteOldUsers()" class="btn btn-outline-danger mb-2">Eliminar usuarios que no se han conectado</button>
+  <p>Para poder hacer un usuario premium debe contar con su Identificación y Comprobantes en la web</p>
   
+
   <div class="d-flex row ms-2">
     {{#each users}}
       <div class="card mt-3 me-3" style="width: 25rem;">
@@ -24,9 +27,7 @@
 </div>
 
 <script>
-
 const changeUserRole = (uid) => {
-  console.log(uid)
     fetch(`/api/users/premium/${uid}`, {
     method: 'PUT',
     headers: {
@@ -37,8 +38,17 @@ const changeUserRole = (uid) => {
 }
 
 const deleteUser = (uid) => {
-  console.log(uid)
     fetch(`/api/users/${uid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
+
+const deleteOldUsers = () => {
+    fetch(`/api/users`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'

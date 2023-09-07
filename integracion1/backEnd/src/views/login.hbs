@@ -2,6 +2,7 @@
   <h1>Login</h1>
   <hr />
 <p class="{{style}}">{{message}}</p>
+<a href="{{linkRef}}" class="{{linkStyle}}">{{linkName}}</a>
   <form id="cookieForm" action="/sessions/login" method="post" class="">
     <div class="my-3">
       <input type="text" name="email" id="" placeholder="Email" />
@@ -15,9 +16,6 @@
   <a href="/github/github" class="text-white hover:underline hover: decoration-solid" >Login Github </a>
   <br />
   <a href="/views/register" class="text-white " >Regístrate</a>
-  <br />
-  <a href="/recuperar" class="text-white">Recuperar Contraseña </a>
-  {{! <button onclick="getCookie()"> Ver Cookie</button> }}
+  {{!-- <br /> --}}
+  {{!-- <a href="/recuperar" class="text-white">Recuperar Contraseña </a> --}}
 </div>
-
-{{! <script src="/static/js/index.js"></script> }}

@@ -2,7 +2,7 @@ const { cartsModel } = require('../Daos/mongo/models/carts.model')
 const { productModel } = require('../Daos/mongo/models/product.model')
 const { userModel } = require('../Daos/mongo/models/user.model')
 const { logger } = require('../config/logger')
-const { cartService } = require('../service/index.service')
+const { cartService, productService, ticketService } = require('../service/index.service')
 const { userService } = require('./users.controller')
 
 class ViewsController {
@@ -58,9 +58,9 @@ class ViewsController {
 
       const prevLink = hasPrevPage ? `http://localhost:8080/views/products?page=${prevPage}&limit=${limit}&query=${query}&sort=${sort}` : null
       const nextLink = hasNextPage ? `http://localhost:8080/views/products?page=${nextPage}&limit=${limit}&query=${query}&sort=${sort}` : null
-
-      logger.info(req.user)
       const dataUser = req.user
+      const carrito = await cartService.getByID(req.user.cart)
+      const itemsInCart = carrito.products.reduce((acc, item) => { return acc + item.quantity }, 0)
 
       res.status(200).render('products', {
         status: 'success',
@@ -73,10 +73,39 @@ class ViewsController {
         hasNextPage,
         prevLink,
         nextLink,
-        dataUser
+        dataUser,
+        carrito,
+        itemsInCart
       })
     } catch (error) {
       logger.info({ status: 'error', error })
+    }
+  }
+
+  viewsProductDetail = async (req, res, next) => {
+    try {
+      const { pid } = req.params
+      const dataItem = await productService.getByID(pid)
+      const carrito = await cartService.getByID(req.user.cart)
+      const itemsInCart = await carrito.products.reduce((acc, item) => { return acc + item.quantity }, 0)
+
+      res.status(200).render('productDetail', { status: 'success', dataItem, itemsInCart })
+    } catch (error) {
+      logger.info(error)
+    }
+  }
+
+  viewsProductCreate = async (req, res, next) => {
+    try {
+      if (req.user.role === 'admin') {
+        res.status(404).render('home', { message: 'Estas es una funcionalidad para usuarios Premium, accede de otra cuenta que no sea admin', style: 'text-warning' })
+      } else if (req.user.role !== 'premium') {
+        res.status(404).render('home', { message: 'Para crear productos debes ser premium, haz el upgrade a tu cuenta', style: 'text-danger' })
+      } else {
+        res.status(200).render('formProduct', { status: 'success' })
+      }
+    } catch (error) {
+      logger.info(error)
     }
   }
 
@@ -93,12 +122,41 @@ class ViewsController {
     }
   }
 
-  viewsMyCart = async (req, res, next) => {
+  viewMyCart = async (req, res, next) => {
     try {
       const cid = req.user.cart
       const carrito = await cartService.getByID(cid)
+      const itemsInCart = carrito.products.reduce((acc, item) => { return acc + item.quantity }, 0)
+      const dataUser = req.user
+      const totalPrice = carrito.products.reduce((acc, item) => { return acc + (item.quantity * item.product.price) }, 0)
+
       if (!carrito) res.status(404).send('ID no identificado')
-      res.status(200).render('cartsById', { carrito, cid })
+      res.status(200).render('cartsById', { carrito, cid, dataUser, itemsInCart, totalPrice })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  viewCheckout = async (req, res, next) => {
+    try {
+      const { cid } = req.params
+      const carrito = await cartService.getByID(cid)
+      const itemsInCart = carrito.products.reduce((acc, item) => { return acc + item.quantity }, 0)
+      const dataUser = req.user
+      const totalPrice = carrito.products.reduce((acc, item) => { return acc + (item.quantity * item.product.price) }, 0)
+
+      if (!carrito) res.status(404).send('ID no identificado')
+      res.status(200).render('checkout', { carrito, cid, dataUser, itemsInCart, totalPrice })
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  viewCheckoutTicket = async (req, res, next) => {
+    try {
+      const { cid } = req.params
+      const tickets = await ticketService.getByCid(cid)
+      res.status(200).render('checkoutRes', { tickets })
     } catch (error) {
       next(error)
     }

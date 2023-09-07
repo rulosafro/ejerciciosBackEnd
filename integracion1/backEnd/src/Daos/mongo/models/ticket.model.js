@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongodb')
 const { model, Schema } = require('mongoose')
 
 const collection = 'tickets'
@@ -5,12 +6,13 @@ const ticketSchema = new Schema({
   code: {
     type: String,
     unique: true,
-    required: true
+    required: true,
+    default: new ObjectId()
   },
   purchase_datetime: {
     type: Date,
-    required: true,
-    default: Date.now
+    default: Date.now,
+    required: true
   },
   amount: {
     type: Number,
@@ -19,7 +21,12 @@ const ticketSchema = new Schema({
   purchaser: {
     type: String,
     required: true
-  }
+  },
+  cartID: {
+    type: String
+  },
+  productComprado: [],
+  productNoComprado: []
 })
 
 const ticketModel = model(collection, ticketSchema)

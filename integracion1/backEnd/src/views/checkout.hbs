@@ -1,0 +1,62 @@
+<h1 class="h1 text-white">Checkout</h1> 
+<p class="{{style}}">{{message}}</p>
+<form id="formPay">
+  <div class="flex flex-col gap-3 text-white">
+    <h3 class="mt-4">Datos Personales</h3>
+
+    <label for="nombre" class="text-white">Nombre</label><br>
+    <input type="text" name="nombre" class="form-control mb-2" placeholder="Nombre" value="{{dataUser.first_name}}" required/>
+    <label for="apellido" class="text-white">Apellido</label><br>
+    <input type="text" class="form-control mb-2" placeholder="Apellido" value="{{dataUser.last_name}}" required/>
+    <label for="email" class="text-white">Email</label><br>
+    <input type="email" class="form-control mb-2" placeholder="Email" value="{{dataUser.email}}" required/>
+
+    <h3 class="mt-5">Datos de Pago</h3>
+    <label for="document" class="text-white ">Número de la tarjeta</label><br>
+    <input type="text" name="document" class="form-control mb-2" placeholder="Número de la tarjeta" fieldname="document" />
+    <label for="fechaVencimiento" class="text-white">Fecha de Vencimiento</label><br>
+    <input type="date" name="fechaVencimiento" class="form-control mb-2" placeholder="Fecha de Vencimiento" fieldname="document" />
+    <label for="document" class="text-white ">CSV</label><br>
+    <input type="text" name="document" class="form-control mb-2" placeholder="Código Secreto" fieldname="document" />
+
+    <section>
+      <h4 class="h4 mt-5">En tu compra</h4>
+      <ul class="d-flex flex-column">
+      {{#each carrito.products}}
+            <li class="fs-6  p-2"> {{this.product.title}} Precio: ${{this.product.price}} Cantidad: {{this.quantity}}</li>
+      {{/each}}
+        </ul>
+      </div>
+    </section>
+
+    <section class="d-flex flex-wrap justify-content-between align-items-center">
+      <h3 class="text-white"> Total: {{totalPrice}} </h3>  
+      <button class="mt-3 btn btn-primary align-self-center"  type="submit" onclick="form3('{{dataUser.cart}}')"> Comprar </button>
+    </section>
+</form>
+
+<script>
+  const form3 = async (pid) => {
+    console.log("🚀 ~ file: checkout.hbs:41 ~ form3 ~ pid:", pid)
+    event.preventDefault()
+    const form = document.getElementById('formPay')
+    const formData = new FormData(form)
+
+    fetch(`/tickets/${pid}/purchase`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+    .then(res => res.json())
+    .then(res => {
+      window.location.replace(`/views/checkout/ticket/${pid}`)
+    })
+    .catch((err) => {
+        console.info(err);
+    })
+  }
+
+</script>
+
+

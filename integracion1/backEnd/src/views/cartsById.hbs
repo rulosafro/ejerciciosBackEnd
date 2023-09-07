@@ -4,17 +4,63 @@
     {{! <a href="/api/users" class="btn btn-outline-light text-white">Nuevo Usuario</a> }}
   </div>
   <hr />
+  {{!-- <button onclick="emptyCart" class="btn btn-secondary">Basurero</button> --}}
 
   <div class="d-flex row">
     {{#each carrito.products}}
       <div class="card m-2" style="width: 25rem;">
         <div class="card-body">
           <h3 class="card-title"> {{this.product.title}}</h3>
+          <h5 class="card-title"> Precio: ${{this.product.price}}</h5>
           <h5 class="card-title"> Cantidad: {{this.quantity}}</h5>
-          <h5 class="card-title"> Precio: {{this.product.price}}</h5>
-          <h5 class="card-title"> Code: {{this.product.code}}</h5>
+          <p class="card-title overflow-hidden inline text-nowrap"> Code: {{this.product._id}}</p>
+          <button onclick="plusItem('{{this.product._id}}')" class="btn btn-primary">+</button>
+          {{#if this.quantity}}
+          <button onclick="subtractItem('{{this.product._id}}')" class="btn btn-primary">-</button>
+          {{/if}}
+          <button onclick="deleteItem('{{this.product._id}}')" class="btn btn-danger">Borrar</button>
         </div>
       </div>
     {{/each}}
+    <br>
+    <div class="d-flex flex-row justify-content-between text-center align-items-center gap-5 my-4"> 
+      <h4>Total: {{totalPrice}}</h4>
+      <a class="btn btn-info " style="width: 150px;" href="/views/checkout/{{cid}}"> Ir al Checkout</a>
+    </div>
   </div>
 </div>
+
+<script>
+const deleteItem = (pid) => {
+  event.stopPropagation()
+    fetch(`/api/carts/mycart/myproduct/${pid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
+
+const plusItem = (tpid) => {
+    event.preventDefault()
+    fetch(`/api/carts/mycart/myproduct/${tpid}/quantity/1`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
+
+
+const subtractItem = (pid) => {
+    fetch(`/api/carts/mycart/myproduct/${pid}/quantity/-1`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  })
+    .then(() => window.location.reload())
+}
+</script>
